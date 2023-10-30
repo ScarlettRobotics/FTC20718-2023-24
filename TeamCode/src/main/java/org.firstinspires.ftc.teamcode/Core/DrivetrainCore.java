@@ -11,8 +11,7 @@ import java.util.ArrayList;
 public class DrivetrainCore {
     /* Initialization */
     // Drive motors in ArrayList[0-3]
-    // Starts at front right, then goes counter-clockwise from top view.
-    // This is done to fit the same style as a unit circle.
+    // Starts at front left, then goes clockwise from top view.
     private ArrayList<DcMotor> driveMotors;
 
     // Map motor variables to driver hub
@@ -26,6 +25,18 @@ public class DrivetrainCore {
         // runMode
         for (DcMotor i : driveMotors) {
             i.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+        // direction
+        // When setting direction for all motors, make sure positive makes robot move clockwise.
+
+    }
+
+    /** Receives four double[] values from -1 to 1 to set appropriate motor powers.
+     * Will error if array length is less than 4. */
+    protected void setPowers(double[] powers) {
+        for (int i=0; i<4; i++) {
+            driveMotors.get(i).setPower(powers[i]);
         }
     }
 }
