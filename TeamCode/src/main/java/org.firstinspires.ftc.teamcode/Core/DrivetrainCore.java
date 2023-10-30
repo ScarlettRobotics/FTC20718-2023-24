@@ -1,18 +1,17 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /*** Manages the drivetrain of the robot.
  * "Dual" refers to the two wheels in the drivetrain. */
-public class DualMotorDrive {
+public class DrivetrainCore {
     // Initialize motor variables
     private DcMotor leftMotor, rightMotor;
 
     // Map motor variables to driver hub
-    public DualMotorDrive(HardwareMap hardwareMap) {
+    public DrivetrainCore(HardwareMap hardwareMap) {
         leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
         rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
 
