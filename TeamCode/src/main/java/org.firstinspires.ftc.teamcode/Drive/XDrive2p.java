@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Core.SystemsManagerDrive;
  * See ClawCore.java and SlideCore.java for information regarding the claw and slide.
  */
 @TeleOp(name = "XDrive2P", group = "x")
-public class TankDrive2p extends SystemsManagerDrive {
+public class XDrive2p extends SystemsManagerDrive {
     @Override
     public void loop() {
         telemetry.addData("STATUS: ", "Running");
