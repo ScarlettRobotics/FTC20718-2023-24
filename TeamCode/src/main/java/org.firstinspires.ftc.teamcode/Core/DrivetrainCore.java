@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class DrivetrainCore {
     /* Initialization */
     // Drive motors in ArrayList[0-3]
-    // Starts at front left, then goes clockwise from top view.
+    // Starts at front right, then goes counter-clockwise from top view.
+    // This is done to fit the same style as a unit circle.
     private ArrayList<DcMotor> driveMotors;
 
     // Map motor variables to driver hub
@@ -38,5 +39,22 @@ public class DrivetrainCore {
         for (int i=0; i<4; i++) {
             driveMotors.get(i).setPower(powers[i]);
         }
+    }
+
+    /** Receives how forward and strafing the robot wants to move, then returns a double[] of the motors doing so.
+     * A double[] is returned to work together with the rotate() method.
+     * @param strafe > 0 if intention is to strafe right. */
+    protected double[] moveCoord(double forward, double strafe) {
+        double[] output = {0, 0, 0, 0};
+        output[0] -= forward;
+        output[1] += forward;
+        output[2] += forward;
+        output[3] -= forward;
+
+        output[0] += strafe;
+        output[1] += strafe;
+        output[2] -= strafe;
+        output[3] -= strafe;
+        return output;
     }
 }
