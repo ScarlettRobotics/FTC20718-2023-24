@@ -7,6 +7,6 @@ public abstract class SystemsManagerDrive extends OpMode {
 
     @Override
     public void init() {
-        drivetrainCore.hardwareMap(hardwareMap);
+        drivetrainCore = new DrivetrainCore(hardwareMap);
     }
 }
