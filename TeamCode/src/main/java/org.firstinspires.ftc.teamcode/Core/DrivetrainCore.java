@@ -4,32 +4,24 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.ArrayList;
+
 /*** Manages the drivetrain of the robot.
- * "Dual" refers to the two wheels in the drivetrain. */
+ * This drivetrain uses an X-drive for the robot, using an ArrayList to init DcMotors.
+ * Requires an expansion hub, as all motors will be taken on the control hub. */
 public class DrivetrainCore {
     // Initialize motor variables
-    private DcMotor leftMotor, rightMotor;
+    private ArrayList<DcMotor> motors;
 
     // Map motor variables to driver hub
     public DrivetrainCore(HardwareMap hardwareMap) {
-        leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
-        rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
+        motors = new ArrayList<DcMotor>();
+        for (int i=0; i<4; i++) {
+            motors.add(hardwareMap.get(DcMotor.class, "driveMotor"+i));
+        }
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void move(double leftPower, double rightPower) {
-        leftMotor.setPower(leftPower);
-        rightMotor.setPower(-rightPower);
-    }
-
-    public void telemetry(Telemetry telemetry) {
-        telemetry.addData("\nCurrent class", "DualMotorDrive.java");
-        telemetry.addData("runMode", leftMotor.getMode());
-        telemetry.addData("Left Power",
-                "%4.2f", leftMotor.getPower());
-        telemetry.addData("Right Power",
-                "%4.2f", rightMotor.getPower());
+        for (DcMotor i : motors) {
+            i.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 }
