@@ -29,7 +29,7 @@ public class DrivetrainCore {
         }
 
         // direction
-        // When setting direction for all motors, make sure positive makes robot move clockwise.
+        // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
 
     }
 
@@ -41,20 +41,20 @@ public class DrivetrainCore {
         }
     }
 
-    /** Receives how forward and strafing the robot wants to move, then returns a double[] of the motors doing so.
+    /** Receives how the robot should move without rotating, then returns a double[] of the motors doing so.
      * A double[] is returned to work together with the rotate() method.
      * @param strafe > 0 if intention is to strafe right. */
-    protected double[] moveCoord(double forward, double strafe) {
-        double[] output = {0, 0, 0, 0};
-        output[0] -= forward;
-        output[1] += forward;
-        output[2] += forward;
-        output[3] -= forward;
+    protected double[] translate(double forward, double strafe) {
+        double[] output = new double[4];
+        output[0] += forward;
+        output[1] -= forward;
+        output[2] -= forward;
+        output[3] += forward;
 
-        output[0] += strafe;
-        output[1] += strafe;
-        output[2] -= strafe;
-        output[3] -= strafe;
+        output[0] -= strafe;
+        output[1] -= strafe;
+        output[2] += strafe;
+        output[3] += strafe;
         return output;
     }
 }
