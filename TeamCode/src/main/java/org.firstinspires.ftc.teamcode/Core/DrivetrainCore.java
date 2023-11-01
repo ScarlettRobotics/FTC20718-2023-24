@@ -43,7 +43,10 @@ public class DrivetrainCore {
 
     /** Receives how the robot should move without rotating, then returns a double[] of the motors doing so.
      * A double[] is returned to work together with the rotate() method.
-     * @param strafe > 0 if intention is to strafe right. */
+     * @param forward How much the robot should move forward/backward.
+     *                Positive makes robot move forward.
+     * @param strafe How much the robot should move left/right.
+     *               Positive makes robot move right. */
     protected double[] translate(double forward, double strafe) {
         double[] output = new double[4];
         output[0] += forward;
@@ -60,8 +63,8 @@ public class DrivetrainCore {
 
     /** Receives how much the robot should rotate, then returns a double[] of the motors doing so.
      * A double[] is returned to work together with the translate() method.
-     * @param rotateAmount > 0 if intention is to rotate counter-clockwise.
-     *  This is done to correspond with the unit circle. */
+     * @param rotateAmount How much the motors should rotate the robot.
+     *                     If positive, robot will move counter-clockwise. */
     protected double[] rotate(double rotateAmount) {
         double[] output = new double[4];
         for (double i : output) {
