@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
 
@@ -71,5 +72,17 @@ public class DrivetrainCore {
             i = rotateAmount;
         }
         return output;
+    }
+
+    /** Telemetry */
+    protected void telemetry(Telemetry telemetry) {
+        telemetry.addData("CURRENT CLASS", "DrivetrainCore.java");
+        telemetry.addData("Format", "power direction runMode");
+        for (int i=0; i<4; i++) {
+            telemetry.addData("motor" + i, "%4.2d %s %s",
+                    driveMotors.get(i).getPower(),
+                    driveMotors.get(i).getDirection(),
+                    driveMotors.get(i).getMotorType());
+        }
     }
 }
