@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public abstract class SystemsManager extends OpMode {
     DrivetrainCore drivetrainCore;
@@ -50,5 +51,10 @@ public abstract class SystemsManager extends OpMode {
             powers[i] = translateArr[i] + rotateArr[i];
         }
         drivetrainCore.setPowers(powers);
+    }
+
+    /** Telemetry */
+    protected void telemetry(Telemetry telemetry) {
+        drivetrainCore.telemetry(telemetry);
     }
 }

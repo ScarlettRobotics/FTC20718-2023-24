@@ -76,7 +76,7 @@ public class DrivetrainCore {
 
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
-        telemetry.addData("CURRENT CLASS", "DrivetrainCore.java");
+        telemetry.addData("\nCURRENT CLASS", "DrivetrainCore.java");
         telemetry.addData("Format", "power direction runMode");
         for (int i=0; i<4; i++) {
             telemetry.addData("motor" + i, "%4.2d %s %s",
