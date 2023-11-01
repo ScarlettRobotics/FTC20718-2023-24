@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This drivetrain uses an X-drive for the robot, using an ArrayList to init DcMotors.
  * Requires an expansion hub, as all motors will be taken on the control hub. */
 public class DrivetrainCore {
-    /* Initialization */
+    /* INITIALIZATION */
     // Drive motors in ArrayList[0-3]
     // Starts at front right, then goes counter-clockwise from top view.
     // This is done to fit the same style as a unit circle.
@@ -30,9 +30,9 @@ public class DrivetrainCore {
 
         // direction
         // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
-
     }
 
+    /* FUNCTIONS */
     /** Receives four double[] values from -1 to 1 to set appropriate motor powers.
      * Will error if array length is less than 4. */
     protected void setPowers(double[] powers) {
