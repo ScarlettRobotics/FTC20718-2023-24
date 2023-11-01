@@ -57,4 +57,16 @@ public class DrivetrainCore {
         output[3] += strafe;
         return output;
     }
+
+    /** Receives how much the robot should rotate, then returns a double[] of the motors doing so.
+     * A double[] is returned to work together with the translate() method.
+     * @param rotateAmount > 0 if intention is to rotate counter-clockwise.
+     *  This is done to correspond with the unit circle. */
+    protected double[] rotate(double rotateAmount) {
+        double[] output = new double[4];
+        for (double i : output) {
+            i = rotateAmount;
+        }
+        return output;
+    }
 }
