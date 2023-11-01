@@ -9,4 +9,12 @@ public abstract class SystemsManagerDrive extends OpMode {
     public void init() {
         drivetrainCore = new DrivetrainCore(hardwareMap);
     }
+
+    /** Receives a gamepad joystick input and returns zero if below a value. */
+    private double noDrift(double stick, double drift) {
+        if (stick < drift) {
+            return 0;
+        }
+        return stick;
+    }
 }
