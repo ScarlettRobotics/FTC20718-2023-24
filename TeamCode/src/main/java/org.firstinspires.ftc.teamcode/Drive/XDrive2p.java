@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Drive;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Core.SystemsManagerDrive;
+import org.firstinspires.ftc.teamcode.Core.SystemsManager;
 
 
 /**
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Core.SystemsManagerDrive;
  * See ClawCore.java and SlideCore.java for information regarding the claw and slide.
  */
 @TeleOp(name = "XDrive2P", group = "x")
-public class XDrive2p extends SystemsManagerDrive {
+public class XDrive2p extends SystemsManager {
     @Override
     public void loop() {
         telemetry.addData("STATUS: ", "Running");
