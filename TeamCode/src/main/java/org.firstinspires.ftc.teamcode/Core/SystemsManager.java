@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public abstract class SystemsManager extends OpMode {
+    double[] translateArr, rotateArr, powers;
     DrivetrainCore drivetrainCore;
 
     @Override
@@ -13,7 +14,7 @@ public abstract class SystemsManager extends OpMode {
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
     private double noDrift(double stick, double drift) {
-        if (stick < drift) {
+        if (stick < drift && stick > 0-drift) {
             return 0;
         }
         return stick;
@@ -43,7 +44,6 @@ public abstract class SystemsManager extends OpMode {
                 rotate = 0;
         }
         // Processing inputs
-        double[] translateArr, rotateArr, powers;
         translateArr = drivetrainCore.translate(forward, strafe);
         rotateArr = drivetrainCore.rotate(rotate);
         powers = new double[4];
