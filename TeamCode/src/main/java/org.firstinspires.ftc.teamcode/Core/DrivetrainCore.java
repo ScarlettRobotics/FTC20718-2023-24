@@ -79,10 +79,10 @@ public class DrivetrainCore {
         telemetry.addData("\nCURRENT CLASS", "DrivetrainCore.java");
         telemetry.addData("Format", "power direction runMode");
         for (int i=0; i<4; i++) {
-            telemetry.addData("motor" + i, "%4.2d %s %s",
+            telemetry.addData("motor" + i, "%4.2f %s %s",
                     driveMotors.get(i).getPower(),
                     driveMotors.get(i).getDirection(),
-                    driveMotors.get(i).getMotorType());
+                    driveMotors.get(i).getMode());
         }
     }
 }
