@@ -14,7 +14,7 @@ public abstract class SystemsManager extends OpMode {
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
     private double noDrift(double stick, double drift) {
-        if (stick > drift || stick < 0-drift) {
+        if (stick < drift && stick > 0-drift) {
             return 0;
         }
         return stick;

@@ -55,10 +55,10 @@ public class DrivetrainCore {
         output[2] -= forward;
         output[3] += forward;
 
-        output[0] -= strafe;
-        output[1] -= strafe;
-        output[2] += strafe;
-        output[3] += strafe;
+        output[0] += strafe;
+        output[1] += strafe;
+        output[2] -= strafe;
+        output[3] -= strafe;
         return output;
     }
 
@@ -68,8 +68,8 @@ public class DrivetrainCore {
      *                     If positive, robot will move counter-clockwise. */
     protected double[] rotate(double rotateAmount) {
         double[] output = new double[4];
-        for (double i : output) {
-            i = rotateAmount;
+        for (int i=0; i<3; i++) {
+            output[i] = rotateAmount;
         }
         return output;
     }
