@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.util.ArrayList;
 
 public abstract class SystemsManager extends OpMode {
     double[] translateArr, rotateArr, powers;
@@ -13,7 +16,8 @@ public abstract class SystemsManager extends OpMode {
     }
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
-    private double noDrift(double stick, double drift) {
+
+    private double noStickDrift(double stick, double drift) {
         if (stick < drift && stick > 0-drift) {
             return 0;
         }
@@ -29,14 +33,14 @@ public abstract class SystemsManager extends OpMode {
         double forward, strafe, rotate;
         switch (controllerNum) {
             case 1:
-                forward = noDrift(gamepad1.left_stick_y, 0.05);
-                strafe = noDrift(gamepad1.left_stick_x, 0.05);
-                rotate = noDrift(gamepad1.right_stick_x, 0.05);
+                forward = noStickDrift(gamepad1.left_stick_y, 0.05);
+                strafe = noStickDrift(gamepad1.left_stick_x, 0.05);
+                rotate = noStickDrift(gamepad1.right_stick_x, 0.05);
                 break;
             case 2:
-                forward = noDrift(gamepad2.left_stick_y, 0.05);
-                strafe = noDrift(gamepad2.left_stick_x, 0.05);
-                rotate = noDrift(gamepad2.right_stick_x, 0.05);
+                forward = noStickDrift(gamepad2.left_stick_y, 0.05);
+                strafe = noStickDrift(gamepad2.left_stick_x, 0.05);
+                rotate = noStickDrift(gamepad2.right_stick_x, 0.05);
                 break;
             default:
                 forward = 0;
