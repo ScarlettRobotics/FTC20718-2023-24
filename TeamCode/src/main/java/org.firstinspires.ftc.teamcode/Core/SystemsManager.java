@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public abstract class SystemsManager extends OpMode {
     double[] translateArr, rotateArr, powers;
     DrivetrainCore drivetrainCore;
+    ArmCore armCore;
 
     @Override
     public void init() {
@@ -51,6 +52,16 @@ public abstract class SystemsManager extends OpMode {
             powers[i] = translateArr[i] + rotateArr[i];
         }
         drivetrainCore.setPowers(powers);
+
+        protected void updateArm(){
+            int raise = (int)gamepad2.right_trigger - (int)gamepad2.left_trigger;
+            switch (controllerNum){
+                case 2:
+                    armCore.goToEncoder(raise);
+                    break;
+            }
+
+        }
     }
 
     /** Telemetry */
