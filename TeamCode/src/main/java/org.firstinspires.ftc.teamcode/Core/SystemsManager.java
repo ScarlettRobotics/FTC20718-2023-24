@@ -24,13 +24,18 @@ public abstract class SystemsManager extends OpMode {
 
 
     protected void updateArm(int controllerNum){
-        int raise = (int)gamepad2.right_trigger - (int)gamepad2.left_trigger;
+        int raise;
         switch (controllerNum){
-            case 2:
-                armCore.goToEncoder(raise);
+            case 1:
+                raise = (int)(gamepad1.right_trigger - gamepad1.left_trigger);
                 break;
+            case 2:
+                raise = (int)(gamepad2.right_trigger - gamepad2.left_trigger);
+                break;
+            default:
+                raise = 0;
         }
-
+        armCore.moveByEncoder(raise*100);
     }
 
     /** Updates the robot's X-drive drivetrain.
