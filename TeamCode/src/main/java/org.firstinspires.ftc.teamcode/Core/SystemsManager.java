@@ -21,6 +21,18 @@ public abstract class SystemsManager extends OpMode {
         return stick;
     }
 
+
+
+    protected void updateArm(int controllerNum){
+        int raise = (int)gamepad2.right_trigger - (int)gamepad2.left_trigger;
+        switch (controllerNum){
+            case 2:
+                armCore.goToEncoder(raise);
+                break;
+        }
+
+    }
+
     /** Updates the robot's X-drive drivetrain.
      * @param controllerNum Determines the driver number that operates the machine system.
      *                      Receives 1 or 2; otherwise does nothing.
@@ -53,15 +65,7 @@ public abstract class SystemsManager extends OpMode {
         }
         drivetrainCore.setPowers(powers);
 
-        protected void updateArm(){
-            int raise = (int)gamepad2.right_trigger - (int)gamepad2.left_trigger;
-            switch (controllerNum){
-                case 2:
-                    armCore.goToEncoder(raise);
-                    break;
-            }
 
-        }
     }
 
     /** Telemetry */
