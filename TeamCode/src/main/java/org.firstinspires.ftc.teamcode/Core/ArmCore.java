@@ -17,6 +17,7 @@ public class ArmCore {
     public ArmCore(HardwareMap hardwareMap) {
         // Retrieve the DcMotor named "armMotor" from the hardware map.
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+
         // Set the run mode of the arm motor to use encoders for position control.
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -44,8 +45,10 @@ public class ArmCore {
     public void moveByEncoder(int encoder) {
         // Stop and reset the encoder to ensure accurate position control.
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         // Set the target position for the motor.
         armMotor.setTargetPosition(encoder);
+
         // Set the run mode to run to the target position.
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
