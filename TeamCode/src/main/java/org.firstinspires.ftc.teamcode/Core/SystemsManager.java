@@ -21,9 +21,7 @@ public abstract class SystemsManager extends OpMode {
         return stick;
     }
 
-
-
-    protected void updateArm(int controllerNum){
+    protected void updateArm(int controllerNum) {
         int raise;
         switch (controllerNum){
             case 1:
