@@ -11,6 +11,7 @@ public abstract class SystemsManager extends OpMode {
     @Override
     public void init() {
         drivetrainCore = new DrivetrainCore(hardwareMap);
+        armCore = new ArmCore(hardwareMap);
     }
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
@@ -23,7 +24,7 @@ public abstract class SystemsManager extends OpMode {
 
     protected void updateArm(int controllerNum) {
         double raise;
-        switch (controllerNum){
+        switch (controllerNum) {
             case 1:
                 raise = gamepad1.right_trigger - gamepad1.left_trigger;
                 break;
@@ -33,7 +34,7 @@ public abstract class SystemsManager extends OpMode {
             default:
                 raise = 0;
         }
-        armCore.moveByEncoder((int)raise*1000);
+        armCore.moveByEncoder((int)(raise*1000));
         armCore.update();
     }
 
