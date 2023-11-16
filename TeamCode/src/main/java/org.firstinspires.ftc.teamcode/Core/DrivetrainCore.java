@@ -55,10 +55,10 @@ public class DrivetrainCore {
         output[2] -= forward;
         output[3] += forward;
 
-        output[0] -= strafe;
-        output[1] -= strafe;
-        output[2] += strafe;
-        output[3] += strafe;
+        output[0] += strafe;
+        output[1] += strafe;
+        output[2] -= strafe;
+        output[3] -= strafe;
         return output;
     }
 
