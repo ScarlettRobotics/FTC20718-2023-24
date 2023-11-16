@@ -44,7 +44,7 @@ public class ArmCore {
     // Send telemetry data about the arm motor to the driver station for debugging.
     protected void telemetry(Telemetry telemetry) {
         // Add telemetry data for the current class name.
-        telemetry.addData("CURRENT CLASS", "ArmCore.java");
+        telemetry.addData("\nCURRENT CLASS", "ArmCore.java");
         // Add telemetry data for the run mode of the arm motor.
         telemetry.addData("runMode", armMotor.getMode());
         // Add telemetry data for the target position of the arm motor.

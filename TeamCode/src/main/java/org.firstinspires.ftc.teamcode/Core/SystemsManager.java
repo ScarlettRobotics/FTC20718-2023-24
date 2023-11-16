@@ -35,7 +35,8 @@ public abstract class SystemsManager extends OpMode {
             default:
                 raise = 0;
         }
-        armCore.moveByEncoder(raise*100);
+        armCore.moveByEncoder(raise*1000);
+        armCore.update();
     }
 
     /** Updates the robot's X-drive drivetrain.
@@ -76,5 +77,6 @@ public abstract class SystemsManager extends OpMode {
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
         drivetrainCore.telemetry(telemetry);
+        armCore.telemetry(telemetry);
     }
 }
