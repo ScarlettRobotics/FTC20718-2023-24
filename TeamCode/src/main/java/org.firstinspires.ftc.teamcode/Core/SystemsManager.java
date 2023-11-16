@@ -22,18 +22,18 @@ public abstract class SystemsManager extends OpMode {
     }
 
     protected void updateArm(int controllerNum) {
-        int raise;
+        double raise;
         switch (controllerNum){
             case 1:
-                raise = (int)(gamepad1.right_trigger - gamepad1.left_trigger);
+                raise = gamepad1.right_trigger - gamepad1.left_trigger;
                 break;
             case 2:
-                raise = (int)(gamepad2.right_trigger - gamepad2.left_trigger);
+                raise = gamepad2.right_trigger - gamepad2.left_trigger;
                 break;
             default:
                 raise = 0;
         }
-        armCore.moveByEncoder(raise*1000);
+        armCore.moveByEncoder((int)raise*1000);
         armCore.update();
     }
 
