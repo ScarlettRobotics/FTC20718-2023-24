@@ -57,7 +57,11 @@ public abstract class SystemsManager extends OpMode {
         drivetrainCore.setPowers(powers);
     }
 
-    /** Updates arm movement based on left and right trigger. Uses encoder to keep the arm in place. */
+    /** Updates arm movement.
+     * Right and left trigger moves the arm.
+     * Uses .moveByEncoder(). Only use if ArmCore's RUN_TO_POSITION works.
+     * @param controllerNum Determines the driver number that operates the machine system.
+     *                      Receives 1 or 2; otherwise does nothing. */
     protected void updateArm(int controllerNum) {
         double power;
         switch(controllerNum) {
@@ -73,6 +77,11 @@ public abstract class SystemsManager extends OpMode {
         armCore.moveByEncoder((int)power*1000);
     }
 
+    /** Updates arm movement.
+     * Right and left trigger moves the arm.
+     * Uses .setPower(). Only use if ArmCore's RUN_TO_POSITION doesn't work.
+     * @param controllerNum Determines the driver number that operates the machine system.
+     *                      Receives 1 or 2; otherwise does nothing. */
     protected void updateArmBlind(int controllerNum){
         double power;
         switch(controllerNum) {
@@ -87,7 +96,7 @@ public abstract class SystemsManager extends OpMode {
             default:
                 power = 0;
         }
-        armCore.moveLikeVelocity(power);
+        armCore.setPower(power);
     }
 
     /** Updates the claw's movement.
