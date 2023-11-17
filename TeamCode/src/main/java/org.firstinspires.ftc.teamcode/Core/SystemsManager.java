@@ -82,5 +82,6 @@ public abstract class SystemsManager extends OpMode {
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
         drivetrainCore.telemetry(telemetry);
+        clawCore.telemetry(telemetry);
     }
 }
