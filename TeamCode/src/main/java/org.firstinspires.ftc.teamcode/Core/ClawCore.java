@@ -5,31 +5,38 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ClawCore {
-    private Servo leftClaw, rightClaw;
+    /* Initialization */
+    /** Initialization is done within ClawCore for ease of access. */
+    protected Servo leftClaw;
+    protected Servo rightClaw;
 
-    public ClawCore(HardwareMap hardwareMap) {
-        leftClaw = hardwareMap.get(Servo.class, "leftClaw");
-        rightClaw = hardwareMap.get(Servo.class, "rightClaw");
+    // Maps Servo motor variables to driver hub
+    public ClawCore (HardwareMap hardwareMap) {
+        leftClaw = hardwareMap.get(Servo.class, "left_claw");
+        rightClaw = hardwareMap.get(Servo.class, "right_claw");
     }
 
-    public void moveByPosition(double left, double right) {
-        leftClaw.setPosition(leftClaw.getPosition() + left);
-        rightClaw.setPosition(rightClaw.getPosition() + right);
+    /** Opens the claw to a pre-set width. */
+    public void open() {
+        rightClaw.setPosition(0.595);
+        leftClaw.setPosition(0.73);
     }
 
-    protected void open() {
-        leftClaw.setPosition(0);
-        rightClaw.setPosition(0);
+    /** Closes the claw to a pre-set width. */
+    public void close() {
+        rightClaw.setPosition(0.70);
+        leftClaw.setPosition(0.61);
     }
 
-    protected void close() {
-        leftClaw.setPosition(1);
-        rightClaw.setPosition(1);
+    /**Create a new function that ClawEncoderFinder is complaining about*/
+    public void moveByPosition(double left, double right){
+        
     }
 
-    protected void telemetry(Telemetry telemetry) {
-        telemetry.addData("\nCURRENT CLASS", "ClawCore.java");
-        telemetry.addData("leftClaw pos:", leftClaw.getPosition());
-        telemetry.addData("rightClaw pos:", rightClaw.getPosition());
+    /** Telemetry in contained in each class for ease of access. */
+    public void telemetry(Telemetry telemetry) {
+        telemetry.addData("\nCurrent class:", "ClawCore.java");
+        telemetry.addData("Claw Right angle:", rightClaw.getPosition());
+        telemetry.addData("Claw Left angle:", leftClaw.getPosition());
     }
 }
