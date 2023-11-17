@@ -4,6 +4,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+/** Operates the claw of the robot.
+ * Use Concepts/ClawEncoderFinder to find the position of where the claw should open and close. */
 public class ClawCore {
     /* Initialization */
     /** Initialization is done within ClawCore for ease of access. */
@@ -28,18 +30,18 @@ public class ClawCore {
         leftClaw.setPosition(0.124);
     }
 
-    /** Telemetry in contained in each class for ease of access. */
-    public void telemetry(Telemetry telemetry) {
-        telemetry.addData("\nCurrent class", "ClawCore.java");
-        telemetry.addData("Claw Right POS:", rightClaw.getPosition());
-        telemetry.addData("Claw Left POS:", leftClaw.getPosition());
-    }
-
     /** Debug method to move claw position by input amount
      * @param left Amount to move leftClaw by
      * @param right Amount to move rightClaw by */
     public void moveByPosition(double left, double right) {
         rightClaw.setPosition(rightClaw.getPosition() + right);
         leftClaw.setPosition(leftClaw.getPosition() + left);
+    }
+
+    /** Telemetry in contained in each class for ease of access. */
+    public void telemetry(Telemetry telemetry) {
+        telemetry.addData("\nCurrent class", "ClawCore.java");
+        telemetry.addData("Claw Right POS:", rightClaw.getPosition());
+        telemetry.addData("Claw Left POS:", leftClaw.getPosition());
     }
 }
