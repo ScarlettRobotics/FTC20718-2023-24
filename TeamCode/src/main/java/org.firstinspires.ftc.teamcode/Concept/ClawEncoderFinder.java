@@ -16,6 +16,6 @@ public class ClawEncoderFinder extends OpMode {
     public void loop() {
         left = gamepad1.left_stick_y;
         right = gamepad1.right_stick_y;
-        clawCore.moveByPosition(left, right);
+        //clawCore.moveByPosition(left, right);
     }
 }

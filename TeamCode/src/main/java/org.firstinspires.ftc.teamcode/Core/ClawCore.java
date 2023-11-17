@@ -16,16 +16,16 @@ public class ClawCore {
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
     }
 
-    /** Opens the claw to a pre-set width. */
+    /** Opens the claw to a pre-set value. */
     public void open() {
-        rightClaw.setPosition(0.595);
-        leftClaw.setPosition(0.73);
+        rightClaw.setPosition(0);
+        leftClaw.setPosition(0);
     }
 
-    /** Closes the claw to a pre-set width. */
+    /** Closes the claw to a pre-set value. */
     public void close() {
-        rightClaw.setPosition(0.70);
-        leftClaw.setPosition(0.61);
+        rightClaw.setPosition(0);
+        leftClaw.setPosition(0);
     }
 
     /** Telemetry in contained in each class for ease of access. */
