@@ -40,11 +40,11 @@ public class ArmCore {
         armMotor.setPower(power);
 
     }
-    //protected void update() {
-        //armMotor.setPower(0.5);
-    //}
+    /*protected void update() {
+        armMotor.setPower(0.5);
+    }*/
 
-
+    /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "ArmCore.java");
         telemetry.addData("runMode", armMotor.getMode());
