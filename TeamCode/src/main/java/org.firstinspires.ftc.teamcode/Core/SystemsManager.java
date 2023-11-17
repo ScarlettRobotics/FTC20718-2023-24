@@ -6,11 +6,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public abstract class SystemsManager extends OpMode {
     double[] translateArr, rotateArr, powers;
     DrivetrainCore drivetrainCore;
+    ArmCore armCore;
     ClawCore clawCore;
 
     @Override
     public void init() {
         drivetrainCore = new DrivetrainCore(hardwareMap);
+        armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
     }
 
@@ -53,6 +55,39 @@ public abstract class SystemsManager extends OpMode {
             powers[i] = translateArr[i] + rotateArr[i];
         }
         drivetrainCore.setPowers(powers);
+    }
+
+    /** Updates arm movement based on left and right trigger. Uses encoder to keep the arm in place. */
+    protected void updateArm(int controllerNum) {
+        double power;
+        switch(controllerNum) {
+            case 1:
+                power = gamepad1.right_trigger - gamepad1.left_trigger;
+                break;
+            case 2:
+                power = gamepad2.right_trigger - gamepad2.left_trigger;
+                break;
+            default:
+                power = 0;
+        }
+        armCore.moveByEncoder((int)power*1000);
+    }
+
+    protected void updateArmBlind(int controllerNum){
+        double power;
+        switch(controllerNum) {
+            case 1:
+                // Move left/right wheels based on left/right stick movement
+                power= gamepad1.right_trigger - gamepad1.left_trigger;
+                break;
+            case 2:
+                // Move left/right wheels based on left/right stick movement
+                power = gamepad2.right_trigger - gamepad2.left_trigger;
+                break;
+            default:
+                power = 0;
+        }
+        armCore.moveLikeVelocity(power);
     }
 
     /** Updates the claw's movement.
