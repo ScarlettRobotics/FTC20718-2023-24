@@ -38,8 +38,19 @@ public class DrivetrainCore {
      * Will error if array length is less than 4. */
     protected void setPowers(double[] powers) {
         for (int i=0; i<4; i++) {
-            driveMotors.get(i).setPower(powers[i]);
+            // squared so movement is slower if needed
+            driveMotors.get(i).setPower(changePower(powers[i]));
         }
+    }
+
+    /**
+     * Squares the power in the given direction
+     * @param power power you want to change
+     * @return - squared power
+     */
+    private double changePower(double power) {
+        if (power > 0) return power*power;
+        return -1*power*power; // (-)*(-) = (+), so changed by doing (-)*(-)*(-) = (-)
     }
 
     /** Receives how the robot should move without rotating, then returns a double[] of the motors doing so.
