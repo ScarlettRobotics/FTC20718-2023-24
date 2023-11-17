@@ -6,10 +6,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public abstract class SystemsManager extends OpMode {
     double[] translateArr, rotateArr, powers;
     DrivetrainCore drivetrainCore;
+    ClawCore clawCore;
 
     @Override
     public void init() {
         drivetrainCore = new DrivetrainCore(hardwareMap);
+        clawCore = new ClawCore(hardwareMap);
     }
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
@@ -51,6 +53,30 @@ public abstract class SystemsManager extends OpMode {
             powers[i] = translateArr[i] + rotateArr[i];
         }
         drivetrainCore.setPowers(powers);
+    }
+
+    /** Updates the claw's movement.
+     * A/B opens/closes the claw respectively.
+     * Opening will be prioritized over closing the claw if both buttons are pressed.
+     * @param controllerNum Determines the driver number that operates the machine system.
+     *                      Receives 1 or 2; otherwise does nothing. */
+    protected void updateClaw(int controllerNum) {
+        boolean open, close;
+        switch (controllerNum) {
+            case 1:
+                open = gamepad1.a;
+                close = gamepad1.b;
+                break;
+            case 2:
+                open = gamepad2.a;
+                close = gamepad2.b;
+                break;
+            default:
+                open = false;
+                close = false;
+        }
+        if (open) clawCore.open();
+        if (close) clawCore.close();
     }
 
     /** Telemetry */
