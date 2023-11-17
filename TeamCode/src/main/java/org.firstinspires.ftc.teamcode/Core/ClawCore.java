@@ -34,4 +34,12 @@ public class ClawCore {
         telemetry.addData("Claw Right POS:", rightClaw.getPosition());
         telemetry.addData("Claw Left POS:", leftClaw.getPosition());
     }
+
+    /** Debug method to move claw position by input amount
+     * @param left Amount to move leftClaw by
+     * @param right Amount to move rightClaw by */
+    public void moveByPosition(double left, double right) {
+        rightClaw.setPosition(rightClaw.getPosition() + right);
+        leftClaw.setPosition(leftClaw.getPosition() + left);
+    }
 }
