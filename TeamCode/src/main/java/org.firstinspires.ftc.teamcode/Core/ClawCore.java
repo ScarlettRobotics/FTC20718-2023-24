@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 public class ClawCore {
     /* Initialization */
     /** Initialization is done within ClawCore for ease of access. */
