@@ -18,6 +18,7 @@ public class XDrive2p extends SystemsManager {
         updateDrivetrain(1);
         updateArmBlind(2);
         updateClaw(2);
+        checkForDroneLaunch(1);
         telemetry(telemetry);
     }
 }

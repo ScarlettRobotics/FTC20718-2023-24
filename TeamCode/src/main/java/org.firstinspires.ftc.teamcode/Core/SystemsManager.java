@@ -8,12 +8,14 @@ public abstract class SystemsManager extends OpMode {
     DrivetrainCore drivetrainCore;
     ArmCore armCore;
     ClawCore clawCore;
+    DroneLauncherCore droneLauncherCore;
 
     @Override
     public void init() {
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
+        droneLauncherCore = new DroneLauncherCore(hardwareMap);
     }
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
@@ -123,10 +125,24 @@ public abstract class SystemsManager extends OpMode {
         if (close) clawCore.close();
     }
 
+    protected void checkForDroneLaunch(int controllerNum) {
+        boolean launching = false;
+        switch (controllerNum) {
+            case 1:
+                launching = gamepad1.dpad_up;
+                break;
+            case 2:
+                launching = gamepad2.dpad_up;
+                break;
+        }
+        if (launching) droneLauncherCore.launch();
+    }
+
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
         drivetrainCore.telemetry(telemetry);
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
+        droneLauncherCore.telemetry(telemetry);
     }
 }
