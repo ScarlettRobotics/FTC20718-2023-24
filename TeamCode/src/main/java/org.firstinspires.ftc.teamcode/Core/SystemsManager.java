@@ -3,19 +3,33 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+/** Intended to be inherited from driver portion OpModes.
+ * Takes "---Core" classes, mapping them to controller inputs depending on controllerNum.
+ * All contained methods will receive "controllerNum" stating which gamepad/controller controls each system part.
+ * For example, "updateMotorTank(1)" will have controller 1 control the robot.
+ * If you'd like to use FTC Dashboard, please refer to https://acmerobotics.github.io/ftc-dashboard/,
+ *  then "Getting Started." */
 public abstract class SystemsManager extends OpMode {
-    double[] translateArr, rotateArr, powers;
+    // Core classes
     DrivetrainCore drivetrainCore;
     ArmCore armCore;
     ClawCore clawCore;
     DroneLauncherCore droneLauncherCore;
+    // Variables used in methods
+    double[] translateArr, rotateArr, powers;
 
     @Override
     public void init() {
+        // Initialize classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
         droneLauncherCore = new DroneLauncherCore(hardwareMap);
+        // Make preloading work by closing claw
+        clawCore.close();
+        // Telemetry
+        telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
+        telemetry.addData("FTC Team #", "22531");
     }
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
@@ -61,12 +75,12 @@ public abstract class SystemsManager extends OpMode {
 
     /** Updates arm movement.
      * Right and left trigger moves the arm.
-     * Uses .moveByEncoder(). Only use if ArmCore's RUN_TO_POSITION works.
+     * Uses moveByEncoder(). Only use if ArmCore's RUN_TO_POSITION works.
      * @param controllerNum Determines the driver number that operates the machine system.
      *                      Receives 1 or 2; otherwise does nothing. */
     protected void updateArm(int controllerNum) {
         double power;
-        switch(controllerNum) {
+        switch (controllerNum) {
             case 1:
                 power = gamepad1.right_trigger - gamepad1.left_trigger;
                 break;
@@ -81,18 +95,16 @@ public abstract class SystemsManager extends OpMode {
 
     /** Updates arm movement.
      * Right and left trigger moves the arm.
-     * Uses .setPower(). Only use if ArmCore's RUN_TO_POSITION doesn't work.
+     * Uses setPower(). Only use if ArmCore's RUN_TO_POSITION doesn't work.
      * @param controllerNum Determines the driver number that operates the machine system.
      *                      Receives 1 or 2; otherwise does nothing. */
     protected void updateArmBlind(int controllerNum){
         double power;
         switch(controllerNum) {
             case 1:
-                // Move left/right wheels based on left/right stick movement
-                power= gamepad1.right_trigger - gamepad1.left_trigger;
+                power = gamepad1.right_trigger - gamepad1.left_trigger;
                 break;
             case 2:
-                // Move left/right wheels based on left/right stick movement
                 power = gamepad2.right_trigger - gamepad2.left_trigger;
                 break;
             default:
@@ -125,6 +137,10 @@ public abstract class SystemsManager extends OpMode {
         if (close) clawCore.close();
     }
 
+    /** Checks for a button press to launch the drone.
+     * If drone does not launch, rotate the part attached to the servo by 180 degrees.
+     * @param controllerNum Determines the driver number that operates the machine system.
+     *                      Receives 1 or 2; otherwise does nothing. */
     protected void checkForDroneLaunch(int controllerNum) {
         boolean launching = false;
         switch (controllerNum) {
@@ -140,6 +156,7 @@ public abstract class SystemsManager extends OpMode {
 
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
+        // Telemetry sent to Driver Hub
         drivetrainCore.telemetry(telemetry);
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
