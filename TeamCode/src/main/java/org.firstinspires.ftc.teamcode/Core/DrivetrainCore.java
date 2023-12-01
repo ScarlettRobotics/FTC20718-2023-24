@@ -14,23 +14,38 @@ public class DrivetrainCore {
     // Drive motors in ArrayList[0-3]
     // Starts at front right, then goes counter-clockwise from top view.
     // This is done to fit the same style as a unit circle.
-    private ArrayList<DcMotor> driveMotors;
+    private ArrayList<PIDController> driveMotors;
 
     // Map motor variables to driver hub
     public DrivetrainCore(HardwareMap hardwareMap) {
-        driveMotors = new ArrayList<DcMotor>();
+        driveMotors = new ArrayList<PIDController>();
         // hardwareMap
         for (int i=0; i<4; i++) {
-            driveMotors.add(hardwareMap.get(DcMotor.class, "driveMotor"+i));
-        }
-
-        // runMode
-        for (DcMotor i : driveMotors) {
-            i.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
+                    0, 0, 0, 1));
         }
 
         // direction
         // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
+    }
+
+    /** Sets a new target position based on the current position, moving by the input. */
+    public void moveByEncoder(int[] encoders) {
+        for (int i=0; i<driveMotors.size(); i++) {
+            driveMotors.get(i).moveByEncoder(encoders[i]);
+        }
+    }
+
+    /** Returns left targetPosition */
+    protected int getTargetPositionLeft(int index) {
+        return driveMotors.get(index).getTargetPosition();
+    }
+
+    /** Updates the PIDController to move towards the provided goal position. */
+    public void updateAuto() {
+        for (PIDController i : driveMotors) {
+            i.update();
+        }
     }
 
     /* FUNCTIONS */
@@ -39,7 +54,7 @@ public class DrivetrainCore {
     protected void setPowers(double[] powers) {
         for (int i=0; i<4; i++) {
             // squared so movement is slower if needed
-            driveMotors.get(i).setPower(changePower(powers[i]));
+            driveMotors.get(i).overridePower(changePower(powers[i]));
         }
     }
 
@@ -89,11 +104,8 @@ public class DrivetrainCore {
     protected void telemetry(Telemetry telemetry) {
         telemetry.addData("\nCURRENT CLASS", "DrivetrainCore.java");
         telemetry.addData("Format", "power direction runMode");
-        for (int i=0; i<4; i++) {
-            telemetry.addData("motor" + i, "%4.2f %s %s",
-                    driveMotors.get(i).getPower(),
-                    driveMotors.get(i).getDirection(),
-                    driveMotors.get(i).getMode());
+        for (PIDController i : driveMotors) {
+            i.telemetry(telemetry);
         }
     }
 }
