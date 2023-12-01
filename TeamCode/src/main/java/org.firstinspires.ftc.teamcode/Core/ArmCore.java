@@ -10,48 +10,36 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Methods that don't work: getTargetPosition(), goToEncoder(), moveByEncoder()
  * */
 public class ArmCore {
-    private DcMotor armMotor;
+    private PIDController armMotor;
 
     ArmCore(HardwareMap hardwareMap) {
-        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor = new PIDController(hardwareMap, "armMotor",
+                0, 0, 0, 1);
     }
 
-    /** Returns the target position of the arm. */
+    /** Sets a new target position for the motor. */
+    public void setTargetPosition(int encoder) {
+        armMotor.setTargetPosition(encoder);
+    }
+
+    /** Returns targetPosition */
     protected int getTargetPosition() {
         return armMotor.getTargetPosition();
     }
 
-    /** Sets the arm to move to the inputted encoder position. */
-    protected void goToEncoder(int encoder) {
-        armMotor.setTargetPosition(encoder);
-    }
-
-    /** Sets the arm to change the target encoder position by the input. */
-    protected void moveByEncoder(int encoder) {
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setTargetPosition(encoder);
-        armMotor.setPower(0.5);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    /** Updates the PIDController to move towards the provided goal position. */
+    public void updateAuto() {
+        armMotor.update();
     }
 
     /** Moves the arm motor as a */
     protected void setPower(double power){
-        armMotor.setPower(power);
-
+        armMotor.overridePower(power);
     }
-    /*protected void update() {
-        armMotor.setPower(0.5);
-    }*/
 
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "ArmCore.java");
-        telemetry.addData("runMode", armMotor.getMode());
-        if (armMotor.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {
-            telemetry.addData("targetPosition", armMotor.getTargetPosition());
-            telemetry.addData("currentPosition", armMotor.getCurrentPosition());
-        }
-        telemetry.addData("power", armMotor.getPower());
+        armMotor.telemetry(telemetry);
     }
 }
