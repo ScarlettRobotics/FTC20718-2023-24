@@ -16,7 +16,7 @@ public class XDrive2p extends SystemsManager {
     public void loop() {
         telemetry.addData("STATUS: ", "Running");
         updateDrivetrain(1);
-        updateArmBlind(2);
+        updateArm(2);
         updateClaw(2);
         checkForDroneLaunch(1);
         telemetry(telemetry);
