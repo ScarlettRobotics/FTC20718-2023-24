@@ -20,8 +20,8 @@ public class ClawCore {
 
     /** Opens the claw to a pre-set value. */
     public void open() {
-        rightClaw.setPosition(0.382);
-        leftClaw.setPosition(0.039);
+        rightClaw.setPosition(0.482);
+        leftClaw.setPosition(0);
     }
 
     /** Closes the claw to a pre-set value. */
