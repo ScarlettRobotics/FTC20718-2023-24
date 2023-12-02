@@ -56,11 +56,35 @@ public abstract class SystemsManager extends OpMode {
         double forward, strafe, rotate;
         switch (controllerNum) {
             case 1:
+                if (gamepad1.x) {
+                    forward = 0.15;
+                    strafe = 0;
+                    rotate = 0;
+                    break;
+                }
+                if (gamepad1.y) {
+                    forward = -0.15;
+                    strafe = 0;
+                    rotate = 0;
+                    break;
+                }
                 forward = noDrift(gamepad1.left_stick_y, 0.05);
                 strafe = noDrift(gamepad1.left_stick_x, 0.05);
                 rotate = noDrift(gamepad1.right_stick_x, 0.05);
                 break;
             case 2:
+                if (gamepad2.x) {
+                    forward = 0.15;
+                    strafe = 0;
+                    rotate = 0;
+                    break;
+                }
+                if (gamepad2.y) {
+                    forward = -0.15;
+                    strafe = 0;
+                    rotate = 0;
+                    break;
+                }
                 forward = noDrift(gamepad2.left_stick_y, 0.05);
                 strafe = noDrift(gamepad2.left_stick_x, 0.05);
                 rotate = noDrift(gamepad2.right_stick_x, 0.05);
