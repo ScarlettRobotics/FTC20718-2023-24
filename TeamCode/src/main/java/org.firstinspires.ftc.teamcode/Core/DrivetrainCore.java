@@ -23,7 +23,6 @@ public class DrivetrainCore {
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
                     0.01, 0.0001, 0.0002, 0.2));
-            driveMotors.get(i).setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         // direction
@@ -33,28 +32,28 @@ public class DrivetrainCore {
     /** Sets a new target position based on the current position, moving by the input.
      * Moves the drivetrain forward/backwards by the specified amount. */
     public void forwardByEncoder(int encoder) {
-        driveMotors.get(0).moveByEncoder(encoder);
-        driveMotors.get(1).moveByEncoder(-encoder);
-        driveMotors.get(2).moveByEncoder(-encoder);
-        driveMotors.get(3).moveByEncoder(encoder);
-    }
-
-    /** Sets a new target position based on the current position, moving by the input.
-     * Strafes the drivetrain right/left by the specified amount. */
-    public void strafeByEncoder(int encoder) {
-        driveMotors.get(0).moveByEncoder(encoder);
+        driveMotors.get(0).moveByEncoder(-encoder);
         driveMotors.get(1).moveByEncoder(encoder);
-        driveMotors.get(2).moveByEncoder(-encoder);
+        driveMotors.get(2).moveByEncoder(encoder);
         driveMotors.get(3).moveByEncoder(-encoder);
     }
 
     /** Sets a new target position based on the current position, moving by the input.
      * Strafes the drivetrain right/left by the specified amount. */
-    public void rotateByEncoder(int encoder) {
-        driveMotors.get(0).moveByEncoder(encoder);
-        driveMotors.get(1).moveByEncoder(encoder);
+    public void strafeByEncoder(int encoder) {
+        driveMotors.get(0).moveByEncoder(-encoder);
+        driveMotors.get(1).moveByEncoder(-encoder);
         driveMotors.get(2).moveByEncoder(encoder);
         driveMotors.get(3).moveByEncoder(encoder);
+    }
+
+    /** Sets a new target position based on the current position, moving by the input.
+     * Strafes the drivetrain right/left by the specified amount. */
+    public void rotateByEncoder(int encoder) {
+        driveMotors.get(0).moveByEncoder(-encoder);
+        driveMotors.get(1).moveByEncoder(-encoder);
+        driveMotors.get(2).moveByEncoder(-encoder);
+        driveMotors.get(3).moveByEncoder(-encoder);
     }
 
     /** Returns left targetPosition */
