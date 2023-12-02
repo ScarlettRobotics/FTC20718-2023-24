@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -24,7 +23,7 @@ public class ArmCore {
 
     /** Returns targetPosition */
     protected int getTargetPosition() {
-        return armMotor.getTargetPosition();
+        return armMotor.getDeltaTargetPosition();
     }
 
     /** Updates the PIDController to move towards the provided goal position. */
