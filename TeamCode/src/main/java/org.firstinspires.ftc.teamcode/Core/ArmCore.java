@@ -12,9 +12,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ArmCore {
     private PIDController armMotor;
 
-    ArmCore(HardwareMap hardwareMap) {
+    public ArmCore(HardwareMap hardwareMap) {
         armMotor = new PIDController(hardwareMap, "armMotor",
-                0, 0, 0, 1);
+                0.03, 0.0005, 0.0005, 0.7);
     }
 
     /** Sets a new target position for the motor. */
@@ -38,7 +38,7 @@ public class ArmCore {
     }
 
     /** Telemetry */
-    protected void telemetry(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "ArmCore.java");
         armMotor.telemetry(telemetry);
     }
