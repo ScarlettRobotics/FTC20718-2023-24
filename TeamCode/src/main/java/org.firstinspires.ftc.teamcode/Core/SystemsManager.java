@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -15,6 +16,9 @@ public abstract class SystemsManager extends OpMode {
     ArmCore armCore;
     ClawCore clawCore;
     DroneLauncherCore droneLauncherCore;
+    // FTC Dashboard telemetry variables
+    FtcDashboard dashboard;
+    Telemetry dashboardTelemetry;
     // Variables used in methods
     double[] translateArr, rotateArr, powers;
 
@@ -27,6 +31,9 @@ public abstract class SystemsManager extends OpMode {
         droneLauncherCore = new DroneLauncherCore(hardwareMap);
         // Make preloading work by closing claw
         clawCore.close();
+        // Initialize FTC Dashboard variables
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "22531");
@@ -161,5 +168,11 @@ public abstract class SystemsManager extends OpMode {
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
         droneLauncherCore.telemetry(telemetry);
+        // Telemetry sent to FTC Dashboard
+        drivetrainCore.telemetry(dashboardTelemetry);
+        armCore.telemetry(dashboardTelemetry);
+        clawCore.telemetry(dashboardTelemetry);
+        droneLauncherCore.telemetry(dashboardTelemetry);
+        dashboardTelemetry.update();
     }
 }
