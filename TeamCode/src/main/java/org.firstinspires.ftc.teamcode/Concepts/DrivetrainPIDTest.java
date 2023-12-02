@@ -27,10 +27,10 @@ public class DrivetrainPIDTest extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.dpad_up && !pDpadUp) drivetrainCore.forwardByEncoder(1000);
-        if (gamepad1.dpad_down && !pDpadDown) drivetrainCore.forwardByEncoder(-1000);
-        if (gamepad1.dpad_left && !pDpadLeft) drivetrainCore.strafeByEncoder(1000);
-        if (gamepad1.dpad_right && !pDpadRight) drivetrainCore.strafeByEncoder(-1000);
+        if (gamepad1.dpad_up && !pDpadUp) drivetrainCore.forwardByEncoder(300);
+        if (gamepad1.dpad_down && !pDpadDown) drivetrainCore.forwardByEncoder(-300);
+        if (gamepad1.dpad_left && !pDpadLeft) drivetrainCore.strafeByEncoder(300);
+        if (gamepad1.dpad_right && !pDpadRight) drivetrainCore.strafeByEncoder(-300);
         drivetrainCore.updateAuto();
         // Telemetry
         drivetrainCore.telemetry(telemetry);

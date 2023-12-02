@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -21,7 +22,8 @@ public class DrivetrainCore {
         // hardwareMap
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
-                    0, 0, 0, 0.5));
+                    0.01, 0.0001, 0.0002, 0.2));
+            driveMotors.get(i).setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         // direction
@@ -57,18 +59,18 @@ public class DrivetrainCore {
 
     /** Returns left targetPosition */
     protected int getTargetPositionLeft(int index) {
-        return driveMotors.get(index).getTargetPosition();
+        return driveMotors.get(index).getDeltaTargetPosition();
     }
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
         // Done because not every motor has an encoder linked up
-        if (driveMotors.get(0).getTargetPosition() == driveMotors.get(1).getTargetPosition()) { // forward/rotating
+        if (driveMotors.get(0).getDeltaTargetPosition() == driveMotors.get(1).getDeltaTargetPosition()) { // strafing/rotating
             driveMotors.get(0).update();
             driveMotors.get(1).overridePower(driveMotors.get(0).getPower());
             driveMotors.get(2).update();
             driveMotors.get(3).overridePower(driveMotors.get(2).getPower());
-        } else { // strafing
+        } else { // forward
             driveMotors.get(0).update();
             driveMotors.get(1).overridePower(driveMotors.get(2).getPower());
             driveMotors.get(2).update();

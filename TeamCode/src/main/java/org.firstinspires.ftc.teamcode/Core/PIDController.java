@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,7 +17,8 @@ public class PIDController {
     // PID vars
     private double Kp, Ki, Kd;
     private final double integralSumMax = (Ki == 0) ? 0.25 : 0.25/Ki;
-    private int targetPosition, currentPosition;
+    private int targetPosition, pTargetPosition;
+    private int currentPosition;
     private int error, pError;
     private double derivative, integralSum;
     private double powerCap;
@@ -33,6 +35,7 @@ public class PIDController {
         // Initialize PID variables
         timer = new ElapsedTime();
         targetPosition = 0;
+        pTargetPosition = 0;
         this.Kp = Kp;
         this.Ki = Ki;
         this.Kd = Kd;
@@ -45,7 +48,8 @@ public class PIDController {
 
     /** Sets a new target position for the PIDController to move towards. */
     protected void setTargetPosition(int encoder) {
-        this.targetPosition = encoder;
+        pTargetPosition = targetPosition;
+        targetPosition = encoder;
         // Reset PID variables
         pError = 0;
         integralSum = 0;
@@ -53,15 +57,16 @@ public class PIDController {
 
     /** Sets a new target position based on the current position, moving by the input. */
     protected void moveByEncoder(int encoder) {
-        this.targetPosition = motor.getTargetPosition() + encoder;
+        pTargetPosition = targetPosition;
+        targetPosition += encoder;
         // Reset PID variables
         pError = 0;
         integralSum = 0;
     }
 
     /** Returns targetPosition */
-    protected int getTargetPosition() {
-        return targetPosition;
+    protected int getDeltaTargetPosition() {
+        return targetPosition - pTargetPosition;
     }
 
     /** Moves the controller towards goalPosition encoder location.
@@ -102,6 +107,10 @@ public class PIDController {
 
     public double getPower() {
         return motor.getPower();
+    }
+
+    public void setDirection(DcMotorSimple.Direction direction) {
+        motor.setDirection(direction);
     }
 
     /** Overrides the set power from update() to the inputted power.
