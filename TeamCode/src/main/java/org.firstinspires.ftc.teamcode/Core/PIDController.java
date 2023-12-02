@@ -100,6 +100,10 @@ public class PIDController {
         timer.reset();
     }
 
+    public double getPower() {
+        return motor.getPower();
+    }
+
     /** Overrides the set power from update() to the inputted power.
      * Run this code after update(), or overridePower() will do nothing. */
     protected void overridePower(double power) {

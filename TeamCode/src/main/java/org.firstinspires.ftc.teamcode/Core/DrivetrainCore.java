@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -22,18 +21,38 @@ public class DrivetrainCore {
         // hardwareMap
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
-                    0, 0, 0, 1));
+                    0, 0, 0, 0.5));
         }
 
         // direction
         // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
     }
 
-    /** Sets a new target position based on the current position, moving by the input. */
-    public void moveByEncoder(int[] encoders) {
-        for (int i=0; i<driveMotors.size(); i++) {
-            driveMotors.get(i).moveByEncoder(encoders[i]);
-        }
+    /** Sets a new target position based on the current position, moving by the input.
+     * Moves the drivetrain forward/backwards by the specified amount. */
+    public void forwardByEncoder(int encoder) {
+        driveMotors.get(0).moveByEncoder(encoder);
+        driveMotors.get(1).moveByEncoder(-encoder);
+        driveMotors.get(2).moveByEncoder(-encoder);
+        driveMotors.get(3).moveByEncoder(encoder);
+    }
+
+    /** Sets a new target position based on the current position, moving by the input.
+     * Strafes the drivetrain right/left by the specified amount. */
+    public void strafeByEncoder(int encoder) {
+        driveMotors.get(0).moveByEncoder(encoder);
+        driveMotors.get(1).moveByEncoder(encoder);
+        driveMotors.get(2).moveByEncoder(-encoder);
+        driveMotors.get(3).moveByEncoder(-encoder);
+    }
+
+    /** Sets a new target position based on the current position, moving by the input.
+     * Strafes the drivetrain right/left by the specified amount. */
+    public void rotateByEncoder(int encoder) {
+        driveMotors.get(0).moveByEncoder(encoder);
+        driveMotors.get(1).moveByEncoder(encoder);
+        driveMotors.get(2).moveByEncoder(encoder);
+        driveMotors.get(3).moveByEncoder(encoder);
     }
 
     /** Returns left targetPosition */
@@ -43,8 +62,17 @@ public class DrivetrainCore {
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
-        for (PIDController i : driveMotors) {
-            i.update();
+        // Done because not every motor has an encoder linked up
+        if (driveMotors.get(0).getTargetPosition() == driveMotors.get(1).getTargetPosition()) { // forward/rotating
+            driveMotors.get(0).update();
+            driveMotors.get(1).overridePower(driveMotors.get(0).getPower());
+            driveMotors.get(2).update();
+            driveMotors.get(3).overridePower(driveMotors.get(2).getPower());
+        } else { // strafing
+            driveMotors.get(0).update();
+            driveMotors.get(1).overridePower(driveMotors.get(2).getPower());
+            driveMotors.get(2).update();
+            driveMotors.get(3).overridePower(driveMotors.get(0).getPower());
         }
     }
 
@@ -101,7 +129,7 @@ public class DrivetrainCore {
     }
 
     /** Telemetry */
-    protected void telemetry(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addData("\nCURRENT CLASS", "DrivetrainCore.java");
         telemetry.addData("Format", "power direction runMode");
         for (PIDController i : driveMotors) {
