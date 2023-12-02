@@ -57,13 +57,13 @@ public abstract class SystemsManager extends OpMode {
         switch (controllerNum) {
             case 1:
                 if (gamepad1.x) {
-                    forward = 0.15;
+                    forward = 0.5;
                     strafe = 0;
                     rotate = 0;
                     break;
                 }
                 if (gamepad1.y) {
-                    forward = -0.15;
+                    forward = -0.5;
                     strafe = 0;
                     rotate = 0;
                     break;
@@ -74,13 +74,13 @@ public abstract class SystemsManager extends OpMode {
                 break;
             case 2:
                 if (gamepad2.x) {
-                    forward = 0.15;
+                    forward = 0.5;
                     strafe = 0;
                     rotate = 0;
                     break;
                 }
                 if (gamepad2.y) {
-                    forward = -0.15;
+                    forward = -0.5;
                     strafe = 0;
                     rotate = 0;
                     break;
