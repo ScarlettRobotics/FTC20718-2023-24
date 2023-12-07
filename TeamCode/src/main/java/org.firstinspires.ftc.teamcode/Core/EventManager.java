@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.ArrayList;
 
 /** AUTONOMOUS
@@ -17,29 +19,10 @@ public class EventManager {
         actionTaken = new ArrayList<Boolean>();
     }
 
-    /** Adds an item to the events list to check for new timings.
-     * Sorts the item in ArrayList timings to be able to binary search in the future */
+    /** Adds an item to the events list to check for new timings. */
     public void addEvent(double timing) {
-        int index = 0;
-        // Empty list
-        if (timings.isEmpty()) {
-            timings.add(index, timing);
-            actionTaken.add(index, false);
-            return;
-        }
-        // Requested timing is larger than all else
-        if (timing > timings.get(timings.size()-1)) {
-            index = timings.size()-1;
-            timings.add(index, timing);
-            actionTaken.add(index, false);
-            return;
-        }
-        // Finds first timing larger than request
-        while (timing < timings.get(index+1)) {
-            index++;
-        }
-        timings.add(index, timing);
-        actionTaken.add(index, false);
+        timings.add(timing);
+        actionTaken.add(false);
     }
 
     /** Checks if an event needs to happen with the given timing.
@@ -57,5 +40,11 @@ public class EventManager {
         // Event needs to happen
         actionTaken.set(index, true);
         return true;
+    }
+
+    public void telemetry(Telemetry telemetry) {
+        telemetry.addData("\nCURRENT CLASS", "EventManager.java");
+        telemetry.addData("timings", timings);
+        telemetry.addData("actionTaken", actionTaken);
     }
 }
