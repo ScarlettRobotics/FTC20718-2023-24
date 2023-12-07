@@ -42,8 +42,8 @@ public class RedBackdrop extends LinearOpMode {
             }
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
-                drivetrainCore.forwardByEncoder(1200);
-                armCore.setTargetPosition(-2700);
+                drivetrainCore.forwardByEncoder(1150);
+                armCore.setTargetPosition(-1700);
             }
 
             if (eventManager.eventOccurred(timer.time(), 3)) {
@@ -51,16 +51,20 @@ public class RedBackdrop extends LinearOpMode {
             }
 
             if (eventManager.eventOccurred(timer.time(), 4)) {
-                drivetrainCore.forwardByEncoder(-200);
+                drivetrainCore.forwardByEncoder(-100);
             }
 
             if (eventManager.eventOccurred(timer.time(), 5)) {
+                drivetrainCore.forwardByEncoder(-100);
+            }
+
+            if (eventManager.eventOccurred(timer.time(), 6)) {
                 drivetrainCore.strafeByEncoder(750);
                 armCore.setTargetPosition(-500);
             }
 
-            if (eventManager.eventOccurred(timer.time(), 6)) {
-                drivetrainCore.forwardByEncoder(500);
+            if (eventManager.eventOccurred(timer.time(), 7)) {
+                drivetrainCore.forwardByEncoder(300);
             }
 
             addTelemetry(telemetry);
@@ -72,13 +76,14 @@ public class RedBackdrop extends LinearOpMode {
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(0.1);
-        eventManager.addEvent(1.5);
-        eventManager.addEvent(3);
-        eventManager.addEvent(4.5);
+        eventManager.addEvent(2);
+        eventManager.addEvent(3.5);
         eventManager.addEvent(5);
-        eventManager.addEvent(6.5);
+        eventManager.addEvent(7.5);
         eventManager.addEvent(8);
+        eventManager.addEvent(8.5);
+        eventManager.addEvent(10);
+        eventManager.addEvent(11.5);
         // Init core classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
@@ -103,12 +108,14 @@ public class RedBackdrop extends LinearOpMode {
     private void addTelemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());
+        eventManager.telemetry(telemetry);
         drivetrainCore.telemetry(telemetry);
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
         telemetry.update();
         // FTC Dashboard
         dashboardTelemetry.addData("timer", timer.time());
+        eventManager.telemetry(dashboardTelemetry);
         drivetrainCore.telemetry(dashboardTelemetry);
         armCore.telemetry(dashboardTelemetry);
         clawCore.telemetry(dashboardTelemetry);
