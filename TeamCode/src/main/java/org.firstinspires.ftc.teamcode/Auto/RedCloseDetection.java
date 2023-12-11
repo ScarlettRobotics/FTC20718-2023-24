@@ -91,24 +91,23 @@ public class RedCloseDetection extends LinearOpMode {
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(2);
-        //TODO eventManager.addEvent(xx); // look for prop
-        //TODO eventManager.addEvent(xx); // find prop, move towards position based on prop, move arm to safe
-        //TODO eventManager.addEvent(xx); // rotate based on prop, move arm to ground
+        //TODO eventManager.addEvent(1); // look for prop
+        //TODO eventManager.addEvent(1.5); // find prop, move towards position based on prop, move arm to safe
+        //TODO eventManager.addEvent(2.5); // rotate based on prop, move arm to ground
 
-        //TODO eventManager.addEvent(xx); // open claw
-        //TODO eventManager.addEvent(xx); // slightly move arm up
-        //TODO eventManager.addEvent(xx); // close claw
+        //TODO eventManager.addEvent(3.5); // open claw
+        //TODO eventManager.addEvent(3.8); // slightly move arm up
+        //TODO eventManager.addEvent(4.1); // close claw
 
-        //TODO eventManager.addEvent(xx); // rotate back, move claw up
-        //TODO eventManager.addEvent(xx); // strafe based on prop
+        //TODO eventManager.addEvent(4.4); // rotate back, move claw up
+        //TODO eventManager.addEvent(5.5); // strafe based on prop
 
-        //TODO eventManager.addEvent(xx); // move forward to backdrop
-        //TODO eventManager.addEvent(xx); // drop pixel on backdrop
-        //TODO eventManager.addEvent(xx); // move backwards, reset arm
+        //TODO eventManager.addEvent(6.5); // move forward to backdrop
+        //TODO eventManager.addEvent(8); // drop pixel on backdrop
+        //TODO eventManager.addEvent(8.5); // move backwards, reset arm
 
-        //TODO eventManager.addEvent(xx); // strafe to left square based on prop
-        //TODO eventManager.addEvent(xx); // move forwards into park
+        //TODO eventManager.addEvent(9); // strafe to left square based on prop
+        //TODO eventManager.addEvent(10.5); // move forwards into park
         // Init core classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
