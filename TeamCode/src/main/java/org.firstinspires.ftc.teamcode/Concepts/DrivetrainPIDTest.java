@@ -10,19 +10,22 @@ import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
  * Use FTC dashboard to see how PID variables need to be tweaked. */
 @TeleOp(name = "DrivetrainPIDTest", group = "concepts-pid")
 public class DrivetrainPIDTest extends OpMode {
-    DrivetrainCore drivetrainCore;
+    // FTC Dashboard
     FtcDashboard dashboard;
     Telemetry dashboardTelemetry;
+    // drivetrain
+    DrivetrainCore drivetrainCore;
     boolean pDpadUp, pDpadDown, pDpadLeft, pDpadRight;
     @Override
     public void init() {
+        // Initialize FTC Dashboard variables
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+        // init drivetrain
         drivetrainCore = new DrivetrainCore(hardwareMap);
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "22531");
-        // Initialize FTC Dashboard variables
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
     }
 
     @Override

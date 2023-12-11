@@ -44,10 +44,10 @@ import org.firstinspires.ftc.teamcode.Core.TensorFlowCore;
  */
 @TeleOp(name = "TensorFlowTest", group = "concepts-vision")
 public class TensorFlowTest extends LinearOpMode {
-    public TensorFlowCore tensorFlowCore;
     // FTC Dashboard
     FtcDashboard dashboard;
     Telemetry dashboardTelemetry;
+    public TensorFlowCore tensorFlowCore;
 
     @Override
     public void runOpMode() {

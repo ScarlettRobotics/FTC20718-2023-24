@@ -17,14 +17,14 @@ import org.firstinspires.ftc.teamcode.Core.EventManager;
 @Autonomous(name = "TODO", group = "TODO") //TODO
 @Disabled //TODO DELETE THIS
 public class AutoBoilerplate extends LinearOpMode {
+    // FTC Dashboard
+    private FtcDashboard dashboard;
+    private Telemetry dashboardTelemetry;
     // Timing related
     private ElapsedTime timer;
     private EventManager eventManager;
     // Core classes
     /* TODO NEEDED CORE CLASSES */
-    // FTC Dashboard
-    private FtcDashboard dashboard;
-    private Telemetry dashboardTelemetry;
 
     @Override
     public void runOpMode() {
@@ -55,6 +55,9 @@ public class AutoBoilerplate extends LinearOpMode {
     }
 
     private void initialize() {
+        // Init dashboard
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
         // Init timing related
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
@@ -65,9 +68,6 @@ public class AutoBoilerplate extends LinearOpMode {
         /* TODO etc. */
         // Init core classes
         /* TODO INIT CORE CLASSES */
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
         // Init telemetry
         telemetry.addData("STATUS", "Initialized");
         telemetry.update();
