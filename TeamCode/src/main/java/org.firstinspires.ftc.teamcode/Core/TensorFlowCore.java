@@ -140,6 +140,7 @@ public class TensorFlowCore {
 
     /** Add telemetry about TensorFlow Object Detection (TFOD) recognitions. */
     public void telemetry(Telemetry telemetry) {
+        telemetry.addData("\nCURRENT CLASS","TensorFlowCore.java");
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
@@ -148,7 +149,7 @@ public class TensorFlowCore {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-            telemetry.addData("\nCURRENT CLASS","TensorFlowCore.java");
+            telemetry.addData(" "," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
