@@ -38,15 +38,15 @@ public class AutoBoilerplate extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 0)) {
                 /* TODO INSTRUCTION */
-            }
+            } // event desc
 
             if (eventManager.eventOccurred(timer.time(), 1)) {
                 /* TODO INSTRUCTION */
-            }
+            } // event desc
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
                 /* TODO INSTRUCTION */
-            }
+            } // event desc
 
             /* TODO etc. */
 

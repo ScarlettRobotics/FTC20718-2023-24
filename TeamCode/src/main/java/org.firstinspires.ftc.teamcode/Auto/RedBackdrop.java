@@ -35,37 +35,37 @@ public class RedBackdrop extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 0)) {
                 drivetrainCore.forwardByEncoder(750);
-            }
+            } // forward 1 square
 
             if (eventManager.eventOccurred(timer.time(), 1)) {
                 drivetrainCore.rotateByEncoder(-650);
-            }
+            } // rotate 90 deg right
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
                 drivetrainCore.forwardByEncoder(1150);
                 armCore.setTargetPosition(-1700);
-            }
+            } // move arm to place position, move to backdrop
 
             if (eventManager.eventOccurred(timer.time(), 3)) {
                 clawCore.open();
-            }
+            } // open claw on backdrop
 
             if (eventManager.eventOccurred(timer.time(), 4)) {
                 drivetrainCore.forwardByEncoder(-100);
-            }
+            } // move back to allow both pixels to drop staggered
 
             if (eventManager.eventOccurred(timer.time(), 5)) {
                 drivetrainCore.forwardByEncoder(-100);
-            }
+            } // move back more to not collide with backdrop
 
             if (eventManager.eventOccurred(timer.time(), 6)) {
                 drivetrainCore.strafeByEncoder(750);
                 armCore.setTargetPosition(-500);
-            }
+            } // move arm to rest position, move left one
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
                 drivetrainCore.forwardByEncoder(300);
-            }
+            } // move forward into parking
 
             addTelemetry(telemetry);
         }
