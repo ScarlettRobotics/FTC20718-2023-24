@@ -29,8 +29,10 @@
 
 package org.firstinspires.ftc.teamcode.Concepts;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.TensorFlowCore;
 
 /**
@@ -43,9 +45,16 @@ import org.firstinspires.ftc.teamcode.Core.TensorFlowCore;
 @TeleOp(name = "TensorFlowTest", group = "concepts-vision")
 public class TensorFlowTest extends LinearOpMode {
     public TensorFlowCore tensorFlowCore;
+    // FTC Dashboard
+    FtcDashboard dashboard;
+    Telemetry dashboardTelemetry;
 
     @Override
     public void runOpMode() {
+        // FTC Dashboard
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+
         tensorFlowCore = new TensorFlowCore(hardwareMap);
 
         // Wait for the DS start button to be touched.
@@ -56,11 +65,11 @@ public class TensorFlowTest extends LinearOpMode {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-
+                // Telemetry
                 tensorFlowCore.telemetry(telemetry);
-
-                // Push telemetry to the Driver Station.
                 telemetry.update();
+                tensorFlowCore.telemetry(dashboardTelemetry);
+                dashboardTelemetry.update();
 
                 // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
