@@ -62,9 +62,9 @@ public class AutoBoilerplate extends LinearOpMode {
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(2);
-        //TODO eventManager.addEvent(3.5);
-        //TODO eventManager.addEvent(5);
+        eventManager.addEvent(2); // event desc
+        //TODO eventManager.addEvent(xx); // event desc
+        //TODO eventManager.addEvent(xx); // event desc
         /* TODO etc. */
         // Init core classes
         /* TODO INIT CORE CLASSES */

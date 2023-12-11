@@ -79,14 +79,14 @@ public class BlueBackdrop extends LinearOpMode {
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(2);
-        eventManager.addEvent(3.5);
-        eventManager.addEvent(5);
-        eventManager.addEvent(7.5);
-        eventManager.addEvent(8);
-        eventManager.addEvent(8.5);
-        eventManager.addEvent(10);
-        eventManager.addEvent(11.5);
+        eventManager.addEvent(2); // forward 1 square
+        eventManager.addEvent(3.5); // rotate 90 deg right
+        eventManager.addEvent(5); // move arm to place position, move to backdrop
+        eventManager.addEvent(7.5); // open claw on backdrop
+        eventManager.addEvent(8); // move back to allow both pixels to drop staggered
+        eventManager.addEvent(8.5); // move back more to not collide with backdrop
+        eventManager.addEvent(10); // move arm to rest position, move left one
+        eventManager.addEvent(11.5); // move forward into parking
         // Init core classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
