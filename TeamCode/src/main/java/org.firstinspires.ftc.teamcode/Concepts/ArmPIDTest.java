@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Core.ArmCore;
 
 /** Moves the arm to preset locations.
  * Use FTC dashboard to see how PID variables need to be tweaked. */
-@TeleOp(name = "ArmPIDTest", group = "concepts")
+@TeleOp(name = "ArmPIDTest", group = "concepts-pid")
 public class ArmPIDTest extends OpMode {
     ArmCore armCore;
     FtcDashboard dashboard;

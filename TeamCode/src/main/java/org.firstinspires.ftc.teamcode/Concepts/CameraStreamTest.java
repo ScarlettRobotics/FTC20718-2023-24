@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Core.WebcamCore;
 
-@TeleOp(name = "CameraStreamTest", group = "concepts")
+@TeleOp(name = "CameraStreamTest", group = "concepts-vision")
 public class CameraStreamTest extends OpMode {
     WebcamCore webcamCore;
     @Override

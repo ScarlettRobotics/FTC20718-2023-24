@@ -40,7 +40,7 @@ import org.firstinspires.ftc.teamcode.Core.TensorFlowCore;
  * Originally in FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples.
  * Modified to be usable in an OOP structure.
  */
-@TeleOp(name = "TensorFlowTest", group = "concepts")
+@TeleOp(name = "TensorFlowTest", group = "concepts-vision")
 public class TensorFlowTest extends LinearOpMode {
     public TensorFlowCore tensorFlowCore;
 

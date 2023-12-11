@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
 
 /** Moves the arm to preset locations.
  * Use FTC dashboard to see how PID variables need to be tweaked. */
-@TeleOp(name = "DrivetrainPIDTest", group = "concepts")
+@TeleOp(name = "DrivetrainPIDTest", group = "concepts-pid")
 public class DrivetrainPIDTest extends OpMode {
     DrivetrainCore drivetrainCore;
     FtcDashboard dashboard;

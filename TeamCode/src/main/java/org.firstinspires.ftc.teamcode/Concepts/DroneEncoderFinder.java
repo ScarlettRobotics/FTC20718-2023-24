@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Core.DroneLauncherCore;
  * Serves to find the position that the drone launcher opens at.
  * Uses gamepad1 left joystick to set servo position.
  * Telemetry can be viewed to see good values. */
-@TeleOp(name = "DroneEncoderFinder", group = "concepts")
+@TeleOp(name = "DroneEncoderFinder", group = "concepts-encoder")
 public class DroneEncoderFinder extends OpMode {
     public DroneLauncherCore droneLauncherCore;
     double left, right;

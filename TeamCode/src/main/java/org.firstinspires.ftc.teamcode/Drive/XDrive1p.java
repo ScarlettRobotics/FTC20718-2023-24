@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Core.SystemsManager;
  * X drive. Left stick controls coordinate movement, right stick controls rotation.
  * See ClawCore.java and SlideCore.java for information regarding the claw and slide.
  */
-@TeleOp(name = "XDrive1P", group = "x")
+@TeleOp(name = "XDrive1P", group = " x")
 public class XDrive1p extends SystemsManager {
     @Override
     public void loop() {
