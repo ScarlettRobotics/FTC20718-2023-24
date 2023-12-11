@@ -16,7 +16,7 @@ public class PIDController {
     private String motorName;
     // PID vars
     private double Kp, Ki, Kd;
-    private final double integralSumMax = (Ki == 0) ? 0.25 : 0.25/Ki;
+    private double integralSumMax;
     private int targetPosition, pTargetPosition;
     private int currentPosition;
     private int error, pError;
@@ -39,6 +39,7 @@ public class PIDController {
         this.Kp = Kp;
         this.Ki = Ki;
         this.Kd = Kd;
+        integralSumMax = (Ki == 0) ? 0.0025 : 0.0025/Ki;
         this.powerCap = powerCap;
         // Initialize motor
         motor = hardwareMap.get(DcMotor.class, motorName);
