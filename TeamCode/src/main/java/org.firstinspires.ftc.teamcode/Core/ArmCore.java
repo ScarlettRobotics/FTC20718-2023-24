@@ -21,6 +21,11 @@ public class ArmCore {
         armMotor.setTargetPosition(encoder);
     }
 
+    /** Changes the encoder position by the inputted amount. */
+    public void moveByEncoder(int encoder) {
+        armMotor.moveByEncoder(encoder);
+    }
+
     /** Returns targetPosition */
     protected int getTargetPosition() {
         return armMotor.getDeltaTargetPosition();
