@@ -118,6 +118,9 @@ public class TensorFlowCore {
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
+
+        // Set zoom amount to artifically magnify to detect easier
+        tfod.setZoom(1.25);
     }
 
     /** Prevents the Vision Portal from streaming, but does not stop it altogether.
