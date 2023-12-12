@@ -37,17 +37,10 @@ public class RedCloseDetection extends LinearOpMode {
         while (opModeIsActive()) {
             updateAuto();
 
-            if (timer.time() < 1.5) {
-                if (!tensorFlowCore.recognizing()) {
-                    continue;
-                } // not recognizing any cubes
-                if (tensorFlowCore.getX() > (double) 640 /2) propLocation = 1; // to left of camera
-                else propLocation = 2; // to right of camera
-            }
             if (eventManager.eventOccurred(timer.time(), 0)) {
                 if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
                     propLocation = 0;
-                    drivetrainCore.forwardByEncoder(550);
+                    drivetrainCore.forwardByEncoder(500);
                 } else if (tensorFlowCore.getX() > (double) 640 /2) { // to left of camera
                     propLocation = 1;
                     drivetrainCore.forwardByEncoder(700);
@@ -56,11 +49,11 @@ public class RedCloseDetection extends LinearOpMode {
                     drivetrainCore.forwardByEncoder(400);
                 }
                 armCore.setTargetPosition(-2000);
-                tensorFlowCore.close();
+                tensorFlowCore.stopStreaming();
             } // find prop, move towards position based on prop, move arm to safe
             if (eventManager.eventOccurred(timer.time(), 1)) {
                 if (propLocation ==  0) {
-                    drivetrainCore.rotateByEncoder(360);
+                    drivetrainCore.rotateByEncoder(325);
                 } else if (propLocation == 2) {
                     drivetrainCore.rotateByEncoder(-180);
                 }
@@ -71,7 +64,7 @@ public class RedCloseDetection extends LinearOpMode {
                 clawCore.open();
             } // open claw
             if (eventManager.eventOccurred(timer.time(), 3)) {
-                armCore.setTargetPosition(-3100);
+                armCore.setTargetPosition(-3050);
             } // slightly move arm up
             if (eventManager.eventOccurred(timer.time(), 4)) {
                 clawCore.close();
@@ -79,24 +72,24 @@ public class RedCloseDetection extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 5)) {
                 if (propLocation == 0) {
-                    drivetrainCore.rotateByEncoder(-1010);
+                    drivetrainCore.rotateByEncoder(-925);
                 } else if (propLocation == 2) {
                     drivetrainCore.rotateByEncoder(-470);
                 }
-                armCore.setTargetPosition(-2000);
-            } // rotate back, move claw up
+                armCore.setTargetPosition(-2100);
+            } // rotate back, move arm up
             if (eventManager.eventOccurred(timer.time(), 6)) {
                 if (propLocation == 0) {
-                    drivetrainCore.strafeByEncoder(-150);
+                    drivetrainCore.strafeByEncoder(600);
                 } else if (propLocation == 1) {
-                    drivetrainCore.strafeByEncoder(-100);
+                    drivetrainCore.strafeByEncoder(100);
                 } else {
-                    drivetrainCore.strafeByEncoder(-50);
+                    drivetrainCore.strafeByEncoder(100);
                 }
             } // strafe based on prop
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
-                drivetrainCore.forwardByEncoder(1000);
+                drivetrainCore.forwardByEncoder(1100);
             } // move forward to backdrop
             if (eventManager.eventOccurred(timer.time(), 8)) {
                 clawCore.open();
@@ -108,15 +101,15 @@ public class RedCloseDetection extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 10)) {
                 if (propLocation == 0) {
-                    drivetrainCore.strafeByEncoder(-50);
+                    drivetrainCore.strafeByEncoder(300);
                 } else if (propLocation == 1) {
-                    drivetrainCore.strafeByEncoder(-100);
+                    drivetrainCore.strafeByEncoder(600);
                 } else {
-                    drivetrainCore.strafeByEncoder(-150);
+                    drivetrainCore.strafeByEncoder(900);
                 }
             } // strafe to left square based on prop
             if (eventManager.eventOccurred(timer.time(), 11)) {
-                drivetrainCore.forwardByEncoder(200);
+                drivetrainCore.forwardByEncoder(500);
             } // move forwards into park
 
             addTelemetry(telemetry);
@@ -135,7 +128,7 @@ public class RedCloseDetection extends LinearOpMode {
         eventManager.addEvent(3); // rotate based on prop, move arm to ground
 
         eventManager.addEvent(5); // open claw
-        eventManager.addEvent(5.3); // slightly move arm up
+        eventManager.addEvent(5.2); // slightly move arm up
         eventManager.addEvent(5.6); // close claw
 
         eventManager.addEvent(5.9); // rotate back, move claw up
