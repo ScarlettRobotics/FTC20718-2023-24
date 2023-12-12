@@ -25,4 +25,25 @@ public class IMUCore {
             )
         );
     }
+
+    /** Gets all IMU information, then stores it in class variables.
+     * Run this before running ".get___()". */
+    public void update(IMU imu) {
+        robotOrientation = imu.getRobotYawPitchRollAngles();
+    }
+
+    /** Returns current yaw of IMU. */
+    public double getYaw() {
+        return robotOrientation.getYaw(AngleUnit.DEGREES);
+    }
+
+    /** Returns current pitch of IMU. */
+    public double getPitch() {
+        return robotOrientation.getPitch(AngleUnit.DEGREES);
+    }
+
+    /** Returns current roll of IMU. */
+    public double getRoll() {
+        return robotOrientation.getRoll(AngleUnit.DEGREES);
+    }
 }
