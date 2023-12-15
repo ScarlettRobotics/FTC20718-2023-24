@@ -28,6 +28,7 @@ public class RedCloseDetection extends LinearOpMode {
     int propLocation; // 0-1-2 is left-middle-right
 
     @Override
+
     public void runOpMode() {
         initialize();
 
@@ -37,28 +38,9 @@ public class RedCloseDetection extends LinearOpMode {
         while (opModeIsActive()) {
             updateAuto();
 
-            if (eventManager.eventOccurred(timer.time(), 0)) {
-                if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
-                    propLocation = 0;
-                    drivetrainCore.forwardByEncoder(500);
-                } else if (tensorFlowCore.getX() > (double) 640 /2) { // to left of camera
-                    propLocation = 1;
-                    drivetrainCore.forwardByEncoder(700);
-                } else { // to right of camera
-                    propLocation = 2;
-                    drivetrainCore.forwardByEncoder(400);
-                }
-                armCore.setTargetPosition(-2000);
-                tensorFlowCore.stopStreaming();
-            } // end find prop, move towards position based on prop, move arm to safe
-            if (eventManager.eventOccurred(timer.time(), 1)) {
-                if (propLocation ==  0) {
-                    drivetrainCore.rotateByEncoder(325);
-                } else if (propLocation == 2) {
-                    drivetrainCore.rotateByEncoder(-180);
-                }
-                armCore.setTargetPosition(-3150);
-            } // end rotate based on prop, move arm to ground
+            moveInitialForward();
+            placePixel();
+
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
                 clawCore.open();
@@ -153,6 +135,45 @@ public class RedCloseDetection extends LinearOpMode {
         // Close claw to grip pixels
         clawCore.close();
     }
+
+    public void moveInitialForward() {
+        if (eventManager.eventOccurred(timer.time(), 0)) {
+            if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
+                propLocation = 0;
+                drivetrainCore.forwardByEncoder(800);
+            } else if (tensorFlowCore.getX() > (double) 640 /2) { // to left of camera
+                propLocation = 1;
+                drivetrainCore.forwardByEncoder(1400);
+                drivetrainCore.forwardByEncoder(-100);
+            } else { // to right of camera
+                propLocation = 2;
+                drivetrainCore.forwardByEncoder(800);
+            }
+            tensorFlowCore.stopStreaming();
+            System.out.println("IF");
+        } // end find prop, move towards position based on prop
+    } // end moveInitialForward
+
+    public void placePixel() {
+        if (eventManager.eventOccurred(timer.time(), 1)) {
+            if (propLocation ==  0) {
+                //drivetrainCore.rotateByEncoder(325);
+                drivetrainCore.strafeByEncoder(100);
+                drivetrainCore.forwardByEncoder(-50);
+                drivetrainCore.rotateByEncoder(-375);
+                drivetrainCore.forwardByEncoder(2000);
+            } else if (propLocation == 2) {
+                drivetrainCore.strafeByEncoder(-100);
+                drivetrainCore.forwardByEncoder(-35);
+                drivetrainCore.rotateByEncoder(-180);
+                drivetrainCore.forwardByEncoder(2000);
+            }
+            System.out.println("placeP");
+            //armCore.setTargetPosition(-3150);
+        } // end rotate based on prop, move arm to ground
+    } // end placePixel()
+
+
 
     private void updateAuto() {
         drivetrainCore.updateAuto();
