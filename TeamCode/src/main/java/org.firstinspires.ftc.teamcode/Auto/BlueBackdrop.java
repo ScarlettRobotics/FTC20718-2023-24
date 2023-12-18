@@ -34,7 +34,7 @@ public class BlueBackdrop extends LinearOpMode {
             updateAuto();
 
             if (eventManager.eventOccurred(timer.time(), 0)) {
-                drivetrainCore.forwardByEncoder(1000);
+                drivetrainCore.forwardByEncoder(1200);
             } // forward 1 square
 
             if (eventManager.eventOccurred(timer.time(), 1)) {
@@ -43,7 +43,7 @@ public class BlueBackdrop extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
                 drivetrainCore.forwardByEncoder(1150);
-                armCore.setTargetPosition(-1700);
+                armCore.setTargetPosition(-2070);
             } // move arm to place position, move to backdrop
 
             if (eventManager.eventOccurred(timer.time(), 3)) {
@@ -64,7 +64,7 @@ public class BlueBackdrop extends LinearOpMode {
             } // move arm to rest position, move left one
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
-                drivetrainCore.forwardByEncoder(300);
+                drivetrainCore.forwardByEncoder(500);
             } // move forward into parking
 
             addTelemetry(telemetry);

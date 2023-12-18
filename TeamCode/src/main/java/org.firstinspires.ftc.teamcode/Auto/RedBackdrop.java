@@ -42,8 +42,8 @@ public class RedBackdrop extends LinearOpMode {
             } // rotate 90 deg right
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
-                drivetrainCore.forwardByEncoder(1150);
-                armCore.setTargetPosition(-1700);
+                drivetrainCore.forwardByEncoder(1350);
+                armCore.setTargetPosition(-2000);
             } // move arm to place position, move to backdrop
 
             if (eventManager.eventOccurred(timer.time(), 3)) {
@@ -55,7 +55,7 @@ public class RedBackdrop extends LinearOpMode {
             } // move back to allow both pixels to drop staggered
 
             if (eventManager.eventOccurred(timer.time(), 5)) {
-                drivetrainCore.forwardByEncoder(-100);
+                drivetrainCore.forwardByEncoder(-150);
             } // move back more to not collide with backdrop
 
             if (eventManager.eventOccurred(timer.time(), 6)) {
