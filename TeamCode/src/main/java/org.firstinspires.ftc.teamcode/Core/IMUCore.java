@@ -4,14 +4,16 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 /** Class to manage the internal IMU (gyroscope) of the control hub.
- * Can return pitch, yaw, and roll.
+ * Can return pitch, yaw, roll, and angular velocities.
  * Used https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html */
 public class IMUCore {
-    IMU.Parameters IMUparameters;
-    YawPitchRollAngles robotOrientation;
+    private IMU.Parameters IMUparameters;
+    private YawPitchRollAngles robotOrientation;
+    private AngularVelocity robotAngularVelocity;
 
     public IMUCore(IMU imu) {
         // Init IMU
@@ -24,12 +26,28 @@ public class IMUCore {
                     )
             )
         );
+        robotOrientation = imu.getRobotYawPitchRollAngles();
+        robotAngularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
     }
 
     /** Gets all IMU information, then stores it in class variables.
      * Run this before running ".get___()". */
     public void update(IMU imu) {
         robotOrientation = imu.getRobotYawPitchRollAngles();
+        robotAngularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
+    }
+
+    /** Resets IMU yaw. */
+    public void resetYaw(IMU imu) {
+        imu.resetYaw();
+    }
+
+    /** Returns all axes orientations in a double array order {yaw, pitch, roll}. */
+    public double[] getAxes() {
+        double[] out = {robotOrientation.getYaw(AngleUnit.DEGREES),
+                robotOrientation.getPitch(AngleUnit.DEGREES),
+                robotOrientation.getRoll(AngleUnit.DEGREES)};
+        return out;
     }
 
     /** Returns current yaw of IMU. */
@@ -45,5 +63,28 @@ public class IMUCore {
     /** Returns current roll of IMU. */
     public double getRoll() {
         return robotOrientation.getRoll(AngleUnit.DEGREES);
+    }
+
+    /** Returns all angular velocities in a double array ordered {X, Y, Z}. */
+    public double[] getAngularVelocities() {
+        double[] out = {robotAngularVelocity.xRotationRate,
+                robotAngularVelocity.yRotationRate,
+                robotAngularVelocity.zRotationRate};
+        return out;
+    }
+
+    /** Returns current X angular velocity. */
+    public double getAngularVelocityX() {
+        return robotAngularVelocity.xRotationRate;
+    }
+
+    /** Returns current Y angular velocity. */
+    public double getAngularVelocityY() {
+        return robotAngularVelocity.yRotationRate;
+    }
+
+    /** Returns current Z angular velocity. */
+    public double getAngularVelocityZ() {
+        return robotAngularVelocity.xRotationRate;
     }
 }
