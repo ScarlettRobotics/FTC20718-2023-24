@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -86,5 +87,15 @@ public class IMUCore {
     /** Returns current Z angular velocity. */
     public double getAngularVelocityZ() {
         return robotAngularVelocity.xRotationRate;
+    }
+
+    protected void telemetry(Telemetry telemetry) {
+        double[] outAxes = getAxes();
+        telemetry.addData("Yaw", outAxes[0]);
+        telemetry.addData("Pitch", outAxes[1]);
+        telemetry.addData("Roll", outAxes[2]);
+        double[] outAngularVelocities = getAngularVelocities();
+        telemetry.addData("Angular Velocities", "%.2f %.2f %.2f",
+                outAngularVelocities[0], outAngularVelocities[1], outAngularVelocities[2]);
     }
 }
