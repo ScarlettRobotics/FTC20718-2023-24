@@ -38,17 +38,11 @@ public class IMUCore {
         robotAngularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
     }
 
-    /** Resets IMU yaw. */
+    /** Resets IMU yaw to 0. Use to prevent gyro drift. */
     public void resetYaw() {
         imu.resetYaw();
     }
 
-    /** Returns all axes orientations in a double array order {yaw, pitch, roll}. */
-    public double[] getAxes() {
-        return new double[]{robotOrientation.getYaw(AngleUnit.DEGREES),
-                robotOrientation.getPitch(AngleUnit.DEGREES),
-                robotOrientation.getRoll(AngleUnit.DEGREES)};
-    }
 
     /** Returns current yaw of IMU. */
     public double getYaw() {
@@ -63,13 +57,6 @@ public class IMUCore {
     /** Returns current roll of IMU. */
     public double getRoll() {
         return robotOrientation.getRoll(AngleUnit.DEGREES);
-    }
-
-    /** Returns all angular velocities in a double array ordered {X, Y, Z}. */
-    public double[] getAngularVelocities() {
-        return new double[]{robotAngularVelocity.xRotationRate,
-                robotAngularVelocity.yRotationRate,
-                robotAngularVelocity.zRotationRate};
     }
 
     /** Returns current X angular velocity. */
@@ -89,13 +76,13 @@ public class IMUCore {
 
     protected void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "IMUCore.java");
-        double[] outAxes = getAxes();
-        telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", outAxes[0]);
-        telemetry.addData("Pitch (X)", "%.2f Deg.", outAxes[1]);
-        telemetry.addData("Roll (Y)", "%.2f Deg.\n", outAxes[2]);
-        double[] outAngularVelocities = getAngularVelocities();
-        telemetry.addData("Yaw (Z) velocity", "%.2f Deg/Sec", outAngularVelocities[0]);
-        telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", outAngularVelocities[1]);
-        telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", outAngularVelocities[2]);
+
+        telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", getYaw());
+        telemetry.addData("Pitch (X)", "%.2f Deg.", getPitch());
+        telemetry.addData("Roll (Y)", "%.2f Deg.\n", getRoll());
+
+        telemetry.addData("Yaw (Z) velocity", "%.2f Deg/Sec", getAngularVelocityZ());
+        telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", getAngularVelocityX());
+        telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", getAngularVelocityY());
     }
 }
