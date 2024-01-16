@@ -90,12 +90,14 @@ public class IMUCore {
     }
 
     protected void telemetry(Telemetry telemetry) {
+        telemetry.addData("CURRENT CLASS", "IMUCore.java");
         double[] outAxes = getAxes();
-        telemetry.addData("Yaw", outAxes[0]);
-        telemetry.addData("Pitch", outAxes[1]);
-        telemetry.addData("Roll", outAxes[2]);
+        telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", outAxes[0]);
+        telemetry.addData("Pitch (X)", "%.2f Deg.", outAxes[1]);
+        telemetry.addData("Roll (Y)", "%.2f Deg.\n", outAxes[2]);
         double[] outAngularVelocities = getAngularVelocities();
-        telemetry.addData("Angular Velocities", "%.2f %.2f %.2f",
-                outAngularVelocities[0], outAngularVelocities[1], outAngularVelocities[2]);
+        telemetry.addData("Yaw (Z) velocity", "%.2f Deg/Sec", outAngularVelocities[0]);
+        telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", outAngularVelocities[1]);
+        telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", outAngularVelocities[2]);
     }
 }
