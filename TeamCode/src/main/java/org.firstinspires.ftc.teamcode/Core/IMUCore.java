@@ -45,10 +45,9 @@ public class IMUCore {
 
     /** Returns all axes orientations in a double array order {yaw, pitch, roll}. */
     public double[] getAxes() {
-        double[] out = {robotOrientation.getYaw(AngleUnit.DEGREES),
+        return new double[]{robotOrientation.getYaw(AngleUnit.DEGREES),
                 robotOrientation.getPitch(AngleUnit.DEGREES),
                 robotOrientation.getRoll(AngleUnit.DEGREES)};
-        return out;
     }
 
     /** Returns current yaw of IMU. */
@@ -68,10 +67,9 @@ public class IMUCore {
 
     /** Returns all angular velocities in a double array ordered {X, Y, Z}. */
     public double[] getAngularVelocities() {
-        double[] out = {robotAngularVelocity.xRotationRate,
+        return new double[]{robotAngularVelocity.xRotationRate,
                 robotAngularVelocity.yRotationRate,
                 robotAngularVelocity.zRotationRate};
-        return out;
     }
 
     /** Returns current X angular velocity. */
