@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /** Intended to be inherited from driver portion OpModes.
@@ -11,6 +12,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * If you'd like to use FTC Dashboard, please refer to https://acmerobotics.github.io/ftc-dashboard/,
  *  then "Getting Started." */
 public abstract class SystemsManager extends OpMode {
+    // Orientation classes
+    IMU imu;
+    IMUCore imuCore;
     // Core classes
     DrivetrainCore drivetrainCore;
     ArmCore armCore;
@@ -29,6 +33,7 @@ public abstract class SystemsManager extends OpMode {
         armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
         droneLauncherCore = new DroneLauncherCore(hardwareMap);
+        imuCore = new IMUCore(imu);
         // Make preloading work by closing claw
         clawCore.close();
         // Initialize FTC Dashboard variables
@@ -37,6 +42,12 @@ public abstract class SystemsManager extends OpMode {
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "22531");
+    }
+
+    /** Updates IMU data
+     * VERY IMPORTANT, as everything else will break if updateIMU() is not ran */
+    protected void updateIMU() {
+        imuCore.update(imu);
     }
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
@@ -172,11 +183,13 @@ public abstract class SystemsManager extends OpMode {
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
         droneLauncherCore.telemetry(telemetry);
+        imuCore.telemetry(telemetry);
         // Telemetry sent to FTC Dashboard
         drivetrainCore.telemetry(dashboardTelemetry);
         armCore.telemetry(dashboardTelemetry);
         clawCore.telemetry(dashboardTelemetry);
         droneLauncherCore.telemetry(dashboardTelemetry);
+        imuCore.telemetry(dashboardTelemetry);
         dashboardTelemetry.update();
     }
 }
