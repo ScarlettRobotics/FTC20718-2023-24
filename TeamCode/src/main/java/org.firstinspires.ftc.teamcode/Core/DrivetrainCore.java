@@ -5,7 +5,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
 
-/*** Manages the drivetrain of the robot.
+/** Manages the drivetrain of the robot.
  * This drivetrain uses an X-drive for the robot, using an ArrayList to init DcMotors.
  * Requires an expansion hub, as all motors will be taken on the control hub. */
 public class DrivetrainCore {

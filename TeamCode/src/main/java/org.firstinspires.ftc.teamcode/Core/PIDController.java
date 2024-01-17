@@ -49,6 +49,21 @@ public class PIDController {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    /** Returns the difference between the current targetPosition and previous targetPosition. */
+    protected int getDeltaTargetPosition() {
+        return targetPosition - pTargetPosition;
+    }
+
+    /** Returns the current power of the DcMotor. */
+    public double getPower() {
+        return motor.getPower();
+    }
+
+    /** Returns the encoder value of the DcMotor. */
+    public int getEncoder() {
+        return motor.getCurrentPosition();
+    }
+
     /** Sets a new target position for the PIDController to move towards. */
     protected void setTargetPosition(int targetPosition) {
         pTargetPosition = this.targetPosition;
@@ -112,21 +127,6 @@ public class PIDController {
 
         // reset timer for next instance
         timer.reset();
-    }
-
-    /** Returns the difference between the current targetPosition and previous targetPosition. */
-    protected int getDeltaTargetPosition() {
-        return targetPosition - pTargetPosition;
-    }
-
-    /** Returns the current power of the DcMotor. */
-    public double getPower() {
-        return motor.getPower();
-    }
-
-    /** Returns the encoder value of the DcMotor. */
-    public int getEncoder() {
-        return motor.getCurrentPosition();
     }
 
     /** Telemetry */
