@@ -13,11 +13,11 @@ public class DrivetrainCore {
     // Drive motors in ArrayList[0-3]
     // Starts at front right, then goes counter-clockwise from top view.
     // This is done to fit the same style as a unit circle.
-    private ArrayList<PIDController> driveMotors;
+    private final ArrayList<PIDController> driveMotors;
 
     // Map motor variables to driver hub
     public DrivetrainCore(HardwareMap hardwareMap) {
-        driveMotors = new ArrayList<PIDController>();
+        driveMotors = new ArrayList<>();
         // hardwareMap
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,

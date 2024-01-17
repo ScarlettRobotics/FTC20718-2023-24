@@ -12,17 +12,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *  then "Getting Started." */
 public abstract class SystemsManager extends OpMode {
     // Orientation classes
-    IMUCore imuCore;
+    protected IMUCore imuCore;
     // Core classes
-    DrivetrainCore drivetrainCore;
-    ArmCore armCore;
-    ClawCore clawCore;
-    DroneLauncherCore droneLauncherCore;
+    protected DrivetrainCore drivetrainCore;
+    protected ArmCore armCore;
+    protected ClawCore clawCore;
+    protected DroneLauncherCore droneLauncherCore;
     // FTC Dashboard telemetry variables
-    FtcDashboard dashboard;
-    Telemetry dashboardTelemetry;
+    protected FtcDashboard dashboard;
+    protected Telemetry dashboardTelemetry;
     // Variables used in methods
-    double[] translateArr, rotateArr, powers;
+    protected double[] translateArr, rotateArr, powers;
 
     @Override
     public void init() {
@@ -50,7 +50,7 @@ public abstract class SystemsManager extends OpMode {
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
     private double noDrift(double stick, double drift) {
-        if (stick < drift && stick > 0-drift) {
+        if (stick < drift && stick > -drift) {
             return 0;
         }
         return stick;

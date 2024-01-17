@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Concepts;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Core.ClawCore;
 import org.firstinspires.ftc.teamcode.Core.DroneLauncherCore;
 
 /** DroneEncoderFinder
@@ -12,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Core.DroneLauncherCore;
 @TeleOp(name = "DroneEncoderFinder", group = "concepts-encoder")
 public class DroneEncoderFinder extends OpMode {
     public DroneLauncherCore droneLauncherCore;
-    double left, right;
 
     @Override
     public void init() {

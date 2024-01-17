@@ -104,7 +104,7 @@ public class PIDController {
                 Kd * derivative;
 
         // set power of motor based on powerCap
-        if (power < 0-powerCap) motor.setPower(0-powerCap); // more powerful than -powerCap
+        if (power < -powerCap) motor.setPower(-powerCap); // more powerful than -powerCap
         else if (power > powerCap) motor.setPower(powerCap); // more powerful than +powerCap
         else motor.setPower(power); // moving normally
 

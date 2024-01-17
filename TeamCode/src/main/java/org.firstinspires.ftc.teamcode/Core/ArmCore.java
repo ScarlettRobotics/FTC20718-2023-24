@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Methods that don't work: getTargetPosition(), goToEncoder(), moveByEncoder()
  * */
 public class ArmCore {
-    private PIDController armMotor;
+    private final PIDController armMotor;
 
     public ArmCore(HardwareMap hardwareMap) {
         armMotor = new PIDController(hardwareMap, "armMotor",

@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawCore {
     /* Initialization */
     /** Initialization is done within ClawCore for ease of access. */
-    protected Servo leftClaw;
-    protected Servo rightClaw;
+    private final Servo leftClaw;
+    private final Servo rightClaw;
 
     // Maps Servo motor variables to driver hub
     public ClawCore (HardwareMap hardwareMap) {

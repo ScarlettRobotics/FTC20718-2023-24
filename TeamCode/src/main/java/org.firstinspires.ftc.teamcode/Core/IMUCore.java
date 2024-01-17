@@ -12,8 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  * Can return pitch, yaw, roll, and angular velocities.
  * Used https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html */
 public class IMUCore {
-    private IMU imu;
-    private IMU.Parameters IMUparameters;
+    private final IMU imu;
     private YawPitchRollAngles robotOrientation;
     private AngularVelocity robotAngularVelocity;
 
