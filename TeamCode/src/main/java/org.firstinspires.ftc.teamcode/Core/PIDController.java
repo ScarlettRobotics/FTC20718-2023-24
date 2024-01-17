@@ -12,16 +12,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * See https://www.ctrlaltftc.com/the-pid-controller for info.
  * Use overridePower() if you want to set raw powers to motors. */
 public class PIDController {
-    private DcMotor motor;
-    private String motorName;
+    private final DcMotor motor;
+    private final String motorName;
     // PID vars
-    private double Kp, Ki, Kd;
+    private final double Kp;
+    private final double Ki;
+    private final double Kd;
     private final double integralSumMax;
     private int targetPosition, pTargetPosition;
-    private int currentPosition;
-    private int error, pError;
-    private double derivative, integralSum;
-    private double powerCap;
+    // currentPosition could be here but only is used in update()
+    private int pError; // error could be here but only is used in update()
+    private double integralSum; // derivative could be here but only is used in update()
+    private final double powerCap;
     // Measures time passed in millis
     ElapsedTime timer;
 
@@ -79,13 +81,13 @@ public class PIDController {
     /** Moves the controller towards goalPosition encoder location.
      * If the PIDController has already reached goalPosition, no code is executed. */
     protected void update(int currentPosition) {
-        this.currentPosition = currentPosition;
         // Exit if already at goalPosition
         if (targetPosition == currentPosition) {
             return;
         }
         // Distance between goal and current
-        error = targetPosition - currentPosition;
+        // currentPosition could be here but only is used in update()
+        int error = targetPosition - currentPosition;
 
         // sum of all errors over time
         // timer.seconds() is time passed since last run
@@ -95,16 +97,16 @@ public class PIDController {
 
         // rate of change of error
         // timer.seconds() is time passed since last run
-        derivative = (error - pError) / timer.seconds();
+        double derivative = (error - pError) / timer.seconds();
 
         double power = Kp * error +
                 Ki * integralSum +
                 Kd * derivative;
 
         // set power of motor based on powerCap
-        if (power < 0-powerCap) motor.setPower(0-powerCap);
-        else if (power > powerCap) motor.setPower(powerCap);
-        else motor.setPower(power);
+        if (power < 0-powerCap) motor.setPower(0-powerCap); // more powerful than -powerCap
+        else if (power > powerCap) motor.setPower(powerCap); // more powerful than +powerCap
+        else motor.setPower(power); // moving normally
 
         pError = error;
 
