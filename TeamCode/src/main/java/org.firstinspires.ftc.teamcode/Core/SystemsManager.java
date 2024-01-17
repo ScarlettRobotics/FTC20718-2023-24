@@ -65,16 +65,10 @@ public abstract class SystemsManager extends OpMode {
         double forward, strafe, rotate;
         switch (controllerNum) {
             case 1:
-                if (gamepad1.x) {
-                    forward = 0.5;
+                if (gamepad1.x || gamepad1.y) { // Move forward or backward at set rate
                     strafe = 0;
                     rotate = 0;
-                    break;
-                }
-                if (gamepad1.y) {
-                    forward = -0.5;
-                    strafe = 0;
-                    rotate = 0;
+                    forward = (gamepad1.y) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
                     break;
                 }
                 forward = noDrift(gamepad1.left_stick_y, 0.05);
@@ -82,16 +76,10 @@ public abstract class SystemsManager extends OpMode {
                 rotate = noDrift(gamepad1.right_stick_x, 0.05);
                 break;
             case 2:
-                if (gamepad2.x) {
-                    forward = 0.5;
+                if (gamepad2.x || gamepad2.y) { // Move forward (X) or backward (Y) at set rate
                     strafe = 0;
                     rotate = 0;
-                    break;
-                }
-                if (gamepad2.y) {
-                    forward = -0.5;
-                    strafe = 0;
-                    rotate = 0;
+                    forward = (gamepad2.y) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
                     break;
                 }
                 forward = noDrift(gamepad2.left_stick_y, 0.05);
