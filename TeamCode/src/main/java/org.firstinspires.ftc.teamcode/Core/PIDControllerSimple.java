@@ -80,7 +80,7 @@ public class PIDControllerSimple {
 
     /** Changes power to move towards targetPosition.
      * If the PIDController has already reached targetPosition, no code is executed. */
-    protected void update(int currentPosition) {
+    protected void update(double currentPosition) {
         this.currentPosition = currentPosition;
         // Exit if already at goalPosition
         if (targetPosition == currentPosition) {

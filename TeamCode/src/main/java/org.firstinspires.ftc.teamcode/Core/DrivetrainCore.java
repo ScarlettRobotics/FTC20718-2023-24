@@ -14,6 +14,8 @@ public class DrivetrainCore {
     // Starts at front right, then goes counter-clockwise from top view.
     // This is done to fit the same style as a unit circle.
     private final ArrayList<PIDController> driveMotors;
+    // Used in driver period to center robot
+    private PIDControllerSimple alignerPID;
 
     // Map motor variables to driver hub
     public DrivetrainCore(HardwareMap hardwareMap) {
@@ -26,6 +28,18 @@ public class DrivetrainCore {
 
         // direction
         // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
+        /* direction code here */
+        // alignerPID init
+        alignerPID = new PIDControllerSimple("alignerPID", 0.05, 0, 0, 0.1);
+    }
+
+    public double getAlignerPIDPower() {
+        return alignerPID.getPower();
+    }
+
+    /** Input an angle for alignerPID to align itself with */
+    protected void setAlignerPIDTargetPosition(double targetPosition) {
+        alignerPID.setTargetPosition(targetPosition);
     }
 
     /** Sets a new target position based on the current position, moving by the input.
@@ -73,7 +87,11 @@ public class DrivetrainCore {
         }
     }
 
-    /* FUNCTIONS */
+    /** Updates alignerPID to move towards the desired central position. */
+    protected void updateAlignerPID(double currentYaw) {
+        alignerPID.update(currentYaw);
+    }
+
     /** Receives four double[] values from -1 to 1 to set appropriate motor powers.
      * Will error if array length is less than 4. */
     protected void setPowers(double[] powers) {
@@ -128,9 +146,9 @@ public class DrivetrainCore {
     /** Telemetry */
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("\nCURRENT CLASS", "DrivetrainCore.java");
-        telemetry.addData("Format", "power direction runMode");
         for (PIDController i : driveMotors) {
             i.telemetry(telemetry);
         }
+        alignerPID.telemetry(telemetry);
     }
 }
