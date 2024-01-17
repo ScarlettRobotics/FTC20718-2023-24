@@ -5,12 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
+import org.firstinspires.ftc.teamcode.Core.IMUCore;
 
 /** Moves the arm to preset locations.
  * Use FTC dashboard to see how PID variables need to be tweaked. */
 @TeleOp(name = "DrivetrainPIDTest", group = "concepts-pid")
 public class DrivetrainPIDTest extends OpMode {
     DrivetrainCore drivetrainCore;
+    IMUCore imuCore;
     FtcDashboard dashboard;
     Telemetry dashboardTelemetry;
     boolean pDpadUp, pDpadDown, pDpadLeft, pDpadRight;
@@ -20,6 +22,7 @@ public class DrivetrainPIDTest extends OpMode {
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "22531");
+        imuCore = new IMUCore(hardwareMap);
         // Initialize FTC Dashboard variables
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
@@ -35,6 +38,9 @@ public class DrivetrainPIDTest extends OpMode {
         // Telemetry
         drivetrainCore.telemetry(telemetry);
         drivetrainCore.telemetry(dashboardTelemetry);
+        imuCore.update();
+        imuCore.telemetry(telemetry);
+        imuCore.telemetry(dashboardTelemetry);
         dashboardTelemetry.update();
         // update prev vars
         pDpadUp = gamepad1.dpad_up;

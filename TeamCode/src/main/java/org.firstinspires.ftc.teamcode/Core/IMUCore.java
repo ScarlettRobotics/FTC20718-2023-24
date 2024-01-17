@@ -73,7 +73,7 @@ public class IMUCore {
         return robotAngularVelocity.xRotationRate;
     }
 
-    protected void telemetry(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "IMUCore.java");
 
         telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", getYaw());
