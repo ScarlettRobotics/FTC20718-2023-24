@@ -28,6 +28,7 @@ public class IMUCore {
                     )
             )
         );
+        resetYaw();
     }
 
     /** Gets all IMU information, then stores it in class variables.
