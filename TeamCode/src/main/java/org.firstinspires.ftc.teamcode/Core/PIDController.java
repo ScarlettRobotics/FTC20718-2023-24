@@ -48,9 +48,9 @@ public class PIDController {
     }
 
     /** Sets a new target position for the PIDController to move towards. */
-    protected void setTargetPosition(int encoder) {
-        pTargetPosition = targetPosition;
-        targetPosition = encoder;
+    protected void setTargetPosition(int targetPosition) {
+        pTargetPosition = this.targetPosition;
+        this.targetPosition = targetPosition;
         // Reset PID variables
         pError = 0;
         integralSum = 0;
@@ -65,15 +65,21 @@ public class PIDController {
         integralSum = 0;
     }
 
-    /** Returns targetPosition */
-    protected int getDeltaTargetPosition() {
-        return targetPosition - pTargetPosition;
+    /** Changes the motor direction of the DcMotor. */
+    public void setDirection(DcMotorSimple.Direction direction) {
+        motor.setDirection(direction);
+    }
+
+    /** Overrides the set power from update() to the inputted power.
+     * Run this code after update(), or overridePower() will do nothing. */
+    protected void overridePower(double power) {
+        motor.setPower(power);
     }
 
     /** Moves the controller towards goalPosition encoder location.
      * If the PIDController has already reached goalPosition, no code is executed. */
-    protected void update() {
-        currentPosition = motor.getCurrentPosition();
+    protected void update(int currentPosition) {
+        this.currentPosition = currentPosition;
         // Exit if already at goalPosition
         if (targetPosition == currentPosition) {
             return;
@@ -106,18 +112,19 @@ public class PIDController {
         timer.reset();
     }
 
+    /** Returns the difference between the current targetPosition and previous targetPosition. */
+    protected int getDeltaTargetPosition() {
+        return targetPosition - pTargetPosition;
+    }
+
+    /** Returns the current power of the DcMotor. */
     public double getPower() {
         return motor.getPower();
     }
 
-    public void setDirection(DcMotorSimple.Direction direction) {
-        motor.setDirection(direction);
-    }
-
-    /** Overrides the set power from update() to the inputted power.
-     * Run this code after update(), or overridePower() will do nothing. */
-    protected void overridePower(double power) {
-        motor.setPower(power);
+    /** Returns the encoder value of the DcMotor. */
+    public int getEncoder() {
+        return motor.getCurrentPosition();
     }
 
     /** Telemetry */
