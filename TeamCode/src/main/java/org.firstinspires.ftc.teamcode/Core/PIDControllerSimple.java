@@ -44,17 +44,24 @@ public class PIDControllerSimple {
     }
 
     /** Returns the difference between the current targetPosition and previous targetPosition. */
-    protected double getDeltaTargetPosition() {
+    public double getDeltaTargetPosition() {
         return targetPosition - pTargetPosition;
     }
 
-    /** Returns the outputted power. */
     public double getPower() {
         return power;
     }
 
+    public double getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public double getTargetPosition() {
+        return targetPosition;
+    }
+
     /** Sets a new target position for the PIDController to move towards. */
-    protected void setTargetPosition(int targetPosition) {
+    protected void setTargetPosition(double targetPosition) {
         pTargetPosition = this.targetPosition;
         this.targetPosition = targetPosition;
         // Reset PID variables
@@ -62,8 +69,8 @@ public class PIDControllerSimple {
         integralSum = 0;
     }
 
-    /** Sets a new target position based on the current position, moving by the input. */
-    protected void moveByEncoder(int encoder) {
+    /** Reassigns targetPosition based on pTargetPosition, treating pTargetPosition as the starting point. */
+    protected void moveByEncoder(double encoder) {
         pTargetPosition = targetPosition;
         targetPosition += encoder;
         // Reset PID variables
@@ -71,8 +78,8 @@ public class PIDControllerSimple {
         integralSum = 0;
     }
 
-    /** Moves the controller towards goalPosition encoder location.
-     * If the PIDController has already reached goalPosition, no code is executed. */
+    /** Changes power to move towards targetPosition.
+     * If the PIDController has already reached targetPosition, no code is executed. */
     protected void update(int currentPosition) {
         this.currentPosition = currentPosition;
         // Exit if already at goalPosition
@@ -109,8 +116,8 @@ public class PIDControllerSimple {
 
     /** Telemetry */
     protected void telemetry(Telemetry telemetry) {
-        telemetry.addData(name + " targetPosition", targetPosition);
-        telemetry.addData(name + " currentPosition", currentPosition);
-        telemetry.addData(name + " power", power);
+        telemetry.addData(name + " targetPosition", getTargetPosition());
+        telemetry.addData(name + " currentPosition", getCurrentPosition());
+        telemetry.addData(name + " power", getPower());
     }
 }

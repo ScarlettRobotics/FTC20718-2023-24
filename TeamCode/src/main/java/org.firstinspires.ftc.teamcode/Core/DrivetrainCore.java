@@ -55,11 +55,6 @@ public class DrivetrainCore {
         driveMotors.get(3).moveByEncoder(-encoder);
     }
 
-    /** Returns left targetPosition */
-    protected int getTargetPositionLeft(int index) {
-        return driveMotors.get(index).getDeltaTargetPosition();
-    }
-
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
         // Done because not every motor has an encoder linked up
