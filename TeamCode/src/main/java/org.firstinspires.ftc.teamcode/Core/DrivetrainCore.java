@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -13,14 +14,14 @@ public class DrivetrainCore {
     // Drive motors in ArrayList[0-3]
     // Starts at front right, then goes counter-clockwise from top view.
     // This is done to fit the same style as a unit circle.
-    private ArrayList<PIDMotor> driveMotors;
+    private ArrayList<PIDController> driveMotors;
 
     // Map motor variables to driver hub
     public DrivetrainCore(HardwareMap hardwareMap) {
-        driveMotors = new ArrayList<PIDMotor>();
+        driveMotors = new ArrayList<PIDController>();
         // hardwareMap
         for (int i=0; i<4; i++) {
-            driveMotors.add(new PIDMotor(hardwareMap, "driveMotor"+i,
+            driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
                     0.01, 0.0001, 0.0002, 0.3));
         }
 
@@ -132,7 +133,7 @@ public class DrivetrainCore {
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("\nCURRENT CLASS", "DrivetrainCore.java");
         telemetry.addData("Format", "power direction runMode");
-        for (PIDMotor i : driveMotors) {
+        for (PIDController i : driveMotors) {
             i.telemetry(telemetry);
         }
     }

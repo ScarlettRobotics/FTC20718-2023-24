@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /** PIDController
- * Class used to manage an instance of control theory. Input and output must be specified.
- * If you are using this class, ensure the used part always starts in the same position for consistency.
- * See https://www.ctrlaltftc.com/the-pid-controller for info. */
+ * Class used when you want to move a DcMotor to a specific encoder value. Uses control theory to achieve this.
+ * If you are using this class, ensure the motor always starts in the same position for consistency.
+ * See https://www.ctrlaltftc.com/the-pid-controller for info.
+ * Use overridePower() if you want to set raw powers to motors. */
 public class PIDController {
     private DcMotor motor;
     private String motorName;
