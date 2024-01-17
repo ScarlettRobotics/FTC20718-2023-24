@@ -6,11 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-/** PIDController
- * Class used to manage an instance of control theory. Input and output must be specified.
- * If you are using this class, ensure the used part always starts in the same position for consistency.
- * See https://www.ctrlaltftc.com/the-pid-controller for info. */
-public class PIDController {
+/** PIDMotor
+ * Class using PIDController to move a DcMotor to a specific encoder value. Uses control theory to achieve this.
+ * If you are using this class, ensure the motor always starts in the same position for consistency.
+ * See class PIDController for info.
+ * Use overridePower() if you want to set raw powers to motors. */
+public class PIDMotor {
     private DcMotor motor;
     private String motorName;
     // PID vars
@@ -29,7 +30,7 @@ public class PIDController {
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
      * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
+    PIDMotor(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
         this.motorName = motorName;
         // Initialize PID variables
         timer = new ElapsedTime();
