@@ -21,6 +21,8 @@ public abstract class SystemsManager extends OpMode {
     // FTC Dashboard telemetry variables
     protected FtcDashboard dashboard;
     protected Telemetry dashboardTelemetry;
+    // updateDrivetrain() variables
+    private boolean pRotating;
 
     @Override
     public void init() {
@@ -35,6 +37,8 @@ public abstract class SystemsManager extends OpMode {
         // Initialize FTC Dashboard variables
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
+        // Initialize updateDrivetrain() variables
+        pRotating = false;
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "22531");
@@ -61,12 +65,14 @@ public abstract class SystemsManager extends OpMode {
     protected void updateDrivetrain(int controllerNum) {
         // Inputs received from controller
         double forward, strafe, rotate;
+        boolean setMoving = false;
         switch (controllerNum) {
             case 1:
                 if (gamepad1.x || gamepad1.y) { // Move forward or backward at set rate
                     strafe = 0;
                     rotate = 0;
                     forward = (gamepad1.y) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
+                    setMoving = true;
                     break;
                 }
                 forward = noDrift(gamepad1.left_stick_y, 0.05);
@@ -78,6 +84,7 @@ public abstract class SystemsManager extends OpMode {
                     strafe = 0;
                     rotate = 0;
                     forward = (gamepad2.y) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
+                    setMoving = true;
                     break;
                 }
                 forward = noDrift(gamepad2.left_stick_y, 0.05);
@@ -90,14 +97,29 @@ public abstract class SystemsManager extends OpMode {
                 rotate = 0;
         }
         // Processing inputs
-        drivetrainCore.updateAlignerPID(imuCore.getYaw());
-        double[] translateArr = drivetrainCore.translate(forward, strafe);
-        double[] rotateArr = drivetrainCore.rotate(rotate);
-        double[] powers = new double[4];
-        for (int i=0; i<4; i++) {
-            powers[i] = translateArr[i] + rotateArr[i] - drivetrainCore.getAlignerPIDPower();
+        drivetrainCore.updateAlignerPID(imuCore.getYaw());                 // see function
+        double[] translateArr = drivetrainCore.translate(forward, strafe); // left joystick
+        double[] rotateArr = drivetrainCore.rotate(rotate);                // right joystick
+        double[] powers = new double[4];                                   // final power
+        if (rotateArr[0] != 0) { // Driver is rotating robot; alignerPID doesn't influence final power
+            for (int i = 0; i < 4; i++) {
+                powers[i] = translateArr[i] + rotateArr[i];
+            }
+        } else if (setMoving) { // Using X/Y button; alignerPID doesn't influence
+            for (int i = 0; i < 4; i++) {
+                powers[i] = translateArr[i] + rotateArr[i];
+            }
+        } else { // Driver isn't rotating robot; alignerPID influences final power
+            if (pRotating) { // If rotating just stopped, alignerPID needs to be reset to snap to the current position
+                imuCore.resetYaw();
+            }
+            for (int i = 0; i < 4; i++) {
+                powers[i] = translateArr[i] + rotateArr[i] - drivetrainCore.getAlignerPIDPower();
+            }
         }
         drivetrainCore.setPowers(powers);
+        // set prev vars
+        pRotating = rotateArr[0] != 0;
     }
 
     /** Updates arm movement.
