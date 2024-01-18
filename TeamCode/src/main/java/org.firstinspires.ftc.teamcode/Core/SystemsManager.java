@@ -112,6 +112,7 @@ public abstract class SystemsManager extends OpMode {
                 forward = 0;
                 strafe = 0;
                 rotate = 0;
+                setMoving = false;
         }
         // Processing inputs
         drivetrainCore.updateAlignerPID(imuCore.getYaw());                 // see function
