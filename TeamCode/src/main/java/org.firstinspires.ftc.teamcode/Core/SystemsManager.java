@@ -65,31 +65,48 @@ public abstract class SystemsManager extends OpMode {
     protected void updateDrivetrain(int controllerNum) {
         // Inputs received from controller
         double forward, strafe, rotate;
-        boolean setMoving = false;
+        // If dpad input received
+        boolean setMoving;
         switch (controllerNum) {
             case 1:
-                if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward or backward at set rate
+                if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
                     forward = (gamepad1.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
                     setMoving = true;
                     break;
                 }
+                if (gamepad1.dpad_left || gamepad1.dpad_right) { // Move left/right at set rate
+                    strafe = (gamepad1.dpad_left) ? -0.5 : 0.5;
+                    rotate = 0;
+                    forward = 0;
+                    setMoving = true;
+                    break;
+                }
                 forward = noDrift(gamepad1.left_stick_y, 0.05);
                 strafe = noDrift(gamepad1.left_stick_x, 0.05);
                 rotate = noDrift(gamepad1.right_stick_x, 0.05);
+                setMoving = false;
                 break;
             case 2:
-                if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward or backward at set rate
+                if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
                     forward = (gamepad2.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
                     setMoving = true;
                     break;
                 }
+                if (gamepad2.dpad_left || gamepad2.dpad_right) { // Move left/right at set rate
+                    strafe = (gamepad2.dpad_left) ? -0.5 : 0.5;
+                    rotate = 0;
+                    forward = 0;
+                    setMoving = true;
+                    break;
+                }
                 forward = noDrift(gamepad2.left_stick_y, 0.05);
                 strafe = noDrift(gamepad2.left_stick_x, 0.05);
                 rotate = noDrift(gamepad2.right_stick_x, 0.05);
+                setMoving = false;
                 break;
             default:
                 forward = 0;
