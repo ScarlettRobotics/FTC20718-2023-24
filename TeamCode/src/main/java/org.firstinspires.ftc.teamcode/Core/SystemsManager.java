@@ -174,10 +174,10 @@ public abstract class SystemsManager extends OpMode {
         boolean launching = false;
         switch (controllerNum) {
             case 1:
-                launching = gamepad1.dpad_up;
+                launching = gamepad1.dpad_up && gamepad1.y;
                 break;
             case 2:
-                launching = gamepad2.dpad_up;
+                launching = gamepad2.dpad_up && gamepad2.y;
                 break;
         }
         if (launching) droneLauncherCore.launch();
