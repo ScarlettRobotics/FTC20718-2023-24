@@ -21,8 +21,6 @@ public abstract class SystemsManager extends OpMode {
     // FTC Dashboard telemetry variables
     protected FtcDashboard dashboard;
     protected Telemetry dashboardTelemetry;
-    // Variables used in methods
-    protected double[] translateArr, rotateArr, powers;
 
     @Override
     public void init() {
@@ -92,11 +90,12 @@ public abstract class SystemsManager extends OpMode {
                 rotate = 0;
         }
         // Processing inputs
-        translateArr = drivetrainCore.translate(forward, strafe);
-        rotateArr = drivetrainCore.rotate(rotate);
-        powers = new double[4];
+        drivetrainCore.updateAlignerPID(imuCore.getYaw());
+        double[] translateArr = drivetrainCore.translate(forward, strafe);
+        double[] rotateArr = drivetrainCore.rotate(rotate);
+        double[] powers = new double[4];
         for (int i=0; i<4; i++) {
-            powers[i] = translateArr[i] + rotateArr[i];
+            powers[i] = translateArr[i] + rotateArr[i] - drivetrainCore.getAlignerPIDPower();
         }
         drivetrainCore.setPowers(powers);
     }

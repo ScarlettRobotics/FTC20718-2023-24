@@ -30,7 +30,7 @@ public class DrivetrainCore {
         // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
         /* direction code here */
         // alignerPID init
-        alignerPID = new PIDControllerSimple("alignerPID", 0.05, 0, 0, 0.1);
+        alignerPID = new PIDControllerSimple("alignerPID", 0.03, 0.01, 0.01, 0.5);
     }
 
     public double getAlignerPIDPower() {

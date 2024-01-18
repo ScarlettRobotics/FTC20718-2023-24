@@ -59,6 +59,11 @@ public class IMUCore {
         return robotOrientation.getRoll(AngleUnit.DEGREES);
     }
 
+    /** Returns current Z angular velocity. */
+    public double getAngularVelocityZ() {
+        return robotAngularVelocity.xRotationRate;
+    }
+
     /** Returns current X angular velocity. */
     public double getAngularVelocityX() {
         return robotAngularVelocity.xRotationRate;
@@ -67,11 +72,6 @@ public class IMUCore {
     /** Returns current Y angular velocity. */
     public double getAngularVelocityY() {
         return robotAngularVelocity.yRotationRate;
-    }
-
-    /** Returns current Z angular velocity. */
-    public double getAngularVelocityZ() {
-        return robotAngularVelocity.xRotationRate;
     }
 
     public void telemetry(Telemetry telemetry) {
