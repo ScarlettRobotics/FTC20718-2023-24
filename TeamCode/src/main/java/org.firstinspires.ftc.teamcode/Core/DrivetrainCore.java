@@ -16,8 +16,6 @@ public class DrivetrainCore {
     private final ArrayList<PIDController> driveMotors;
     // Used in driver period to center robot
     private PIDControllerSimple alignerPID;
-    // Starting yaw: modified whenever yaw is reset
-    private double yawOriginal;
 
     // Map motor variables to driver hub
     public DrivetrainCore(HardwareMap hardwareMap) {
@@ -33,16 +31,10 @@ public class DrivetrainCore {
         /* direction code here */
         // alignerPID init
         alignerPID = new PIDControllerSimple("alignerPID", 0.03, 0.01, 0.01, 0.5);
-        yawOriginal = 0;
     }
 
     public double getAlignerPIDPower() {
         return alignerPID.getPower();
-    }
-
-    /** Input an angle for alignerPID to align itself with relative to starting yaw */
-    protected void setAlignerPIDTargetYaw(double targetPosition) {
-        alignerPID.setTargetPosition(targetPosition);
     }
 
     /** Sets a new target position based on the current position, moving by the input.
