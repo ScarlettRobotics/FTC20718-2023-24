@@ -189,14 +189,16 @@ public abstract class SystemsManager extends OpMode {
      * @param controllerNum Determines the driver number that operates the machine system.
      *                      Receives 1 or 2; otherwise does nothing. */
     protected void checkForDroneLaunch(int controllerNum) {
-        boolean launching = false;
+        boolean launching;
         switch (controllerNum) {
             case 1:
-                launching = gamepad1.dpad_up && gamepad1.y;
+                launching = gamepad1.left_stick_button;
                 break;
             case 2:
-                launching = gamepad2.dpad_up && gamepad2.y;
+                launching = gamepad2.left_stick_button;
                 break;
+            default:
+                launching = false;
         }
         if (launching) droneLauncherCore.launch();
     }
