@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Map a button that's hard to reach (eg. D-pad, trigger buttons) to launch the drone to prevent false launches.
  */
 public class DroneLauncherCore {
-    private Servo droneLauncher;
+    private final Servo droneLauncher;
     public DroneLauncherCore(HardwareMap hardwareMap) {
         droneLauncher = hardwareMap.get(Servo.class, "droneLauncher");
     }

@@ -42,7 +42,6 @@ import java.util.List;
 /**
  * This OpMode uses the basics of TensorFlow Object Detection (TFOD),
  *  including Java Builder structures for specifying Vision parameters.
- *
  * Originally in FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples.
  * Modified to be usable in an OOP structure.
  */
@@ -58,10 +57,10 @@ public class TensorFlowCore {
     };
 
     /** The variable to store our instance of the TensorFlow Object Detection processor. */
-    private TfodProcessor tfod;
+    private final TfodProcessor tfod;
 
     /** The variable to store our instance of the vision portal. */
-    private VisionPortal visionPortal;
+    private final VisionPortal visionPortal;
 
     public TensorFlowCore(HardwareMap hardwareMap) {
         // Create the TensorFlow processor by using a builder.

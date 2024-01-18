@@ -23,6 +23,40 @@ public class RedBackdrop extends LinearOpMode {
     protected ArmCore armCore;
     protected ClawCore clawCore;
 
+    private void initialize() {
+        // Init dashboard
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+        // Init timing related
+        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+        eventManager = new EventManager();
+        // Init timings
+        eventManager.addEvent(2); // forward 1 square
+        eventManager.addEvent(3.5); // rotate 90 deg right
+        eventManager.addEvent(5); // move arm to place position, move to backdrop
+        eventManager.addEvent(7.5); // open claw on backdrop
+        eventManager.addEvent(8); // move back to allow both pixels to drop staggered
+        eventManager.addEvent(8.5); // move back more to not collide with backdrop
+        eventManager.addEvent(10); // move arm to rest position, move left one
+        eventManager.addEvent(11.5); // move forward into parking
+        // Init core classes
+        drivetrainCore = new DrivetrainCore(hardwareMap);
+        armCore = new ArmCore(hardwareMap);
+        clawCore = new ClawCore(hardwareMap);
+        // Init telemetry
+        telemetry.addData("STATUS", "Initialized");
+        telemetry.update();
+        dashboardTelemetry.addData("STATUS", "Initialized");
+        dashboardTelemetry.update();
+        // Close claw to grip pixels
+        clawCore.close();
+    }
+
+    private void updateAuto() {
+        drivetrainCore.updateAuto();
+        armCore.updateAuto();
+    }
+
     @Override
     public void runOpMode() {
         initialize();
@@ -67,45 +101,10 @@ public class RedBackdrop extends LinearOpMode {
                 drivetrainCore.forwardByEncoder(300);
             } // move forward into parking
 
-            addTelemetry(telemetry);
+            telemetry(telemetry);
         }
     }
-
-    private void initialize() {
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
-        // Init timing related
-        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-        eventManager = new EventManager();
-        // Init timings
-        eventManager.addEvent(2); // forward 1 square
-        eventManager.addEvent(3.5); // rotate 90 deg right
-        eventManager.addEvent(5); // move arm to place position, move to backdrop
-        eventManager.addEvent(7.5); // open claw on backdrop
-        eventManager.addEvent(8); // move back to allow both pixels to drop staggered
-        eventManager.addEvent(8.5); // move back more to not collide with backdrop
-        eventManager.addEvent(10); // move arm to rest position, move left one
-        eventManager.addEvent(11.5); // move forward into parking
-        // Init core classes
-        drivetrainCore = new DrivetrainCore(hardwareMap);
-        armCore = new ArmCore(hardwareMap);
-        clawCore = new ClawCore(hardwareMap);
-        // Init telemetry
-        telemetry.addData("STATUS", "Initialized");
-        telemetry.update();
-        dashboardTelemetry.addData("STATUS", "Initialized");
-        dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
-    }
-
-    private void updateAuto() {
-        drivetrainCore.updateAuto();
-        armCore.updateAuto();
-    }
-
-    private void addTelemetry(Telemetry telemetry) {
+    private void telemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());
         eventManager.telemetry(telemetry);

@@ -17,7 +17,6 @@ public class ClawEncoderFinder extends OpMode {
     Telemetry dashboardTelemetry;
     // claw
     public ClawCore clawCore;
-    double left, right;
 
     @Override
     public void init() {
