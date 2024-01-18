@@ -50,10 +50,10 @@ public class TensorFlowCore {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in FtcRobotController/src/main/assets.
-    private static final String TFOD_MODEL_ASSET = "20718RedCubeModel.tflite";
+    private static final String TFOD_MODEL_ASSET = "RedBlueLinedCubeModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "RedProp",
+            "BlueProp", "RedProp"
     };
 
     /** The variable to store our instance of the TensorFlow Object Detection processor. */
@@ -87,7 +87,7 @@ public class TensorFlowCore {
 
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         } else {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
