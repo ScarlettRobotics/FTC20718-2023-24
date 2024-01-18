@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Core.ClawCore;
 @TeleOp(name = "ClawEncoderFinder", group = "concepts-encoder")
 public class ClawEncoderFinder extends OpMode {
     public ClawCore clawCore;
-    double left, right;
 
     @Override
     public void init() {

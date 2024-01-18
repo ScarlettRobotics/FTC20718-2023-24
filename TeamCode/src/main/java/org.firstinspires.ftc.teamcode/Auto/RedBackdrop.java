@@ -23,6 +23,40 @@ public class RedBackdrop extends LinearOpMode {
     private FtcDashboard dashboard;
     private Telemetry dashboardTelemetry;
 
+    private void initialize() {
+        // Init timing related
+        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+        eventManager = new EventManager();
+        // Init timings
+        eventManager.addEvent(2);
+        eventManager.addEvent(3.5);
+        eventManager.addEvent(5);
+        eventManager.addEvent(7.5);
+        eventManager.addEvent(8);
+        eventManager.addEvent(8.5);
+        eventManager.addEvent(10);
+        eventManager.addEvent(11.5);
+        // Init core classes
+        drivetrainCore = new DrivetrainCore(hardwareMap);
+        armCore = new ArmCore(hardwareMap);
+        clawCore = new ClawCore(hardwareMap);
+        // Init dashboard
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+        // Init telemetry
+        telemetry.addData("STATUS", "Initialized");
+        telemetry.update();
+        dashboardTelemetry.addData("STATUS", "Initialized");
+        dashboardTelemetry.update();
+        // Close claw to grip pixels
+        clawCore.close();
+    }
+
+    private void updateAuto() {
+        drivetrainCore.updateAuto();
+        armCore.updateAuto();
+    }
+
     @Override
     public void runOpMode() {
         initialize();
@@ -67,45 +101,11 @@ public class RedBackdrop extends LinearOpMode {
                 drivetrainCore.forwardByEncoder(300);
             }
 
-            addTelemetry(telemetry);
+            telemetry(telemetry);
         }
     }
 
-    private void initialize() {
-        // Init timing related
-        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-        eventManager = new EventManager();
-        // Init timings
-        eventManager.addEvent(2);
-        eventManager.addEvent(3.5);
-        eventManager.addEvent(5);
-        eventManager.addEvent(7.5);
-        eventManager.addEvent(8);
-        eventManager.addEvent(8.5);
-        eventManager.addEvent(10);
-        eventManager.addEvent(11.5);
-        // Init core classes
-        drivetrainCore = new DrivetrainCore(hardwareMap);
-        armCore = new ArmCore(hardwareMap);
-        clawCore = new ClawCore(hardwareMap);
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
-        // Init telemetry
-        telemetry.addData("STATUS", "Initialized");
-        telemetry.update();
-        dashboardTelemetry.addData("STATUS", "Initialized");
-        dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
-    }
-
-    private void updateAuto() {
-        drivetrainCore.updateAuto();
-        armCore.updateAuto();
-    }
-
-    private void addTelemetry(Telemetry telemetry) {
+    private void telemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());
         eventManager.telemetry(telemetry);

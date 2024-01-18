@@ -10,13 +10,13 @@ import java.util.ArrayList;
  * If wanting to check when an event has happened, use .eventOccurred(). */
 public class EventManager {
     // When an event should happen
-    ArrayList<Double> timings;
+    private final ArrayList<Double> timings;
     // If an event has happened
-    ArrayList<Boolean> actionTaken;
+    private final ArrayList<Boolean> actionTaken;
 
     public EventManager() {
-        timings = new ArrayList<Double>();
-        actionTaken = new ArrayList<Boolean>();
+        timings = new ArrayList<>();
+        actionTaken = new ArrayList<>();
     }
 
     /** Adds an item to the events list to check for new timings. */

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Methods that don't work: getTargetPosition(), goToEncoder(), moveByEncoder()
  * */
 public class ArmCore {
-    private PIDController armMotor;
+    private final PIDController armMotor;
 
     public ArmCore(HardwareMap hardwareMap) {
         armMotor = new PIDController(hardwareMap, "armMotor",
@@ -21,14 +21,9 @@ public class ArmCore {
         armMotor.setTargetPosition(encoder);
     }
 
-    /** Returns targetPosition */
-    protected int getTargetPosition() {
-        return armMotor.getDeltaTargetPosition();
-    }
-
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
-        armMotor.update();
+        armMotor.update(armMotor.getEncoder());
     }
 
     /** Moves the arm motor as a */

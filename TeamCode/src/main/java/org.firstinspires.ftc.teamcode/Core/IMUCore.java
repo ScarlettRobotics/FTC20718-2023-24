@@ -12,8 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  * Can return pitch, yaw, roll, and angular velocities.
  * Used https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html */
 public class IMUCore {
-    private IMU imu;
-    private IMU.Parameters IMUparameters;
+    private final IMU imu;
     private YawPitchRollAngles robotOrientation;
     private AngularVelocity robotAngularVelocity;
 
@@ -29,6 +28,7 @@ public class IMUCore {
                     )
             )
         );
+        resetYaw();
     }
 
     /** Gets all IMU information, then stores it in class variables.
@@ -59,6 +59,11 @@ public class IMUCore {
         return robotOrientation.getRoll(AngleUnit.DEGREES);
     }
 
+    /** Returns current Z angular velocity. */
+    public double getAngularVelocityZ() {
+        return robotAngularVelocity.xRotationRate;
+    }
+
     /** Returns current X angular velocity. */
     public double getAngularVelocityX() {
         return robotAngularVelocity.xRotationRate;
@@ -69,12 +74,7 @@ public class IMUCore {
         return robotAngularVelocity.yRotationRate;
     }
 
-    /** Returns current Z angular velocity. */
-    public double getAngularVelocityZ() {
-        return robotAngularVelocity.xRotationRate;
-    }
-
-    protected void telemetry(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "IMUCore.java");
 
         telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", getYaw());

@@ -12,17 +12,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *  then "Getting Started." */
 public abstract class SystemsManager extends OpMode {
     // Orientation classes
-    IMUCore imuCore;
+    protected IMUCore imuCore;
     // Core classes
-    DrivetrainCore drivetrainCore;
-    ArmCore armCore;
-    ClawCore clawCore;
-    DroneLauncherCore droneLauncherCore;
+    protected DrivetrainCore drivetrainCore;
+    protected ArmCore armCore;
+    protected ClawCore clawCore;
+    protected DroneLauncherCore droneLauncherCore;
     // FTC Dashboard telemetry variables
-    FtcDashboard dashboard;
-    Telemetry dashboardTelemetry;
-    // Variables used in methods
-    double[] translateArr, rotateArr, powers;
+    protected FtcDashboard dashboard;
+    protected Telemetry dashboardTelemetry;
+    // updateDrivetrain() variables
+    private boolean pRotating;
 
     @Override
     public void init() {
@@ -37,6 +37,8 @@ public abstract class SystemsManager extends OpMode {
         // Initialize FTC Dashboard variables
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
+        // Initialize updateDrivetrain() variables
+        pRotating = false;
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "22531");
@@ -50,7 +52,7 @@ public abstract class SystemsManager extends OpMode {
 
     /** Receives a gamepad joystick input and returns zero if below a value. */
     private double noDrift(double stick, double drift) {
-        if (stick < drift && stick > 0-drift) {
+        if (stick < drift && stick > -drift) {
             return 0;
         }
         return stick;
@@ -63,54 +65,79 @@ public abstract class SystemsManager extends OpMode {
     protected void updateDrivetrain(int controllerNum) {
         // Inputs received from controller
         double forward, strafe, rotate;
+        // If dpad input received
+        boolean setMoving;
         switch (controllerNum) {
             case 1:
-                if (gamepad1.x) {
-                    forward = 0.5;
+                if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
+                    forward = (gamepad1.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
+                    setMoving = true;
                     break;
                 }
-                if (gamepad1.y) {
-                    forward = -0.5;
-                    strafe = 0;
+                if (gamepad1.dpad_left || gamepad1.dpad_right) { // Move left/right at set rate
+                    strafe = (gamepad1.dpad_left) ? -0.5 : 0.5;
                     rotate = 0;
+                    forward = 0;
+                    setMoving = true;
                     break;
                 }
                 forward = noDrift(gamepad1.left_stick_y, 0.05);
                 strafe = noDrift(gamepad1.left_stick_x, 0.05);
                 rotate = noDrift(gamepad1.right_stick_x, 0.05);
+                setMoving = false;
                 break;
             case 2:
-                if (gamepad2.x) {
-                    forward = 0.5;
+                if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
+                    forward = (gamepad2.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
+                    setMoving = true;
                     break;
                 }
-                if (gamepad2.y) {
-                    forward = -0.5;
-                    strafe = 0;
+                if (gamepad2.dpad_left || gamepad2.dpad_right) { // Move left/right at set rate
+                    strafe = (gamepad2.dpad_left) ? -0.5 : 0.5;
                     rotate = 0;
+                    forward = 0;
+                    setMoving = true;
                     break;
                 }
                 forward = noDrift(gamepad2.left_stick_y, 0.05);
                 strafe = noDrift(gamepad2.left_stick_x, 0.05);
                 rotate = noDrift(gamepad2.right_stick_x, 0.05);
+                setMoving = false;
                 break;
             default:
                 forward = 0;
                 strafe = 0;
                 rotate = 0;
+                setMoving = false;
         }
         // Processing inputs
-        translateArr = drivetrainCore.translate(forward, strafe);
-        rotateArr = drivetrainCore.rotate(rotate);
-        powers = new double[4];
-        for (int i=0; i<4; i++) {
-            powers[i] = translateArr[i] + rotateArr[i];
+        drivetrainCore.updateAlignerPID(imuCore.getYaw());                 // see function
+        double[] translateArr = drivetrainCore.translate(forward, strafe); // left joystick
+        double[] rotateArr = drivetrainCore.rotate(rotate);                // right joystick
+        double[] powers = new double[4];                                   // final power
+        if (rotateArr[0] != 0) { // Driver is rotating robot; alignerPID doesn't influence final power
+            for (int i = 0; i < 4; i++) {
+                powers[i] = translateArr[i] + rotateArr[i];
+            }
+        } else if (setMoving) { // Using X/Y button; alignerPID doesn't influence
+            for (int i = 0; i < 4; i++) {
+                powers[i] = translateArr[i] + rotateArr[i];
+            }
+        } else { // Driver isn't rotating robot; alignerPID influences final power
+            if (pRotating) { // If rotating just stopped, alignerPID needs to be reset to snap to the current position
+                imuCore.resetYaw();
+            }
+            for (int i = 0; i < 4; i++) {
+                powers[i] = translateArr[i] + rotateArr[i] - drivetrainCore.getAlignerPIDPower();
+            }
         }
         drivetrainCore.setPowers(powers);
+        // set prev vars
+        pRotating = rotateArr[0] != 0;
     }
 
     /** Updates arm movement.
@@ -162,14 +189,16 @@ public abstract class SystemsManager extends OpMode {
      * @param controllerNum Determines the driver number that operates the machine system.
      *                      Receives 1 or 2; otherwise does nothing. */
     protected void checkForDroneLaunch(int controllerNum) {
-        boolean launching = false;
+        boolean launching;
         switch (controllerNum) {
             case 1:
-                launching = gamepad1.dpad_up;
+                launching = gamepad1.left_stick_button;
                 break;
             case 2:
-                launching = gamepad2.dpad_up;
+                launching = gamepad2.left_stick_button;
                 break;
+            default:
+                launching = false;
         }
         if (launching) droneLauncherCore.launch();
     }
