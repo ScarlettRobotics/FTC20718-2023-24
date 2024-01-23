@@ -30,7 +30,7 @@ public class PIDControllerSimple {
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
      * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    PIDControllerSimple(String name, double Kp, double Ki, double Kd, double powerCap) {
+    public PIDControllerSimple(String name, double Kp, double Ki, double Kd, double powerCap) {
         this.name = name;
         // Initialize PID variables
         timer = new ElapsedTime();
@@ -61,7 +61,7 @@ public class PIDControllerSimple {
     }
 
     /** Sets a new target position for the PIDController to move towards. */
-    protected void setTargetPosition(double targetPosition) {
+    public void setTargetPosition(double targetPosition) {
         pTargetPosition = this.targetPosition;
         this.targetPosition = targetPosition;
         // Reset PID variables
@@ -80,7 +80,7 @@ public class PIDControllerSimple {
 
     /** Changes power to move towards targetPosition.
      * If the PIDController has already reached targetPosition, no code is executed. */
-    protected void update(double currentPosition) {
+    public void update(double currentPosition) {
         this.currentPosition = currentPosition;
         // Exit if already at goalPosition
         if (targetPosition == currentPosition) {

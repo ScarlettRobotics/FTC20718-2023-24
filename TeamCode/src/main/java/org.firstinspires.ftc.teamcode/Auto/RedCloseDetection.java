@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.*;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.List;
 
 /** Used if on the close side of movement. Place where wheels touch right teeth.
  * Places yellow pixel based on prop position, then places purple pixel on backdrop based on prop position. */
@@ -24,8 +25,10 @@ public class RedCloseDetection extends LinearOpMode {
     ArmCore armCore;
     ClawCore clawCore;
     TensorFlowCore tensorFlowCore;
+    AprilTagCore aprilTagCore;
     // Other
     int propLocation; // 0-1-2 is left-middle-right
+    PIDControllerSimple aprilTagAlignerPID;
 
     private void initialize() {
         // Init dashboard
@@ -138,12 +141,26 @@ public class RedCloseDetection extends LinearOpMode {
                 drivetrainCore.forwardByEncoder(500);
             } // end move forward to see AprilTag
             if (eventManager.eventOccurred(timer.time(), 8)) {
-                // TODO
+                aprilTagCore = new AprilTagCore(hardwareMap, 2);
+                aprilTagAlignerPID = new PIDControllerSimple("AprilTag aligner", 0, 0, 0, 0.3);
+                aprilTagAlignerPID.setTargetPosition(0); // goal of X = 0 with apriltag
             } // end align with AprilTag based on propLocation
             if (eventManager.getActionTaken(8) && !eventManager.getActionTaken(9)) {
-                // TODO
+                // Update aligner with correct AprilTag ID
+                List<AprilTagDetection> currentDetections = aprilTagCore.getDetections();
+                for (AprilTagDetection detection : currentDetections) {
+                    // Align with ID that is same position as propLocation
+                    // Works with red only, as blue has different AprilTags and IDs (+4 will have to be changed)
+                    if (detection.id != propLocation+4) continue;
+                    aprilTagAlignerPID.update(detection.ftcPose.x);
+                    break;
+                }
+                // Strafe drivetrain based on AprilTag
+                drivetrainCore.setPowers(
+                        drivetrainCore.translate(0, aprilTagAlignerPID.getPower()));
             } // end align with AprilTag
             if (eventManager.eventOccurred(timer.time(), 9)) {
+                aprilTagCore.closeVisionPortal();
                 drivetrainCore.forwardByEncoder(300);
                 armCore.setTargetPosition(-2400);
             } // end move forward to backdrop, set arm to drop pos
@@ -177,6 +194,9 @@ public class RedCloseDetection extends LinearOpMode {
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
         tensorFlowCore.telemetry(telemetry);
+        if (aprilTagCore != null) {
+            aprilTagCore.telemetry(telemetry);
+        }
         telemetry.update();
         // FTC Dashboard
         dashboardTelemetry.addData("timer", timer.time());
@@ -185,6 +205,9 @@ public class RedCloseDetection extends LinearOpMode {
         armCore.telemetry(dashboardTelemetry);
         clawCore.telemetry(dashboardTelemetry);
         tensorFlowCore.telemetry(dashboardTelemetry);
+        if (aprilTagCore != null) {
+            aprilTagCore.telemetry(dashboardTelemetry);
+        }
         dashboardTelemetry.update();
     }
 }

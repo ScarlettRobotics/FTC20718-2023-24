@@ -91,6 +91,10 @@ public class AprilTagCore {
     public void closeVisionPortal() {
         visionPortal.close();
     }
+
+    public List<AprilTagDetection> getDetections() {
+        return aprilTag.getDetections();
+    }
     
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("\nCURRENT CLASS:", "AprilTagCore.java");

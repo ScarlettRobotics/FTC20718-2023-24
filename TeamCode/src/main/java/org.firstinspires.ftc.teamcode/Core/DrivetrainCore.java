@@ -89,7 +89,7 @@ public class DrivetrainCore {
 
     /** Receives four double[] values from -1 to 1 to set appropriate motor powers.
      * Will error if array length is less than 4. */
-    protected void setPowers(double[] powers) {
+    public void setPowers(double[] powers) {
         for (int i=0; i<4; i++) {
             // squared so movement is slower if needed
             driveMotors.get(i).overridePower(changePower(powers[i]));
@@ -112,7 +112,7 @@ public class DrivetrainCore {
      *                Positive makes robot move forward.
      * @param strafe How much the robot should move left/right.
      *               Positive makes robot move right. */
-    protected double[] translate(double forward, double strafe) {
+    public double[] translate(double forward, double strafe) {
         double[] output = new double[4];
         output[0] += forward;
         output[1] -= forward;
