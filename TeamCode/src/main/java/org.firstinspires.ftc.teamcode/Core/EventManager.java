@@ -19,6 +19,20 @@ public class EventManager {
         actionTaken = new ArrayList<>();
     }
 
+    public double getTiming(int index) {
+        if (index < timings.size()) {
+            return timings.get(index);
+        }
+        return -1;
+    }
+
+    public boolean getActionTaken(int index) {
+        if (index < actionTaken.size()) {
+            return actionTaken.get(index);
+        }
+        return false;
+    }
+
     /** Adds an item to the events list to check for new timings. */
     public void addEvent(double timing) {
         timings.add(timing);
