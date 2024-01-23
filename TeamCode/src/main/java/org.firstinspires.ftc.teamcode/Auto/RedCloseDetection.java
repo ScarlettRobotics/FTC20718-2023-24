@@ -27,6 +27,49 @@ public class RedCloseDetection extends LinearOpMode {
     // Other
     int propLocation; // 0-1-2 is left-middle-right
 
+    private void initialize() {
+        // Init dashboard
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+        // Init timing related
+        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+        eventManager = new EventManager();
+        // Init timings
+        eventManager.addEvent(1); // find prop, move towards position based on prop, move arm to safe
+        eventManager.addEvent(3); // rotate based on prop, move arm to ground
+
+        eventManager.addEvent(5); // open claw
+        eventManager.addEvent(5.2); // slightly move arm up
+        eventManager.addEvent(5.6); // close claw
+
+        eventManager.addEvent(5.9); // rotate back, move claw up
+        eventManager.addEvent(8); // strafe based on prop
+
+        eventManager.addEvent(10); // move forward to backdrop
+        eventManager.addEvent(12.5); // drop pixel on backdrop
+        eventManager.addEvent(13); // move backwards, reset arm
+
+        eventManager.addEvent(14); // strafe to left square based on prop
+        eventManager.addEvent(16); // move forwards into park
+        // Init core classes
+        drivetrainCore = new DrivetrainCore(hardwareMap);
+        armCore = new ArmCore(hardwareMap);
+        clawCore = new ClawCore(hardwareMap);
+        tensorFlowCore = new TensorFlowCore(hardwareMap);
+        // Init telemetry
+        telemetry.addData("STATUS", "Initialized");
+        telemetry.update();
+        dashboardTelemetry.addData("STATUS", "Initialized");
+        dashboardTelemetry.update();
+        // Close claw to grip pixels
+        clawCore.close();
+    }
+
+    private void updateAuto() {
+        drivetrainCore.updateAuto();
+        armCore.updateAuto();
+    }
+
     @Override
     public void runOpMode() {
         initialize();
@@ -39,15 +82,16 @@ public class RedCloseDetection extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 0)) {
                 if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
-                    propLocation = 0;
+                    propLocation = 2;
                     drivetrainCore.forwardByEncoder(500);
-                } else if (tensorFlowCore.getX() > (double) 640 /2) { // to left of camera
-                    propLocation = 1;
+                } else if (tensorFlowCore.getX() < (double) 640 /2) { // to left of camera
+                    propLocation = 0;
                     drivetrainCore.forwardByEncoder(700);
                 } else { // to right of camera
-                    propLocation = 2;
+                    propLocation = 1;
                     drivetrainCore.forwardByEncoder(400);
                 }
+                propLocation = 0; // TODO debug forced propLocation
                 armCore.setTargetPosition(-2000);
                 tensorFlowCore.stopStreaming();
             } // end find prop, move towards position based on prop, move arm to safe
@@ -114,49 +158,6 @@ public class RedCloseDetection extends LinearOpMode {
 
             addTelemetry(telemetry);
         }
-    }
-
-    private void initialize() {
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
-        // Init timing related
-        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-        eventManager = new EventManager();
-        // Init timings
-        eventManager.addEvent(1); // find prop, move towards position based on prop, move arm to safe
-        eventManager.addEvent(3); // rotate based on prop, move arm to ground
-
-        eventManager.addEvent(5); // open claw
-        eventManager.addEvent(5.2); // slightly move arm up
-        eventManager.addEvent(5.6); // close claw
-
-        eventManager.addEvent(5.9); // rotate back, move claw up
-        eventManager.addEvent(8); // strafe based on prop
-
-        eventManager.addEvent(10); // move forward to backdrop
-        eventManager.addEvent(12.5); // drop pixel on backdrop
-        eventManager.addEvent(13); // move backwards, reset arm
-
-        eventManager.addEvent(14); // strafe to left square based on prop
-        eventManager.addEvent(16); // move forwards into park
-        // Init core classes
-        drivetrainCore = new DrivetrainCore(hardwareMap);
-        armCore = new ArmCore(hardwareMap);
-        clawCore = new ClawCore(hardwareMap);
-        tensorFlowCore = new TensorFlowCore(hardwareMap);
-        // Init telemetry
-        telemetry.addData("STATUS", "Initialized");
-        telemetry.update();
-        dashboardTelemetry.addData("STATUS", "Initialized");
-        dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
-    }
-
-    private void updateAuto() {
-        drivetrainCore.updateAuto();
-        armCore.updateAuto();
     }
 
     private void addTelemetry(Telemetry telemetry) {
