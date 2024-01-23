@@ -26,34 +26,6 @@ public class AutoBoilerplate extends LinearOpMode {
     // Core classes
     /* TODO NEEDED CORE CLASSES */
 
-    @Override
-    public void runOpMode() {
-        initialize();
-
-        waitForStart();
-        timer.reset();
-
-        while (opModeIsActive()) {
-            updateAuto();
-
-            if (eventManager.eventOccurred(timer.time(), 0)) {
-                /* TODO INSTRUCTION */
-            } // event desc
-
-            if (eventManager.eventOccurred(timer.time(), 1)) {
-                /* TODO INSTRUCTION */
-            } // event desc
-
-            if (eventManager.eventOccurred(timer.time(), 2)) {
-                /* TODO INSTRUCTION */
-            } // event desc
-
-            /* TODO etc. */
-
-            addTelemetry(telemetry);
-        }
-    }
-
     private void initialize() {
         // Init dashboard
         dashboard = FtcDashboard.getInstance();
@@ -80,6 +52,34 @@ public class AutoBoilerplate extends LinearOpMode {
     private void updateAuto() {
         //drivetrainCore.updateAuto(); TODO
         //armCore.updateAuto(); TODO
+    }
+
+    @Override
+    public void runOpMode() {
+        initialize();
+
+        waitForStart();
+        timer.reset();
+
+        while (opModeIsActive()) {
+            updateAuto();
+
+            if (eventManager.eventOccurred(timer.time(), 0)) {
+                /* TODO INSTRUCTION */
+            } // event desc
+
+            if (eventManager.eventOccurred(timer.time(), 1)) {
+                /* TODO INSTRUCTION */
+            } // event desc
+
+            if (eventManager.eventOccurred(timer.time(), 2)) {
+                /* TODO INSTRUCTION */
+            } // event desc
+
+            /* TODO etc. */
+
+            addTelemetry(telemetry);
+        }
     }
 
     private void addTelemetry(Telemetry telemetry) {
