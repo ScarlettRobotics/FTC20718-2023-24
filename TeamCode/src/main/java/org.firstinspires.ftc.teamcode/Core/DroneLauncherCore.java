@@ -13,7 +13,7 @@ public class DroneLauncherCore {
         droneLauncher = hardwareMap.get(Servo.class, "droneLauncher");
     }
 
-    /** Moves the servo in a way to release73 the linked rubber band. */
+    /** Moves the servo in a way to release the linked rubber band. */
     protected void launch() {
         droneLauncher.setPosition(0.47);
     }
