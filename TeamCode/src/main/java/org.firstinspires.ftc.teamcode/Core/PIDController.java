@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /** PIDController
  * Class used when you want to move a DcMotor to a specific encoder value. Uses control theory to achieve this.
@@ -46,5 +47,11 @@ public class PIDController extends PIDControllerSimple {
     protected void update(int currentPosition) {
         super.update(currentPosition); // PID calc
         motor.setPower(getPower());
+    }
+
+    public void telemetry(Telemetry telemetry) {
+        telemetry.addData(name + " targetPosition", getTargetPosition());
+        telemetry.addData(name + " currentPosition", getEncoder());
+        telemetry.addData(name + " power", motor.getPower());
     }
 }

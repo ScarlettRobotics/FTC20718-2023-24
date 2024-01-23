@@ -10,18 +10,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * If you are using this class, ensure the relevant part always starts in the same position for consistency.
  * See https://www.ctrlaltftc.com/the-pid-controller for info. */
 public class PIDControllerSimple {
-    private final String name;
+    protected final String name;
     // PID vars
-    private final double Kp;
-    private final double Ki;
-    private final double Kd;
-    private final double integralSumMax;
-    private double targetPosition, pTargetPosition;
-    private double currentPosition;
-    private double pError; // error could be here but only is used in update()
-    private double integralSum; // derivative could be here but only is used in update()
-    private final double powerCap;
-    private double power;
+    protected final double Kp;
+    protected final double Ki;
+    protected final double Kd;
+    protected final double integralSumMax;
+    protected double targetPosition, pTargetPosition;
+    protected double currentPosition;
+    protected double pError; // error could be here but only is used in update()
+    protected double integralSum; // derivative could be here but only is used in update()
+    protected final double powerCap;
+    protected double power;
     // Measures time passed in millis
     ElapsedTime timer;
 
