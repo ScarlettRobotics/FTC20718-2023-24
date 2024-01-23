@@ -35,22 +35,22 @@ public class RedCloseDetection extends LinearOpMode {
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(1); // find prop, move towards position based on prop, move arm to safe
-        eventManager.addEvent(3); // rotate based on prop, move arm to ground
+        eventManager.addEvent(1); // find prop, strafe to align with centre, move arm to safe
+        eventManager.addEvent(2.5); // move towards position based on prop
+        eventManager.addEvent(4.5); // rotate based on prop
+        eventManager.addEvent(5.5); // move purple forward to meet tape
 
-        eventManager.addEvent(5); // open claw
-        eventManager.addEvent(5.2); // slightly move arm up
-        eventManager.addEvent(5.6); // close claw
+        eventManager.addEvent(7); // move back to org pos
+        eventManager.addEvent(8.5); // rotate back to align with AprilTag
+        eventManager.addEvent(10); // move forward to see AprilTag
+        eventManager.addEvent(12); // align with AprilTag based on propLocation
+        eventManager.addEvent(13); // strafe to center
+        eventManager.addEvent(14); // move forward to backdrop, set arm to drop pos
 
-        eventManager.addEvent(5.9); // rotate back, move claw up
-        eventManager.addEvent(8); // strafe based on prop
+        eventManager.addEvent(15.5); // open claw
+        eventManager.addEvent(16); // move arm to safe pos, strafe to edge based on propLocation
+        eventManager.addEvent(17.5); // move into park
 
-        eventManager.addEvent(10); // move forward to backdrop
-        eventManager.addEvent(12.5); // drop pixel on backdrop
-        eventManager.addEvent(13); // move backwards, reset arm
-
-        eventManager.addEvent(14); // strafe to left square based on prop
-        eventManager.addEvent(16); // move forwards into park
         // Init core classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
@@ -83,78 +83,87 @@ public class RedCloseDetection extends LinearOpMode {
             if (eventManager.eventOccurred(timer.time(), 0)) {
                 if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
                     propLocation = 2;
-                    drivetrainCore.forwardByEncoder(500);
-                } else if (tensorFlowCore.getX() < (double) 640 /2) { // to left of camera
-                    propLocation = 0;
-                    drivetrainCore.forwardByEncoder(700);
-                } else { // to right of camera
+                } else if (tensorFlowCore.getX() > (double) 640 /2) { // to right of camera
                     propLocation = 1;
-                    drivetrainCore.forwardByEncoder(400);
+                } else { // to right of camera
+                    propLocation = 0;
                 }
                 propLocation = 0; // TODO debug forced propLocation
                 armCore.setTargetPosition(-2000);
                 tensorFlowCore.stopStreaming();
-            } // end find prop, move towards position based on prop, move arm to safe
+            } // end find prop, strafe to align with centre, move arm to safe
             if (eventManager.eventOccurred(timer.time(), 1)) {
-                if (propLocation ==  0) {
-                    drivetrainCore.rotateByEncoder(325);
-                } else if (propLocation == 2) {
-                    drivetrainCore.rotateByEncoder(-180);
+                if (propLocation == 1) {
+                    drivetrainCore.forwardByEncoder(1000);
+                } else {
+                    drivetrainCore.forwardByEncoder(700);
                 }
-                armCore.setTargetPosition(-3150);
-            } // end rotate based on prop, move arm to ground
-
+            } // end move towards position based on prop
             if (eventManager.eventOccurred(timer.time(), 2)) {
-                clawCore.open();
-            } // end open claw
+                if (propLocation == 0) {
+                    drivetrainCore.rotateByEncoder(-300);
+                } else if (propLocation == 2) {
+                    drivetrainCore.rotateByEncoder(300);
+                }
+            } // end rotate based on prop
             if (eventManager.eventOccurred(timer.time(), 3)) {
-                armCore.setTargetPosition(-3050);
-            } // end slightly move arm up
-            if (eventManager.eventOccurred(timer.time(), 4)) {
-                clawCore.close();
-            } // end close claw
+                if (propLocation != 1) {
+                    drivetrainCore.forwardByEncoder(300);
+                }
+            } // end move purple forward to meet tape
 
+            if (eventManager.eventOccurred(timer.time(), 4)) {
+                if (propLocation == 1) {
+                    drivetrainCore.forwardByEncoder(-300);
+                } else {
+                    drivetrainCore.forwardByEncoder(-200);
+                }
+            } // end move back to org pos
             if (eventManager.eventOccurred(timer.time(), 5)) {
                 if (propLocation == 0) {
-                    drivetrainCore.rotateByEncoder(-925);
-                } else if (propLocation == 2) {
-                    drivetrainCore.rotateByEncoder(-470);
-                }
-                armCore.setTargetPosition(-2100);
-            } // end rotate back, move arm up
-            if (eventManager.eventOccurred(timer.time(), 6)) {
-                if (propLocation == 0) {
-                    drivetrainCore.strafeByEncoder(600);
+                    drivetrainCore.rotateByEncoder(700);
                 } else if (propLocation == 1) {
-                    drivetrainCore.strafeByEncoder(100);
+                    drivetrainCore.rotateByEncoder(500);
                 } else {
-                    drivetrainCore.strafeByEncoder(100);
+                    drivetrainCore.rotateByEncoder(300);
                 }
-            } // end strafe based on prop
+            } // end rotate back to align with AprilTag
+            if (eventManager.eventOccurred(timer.time(), 6)) {
+                if (propLocation != 1) {
+                    drivetrainCore.strafeByEncoder(300);
+                }
+            } // end strafe to center
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
-                drivetrainCore.forwardByEncoder(1100);
-            } // end move forward to backdrop
+                drivetrainCore.forwardByEncoder(500);
+            } // end move forward to see AprilTag
             if (eventManager.eventOccurred(timer.time(), 8)) {
-                clawCore.open();
-            } // end drop pixel on backdrop
+                // TODO
+            } // end align with AprilTag based on propLocation
+            if (eventManager.getActionTaken(8) && !eventManager.getActionTaken(9)) {
+                // TODO
+            } // end align with AprilTag
             if (eventManager.eventOccurred(timer.time(), 9)) {
-                drivetrainCore.forwardByEncoder(-300);
-                armCore.setTargetPosition(-500);
-            } // end move backwards, reset arm
+                drivetrainCore.forwardByEncoder(300);
+                armCore.setTargetPosition(-2400);
+            } // end move forward to backdrop, set arm to drop pos
 
             if (eventManager.eventOccurred(timer.time(), 10)) {
-                if (propLocation == 0) {
-                    drivetrainCore.strafeByEncoder(300);
-                } else if (propLocation == 1) {
-                    drivetrainCore.strafeByEncoder(600);
-                } else {
-                    drivetrainCore.strafeByEncoder(900);
-                }
-            } // end strafe to left square based on prop
+                clawCore.open();
+            } // end open claw
             if (eventManager.eventOccurred(timer.time(), 11)) {
-                drivetrainCore.forwardByEncoder(500);
-            } // end move forwards into park
+                if (propLocation == 0) {
+                    drivetrainCore.strafeByEncoder(-400);
+                } else if (propLocation == 1) {
+                    drivetrainCore.strafeByEncoder(-300);
+                } else {
+                    drivetrainCore.strafeByEncoder(-200);
+                }
+                armCore.setTargetPosition(-300);
+            } // end move arm to safe pos, strafe to edge based on propLocation
+            if (eventManager.eventOccurred(timer.time(), 12)) {
+                drivetrainCore.forwardByEncoder(200);
+            } // end move into park
 
             addTelemetry(telemetry);
         }
