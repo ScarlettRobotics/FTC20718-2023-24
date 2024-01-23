@@ -23,7 +23,7 @@ public class DrivetrainCore {
         // hardwareMap
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
-                    0.01, 0.0001, 0.0002, 0.5));
+                    0.01, 0.0001, 0.0005, 0.5));
         }
 
         // direction
