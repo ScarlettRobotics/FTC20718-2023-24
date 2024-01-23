@@ -149,10 +149,10 @@ public abstract class SystemsManager extends OpMode {
         double power;
         switch(controllerNum) {
             case 1:
-                power = gamepad1.right_trigger - gamepad1.left_trigger;
+                power = gamepad1.left_trigger - gamepad1.right_trigger;
                 break;
             case 2:
-                power = gamepad2.right_trigger - gamepad2.left_trigger;
+                power = gamepad2.left_trigger - gamepad2.right_trigger;
                 break;
             default:
                 power = 0;
