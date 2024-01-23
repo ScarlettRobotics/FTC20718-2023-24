@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.Core.AprilTagCore;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  */
-@TeleOp(name = "Concept: AprilTag", group = "concept-apriltag")
+@TeleOp(name = "Concept: AprilTag", group = "concept-vision")
 public class AprilTagTest extends LinearOpMode {
     private AprilTagCore aprilTagCore;
 
