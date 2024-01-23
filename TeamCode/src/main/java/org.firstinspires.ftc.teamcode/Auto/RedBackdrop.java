@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.Core.EventManager;
 
 @Autonomous(name = "RedBackdrop", group = "red")
 public class RedBackdrop extends LinearOpMode {
+    // FTC Dashboard
+    private FtcDashboard dashboard;
+    private Telemetry dashboardTelemetry;
     // Timing related
     private ElapsedTime timer;
     private EventManager eventManager;
@@ -19,30 +22,27 @@ public class RedBackdrop extends LinearOpMode {
     protected DrivetrainCore drivetrainCore;
     protected ArmCore armCore;
     protected ClawCore clawCore;
-    // FTC Dashboard
-    private FtcDashboard dashboard;
-    private Telemetry dashboardTelemetry;
 
     private void initialize() {
+        // Init dashboard
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
         // Init timing related
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(2);
-        eventManager.addEvent(3.5);
-        eventManager.addEvent(5);
-        eventManager.addEvent(7.5);
-        eventManager.addEvent(8);
-        eventManager.addEvent(8.5);
-        eventManager.addEvent(10);
-        eventManager.addEvent(11.5);
+        eventManager.addEvent(2); // forward 1 square
+        eventManager.addEvent(3.5); // rotate 90 deg right
+        eventManager.addEvent(5); // move arm to place position, move to backdrop
+        eventManager.addEvent(7.5); // open claw on backdrop
+        eventManager.addEvent(8); // move back to allow both pixels to drop staggered
+        eventManager.addEvent(8.5); // move back more to not collide with backdrop
+        eventManager.addEvent(10); // move arm to rest position, move left one
+        eventManager.addEvent(11.5); // move forward into parking
         // Init core classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
         // Init telemetry
         telemetry.addData("STATUS", "Initialized");
         telemetry.update();
@@ -69,42 +69,41 @@ public class RedBackdrop extends LinearOpMode {
 
             if (eventManager.eventOccurred(timer.time(), 0)) {
                 drivetrainCore.forwardByEncoder(750);
-            }
+            } // forward 1 square
 
             if (eventManager.eventOccurred(timer.time(), 1)) {
                 drivetrainCore.rotateByEncoder(-650);
-            }
+            } // rotate 90 deg right
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
-                drivetrainCore.forwardByEncoder(1150);
-                armCore.setTargetPosition(-1700);
-            }
+                drivetrainCore.forwardByEncoder(1350);
+                armCore.setTargetPosition(-2000);
+            } // move arm to place position, move to backdrop
 
             if (eventManager.eventOccurred(timer.time(), 3)) {
                 clawCore.open();
-            }
+            } // open claw on backdrop
 
             if (eventManager.eventOccurred(timer.time(), 4)) {
                 drivetrainCore.forwardByEncoder(-100);
-            }
+            } // move back to allow both pixels to drop staggered
 
             if (eventManager.eventOccurred(timer.time(), 5)) {
-                drivetrainCore.forwardByEncoder(-100);
-            }
+                drivetrainCore.forwardByEncoder(-150);
+            } // move back more to not collide with backdrop
 
             if (eventManager.eventOccurred(timer.time(), 6)) {
                 drivetrainCore.strafeByEncoder(750);
                 armCore.setTargetPosition(-500);
-            }
+            } // move arm to rest position, move left one
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
                 drivetrainCore.forwardByEncoder(300);
-            }
+            } // move forward into parking
 
             telemetry(telemetry);
         }
     }
-
     private void telemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());

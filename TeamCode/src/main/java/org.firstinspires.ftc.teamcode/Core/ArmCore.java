@@ -13,12 +13,17 @@ public class ArmCore {
 
     public ArmCore(HardwareMap hardwareMap) {
         armMotor = new PIDController(hardwareMap, "armMotor",
-                0.03, 0.0003, 0.0004, 0.7);
+                0.01, 0.0003, 0.0002, 0.8);
     }
 
     /** Sets a new target position for the motor. */
     public void setTargetPosition(int encoder) {
         armMotor.setTargetPosition(encoder);
+    }
+
+    /** Changes the encoder position by the inputted amount. */
+    public void moveByEncoder(int encoder) {
+        armMotor.moveByEncoder(encoder);
     }
 
     /** Updates the PIDController to move towards the provided goal position. */

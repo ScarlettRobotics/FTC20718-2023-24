@@ -10,25 +10,29 @@ import org.firstinspires.ftc.teamcode.Core.ArmCore;
  * Use FTC dashboard to see how PID variables need to be tweaked. */
 @TeleOp(name = "ArmPIDTest", group = "concepts-pid")
 public class ArmPIDTest extends OpMode {
-    ArmCore armCore;
+    // FTC Dashboard
     FtcDashboard dashboard;
     Telemetry dashboardTelemetry;
+    // arm
+    ArmCore armCore;
     @Override
     public void init() {
+        // Initialize FTC Dashboard variables
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+        // init arm
         armCore = new ArmCore(hardwareMap);
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()
         telemetry.addData("FTC Team #", "20718");
-        // Initialize FTC Dashboard variables
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
     }
 
     @Override
     public void loop() {
-        if (gamepad1.dpad_up) armCore.setTargetPosition(300);
-        if (gamepad1.dpad_right) armCore.setTargetPosition(100);
-        if (gamepad1.dpad_down) armCore.setTargetPosition(0);
+        if (gamepad1.dpad_right) armCore.setTargetPosition(-1800);
+        if (gamepad1.dpad_up) armCore.setTargetPosition(-1300);
+        if (gamepad1.dpad_left) armCore.setTargetPosition(-800);
+        if (gamepad1.dpad_down) armCore.setTargetPosition(-300);
         armCore.updateAuto();
         // Telemetry
         armCore.telemetry(telemetry);

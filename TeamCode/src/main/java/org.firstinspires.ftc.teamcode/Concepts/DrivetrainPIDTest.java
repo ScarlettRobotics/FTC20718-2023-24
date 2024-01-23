@@ -13,11 +13,13 @@ import org.firstinspires.ftc.teamcode.Core.IMUCore;
 public class DrivetrainPIDTest extends OpMode {
     DrivetrainCore drivetrainCore;
     IMUCore imuCore;
+    // FTC Dashboard
     FtcDashboard dashboard;
     Telemetry dashboardTelemetry;
     boolean pDpadUp, pDpadDown, pDpadLeft, pDpadRight;
     @Override
     public void init() {
+        // init drivetrain
         drivetrainCore = new DrivetrainCore(hardwareMap);
         // Telemetry
         telemetry.addData("STATUS: ", "Initialized"); // the FTC equivalent to println()

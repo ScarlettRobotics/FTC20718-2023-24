@@ -50,10 +50,10 @@ public class TensorFlowCore {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in FtcRobotController/src/main/assets.
-    private static final String TFOD_MODEL_ASSET = "20718RedCubeModel.tflite";
+    private static final String TFOD_MODEL_ASSET = "RedBlueLinedCubeModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "RedProp",
+            "BlueProp", "RedProp"
     };
 
     /** The variable to store our instance of the TensorFlow Object Detection processor. */
@@ -87,7 +87,7 @@ public class TensorFlowCore {
 
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         } else {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
@@ -117,6 +117,9 @@ public class TensorFlowCore {
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
+
+        // Set zoom amount to artificially magnify to detect easier
+        //tfod.setZoom(1.25);
     }
 
     /** Prevents the Vision Portal from streaming, but does not stop it altogether.
@@ -137,8 +140,30 @@ public class TensorFlowCore {
         visionPortal.close();
     }
 
+    /** If the model is identifying an object */
+    public boolean recognizing() {
+        return !tfod.getRecognitions().isEmpty();
+    }
+
+    /** Return center x of first item if identifying an object.
+     * Returns -1 otherwise. */
+    public double getX() {
+        if (recognizing()) return -1;
+        Recognition recognition = tfod.getRecognitions().get(0);
+        return (recognition.getLeft() + recognition.getRight()) / 2;
+    }
+
+    /** Return center y of first item if identifying an object.
+     * Returns -1 otherwise. */
+    public double getY() {
+        if (recognizing()) return -1;
+        Recognition recognition = tfod.getRecognitions().get(0);
+        return (recognition.getTop()  + recognition.getBottom()) / 2;
+    }
+
     /** Add telemetry about TensorFlow Object Detection (TFOD) recognitions. */
     public void telemetry(Telemetry telemetry) {
+        telemetry.addData("\nCURRENT CLASS","TensorFlowCore.java");
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
@@ -147,7 +172,7 @@ public class TensorFlowCore {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-            telemetry.addData("\nCURRENT CLASS","TensorFlowCore.java");
+            telemetry.addData(" "," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
