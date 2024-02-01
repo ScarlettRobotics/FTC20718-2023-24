@@ -12,8 +12,8 @@ import java.util.List;
 
 /** Used if on the close side of movement. Place where wheels touch right teeth.
  * Places yellow pixel based on prop position, then places purple pixel on backdrop based on prop position. */
-@Autonomous(name = "RedCloseDetection", group = "red")
-public class RedCloseDetection extends LinearOpMode {
+@Autonomous(name = "RedFarDetection", group = "red")
+public class RedFarDetection extends LinearOpMode {
     // FTC Dashboard
     private FtcDashboard dashboard;
     private Telemetry dashboardTelemetry;
@@ -48,10 +48,10 @@ public class RedCloseDetection extends LinearOpMode {
         eventManager.addEvent(10); // move forward to see AprilTag
         eventManager.addEvent(12); // align with AprilTag based on propLocation
         eventManager.addEvent(13); // strafe to center
-       eventManager.addEvent(14); // move forward to backdrop, set arm to drop pos
+        eventManager.addEvent(14); // move forward to backdrop, set arm to drop pos
 
-       eventManager.addEvent(15.5); // open claw
-       eventManager.addEvent(16); // move arm to safe pos, strafe to edge based on propLocation
+        eventManager.addEvent(15.5); // open claw
+        eventManager.addEvent(16); // move arm to safe pos, strafe to edge based on propLocation
         eventManager.addEvent(17.5); // move into park
 
         // Init core classes
@@ -91,31 +91,38 @@ public class RedCloseDetection extends LinearOpMode {
                 } else { // to right of camera
                     propLocation = 0;
                 }
-               // propLocation = 0; // TODO debug forced propLocation
-                //armCore.setTargetPosition(-2000);
+                propLocation = 0; // TODO debug forced propLocation
+                armCore.setTargetPosition(-2000);
                 tensorFlowCore.stopStreaming();
             } // end find prop, strafe to align with centre, move arm to safe
-            if (eventManager.eventOccurred(timer.time(), 1) && propLocation == 1) {
-                drivetrainCore.forwardByEncoder(1000);
-            } else if (eventManager.eventOccurred(timer.time(), 2) && propLocation == 0) {
-                drivetrainCore.forwardByEncoder(800);
-                drivetrainCore.forwardByEncoder(1);
-                drivetrainCore.rotateByEncoder(-300);
-            } else {
-                drivetrainCore.forwardByEncoder(800);
-                drivetrainCore.forwardByEncoder(1);
-                drivetrainCore.rotateByEncoder(300);
-            }
+            if (eventManager.eventOccurred(timer.time(), 1)) {
+                if (propLocation == 1) {
+                    drivetrainCore.forwardByEncoder(1000);
+                } else {
+                    drivetrainCore.forwardByEncoder(700);
+                }
+            } // end move towards position based on prop
+            if (eventManager.eventOccurred(timer.time(), 2)) {
+                if (propLocation == 0) {
+                    drivetrainCore.rotateByEncoder(-300);
+                } else if (propLocation == 2) {
+                    drivetrainCore.rotateByEncoder(300);
+                }
+            } // end rotate based on prop
+            if (eventManager.eventOccurred(timer.time(), 3)) {
+                if (propLocation != 1) {
+                    drivetrainCore.forwardByEncoder(300);
+                }
+            } // end move purple forward to meet tape
 
-
-            /*if (eventManager.eventOccurred(timer.time(), 4)) {
+            if (eventManager.eventOccurred(timer.time(), 4)) {
                 if (propLocation == 1) {
                     drivetrainCore.forwardByEncoder(-300);
                 } else {
                     drivetrainCore.forwardByEncoder(-200);
                 }
-            } // end move back to org pos*/
-            /*if (eventManager.eventOccurred(timer.time(), 5)) {
+            } // end move back to org pos
+            if (eventManager.eventOccurred(timer.time(), 5)) {
                 if (propLocation == 0) {
                     drivetrainCore.rotateByEncoder(700);
                 } else if (propLocation == 1) {
@@ -123,22 +130,22 @@ public class RedCloseDetection extends LinearOpMode {
                 } else {
                     drivetrainCore.rotateByEncoder(300);
                 }
-            } // end rotate back to align with AprilTag*/
-            /*if (eventManager.eventOccurred(timer.time(), 6)) {
+            } // end rotate back to align with AprilTag
+            if (eventManager.eventOccurred(timer.time(), 6)) {
                 if (propLocation != 1) {
                     drivetrainCore.strafeByEncoder(300);
                 }
-            } // end strafe to center*/
+            } // end strafe to center
 
-            /*if (eventManager.eventOccurred(timer.time(), 7)) {
+            if (eventManager.eventOccurred(timer.time(), 7)) {
                 drivetrainCore.forwardByEncoder(500);
-            } // end move forward to see AprilTag*/
-            /*if (eventManager.eventOccurred(timer.time(), 8)) {
+            } // end move forward to see AprilTag
+            if (eventManager.eventOccurred(timer.time(), 8)) {
                 aprilTagCore = new AprilTagCore(hardwareMap, 2);
                 aprilTagAlignerPID = new PIDControllerSimple("AprilTag aligner", 0, 0, 0, 0.3);
                 aprilTagAlignerPID.setTargetPosition(0); // goal of X = 0 with apriltag
-            } // end align with AprilTag based on propLocation*/
-            /*if (eventManager.getActionTaken(8) && !eventManager.getActionTaken(9)) {
+            } // end align with AprilTag based on propLocation
+            if (eventManager.getActionTaken(8) && !eventManager.getActionTaken(9)) {
                 // Update aligner with correct AprilTag ID
                 List<AprilTagDetection> currentDetections = aprilTagCore.getDetections();
                 for (AprilTagDetection detection : currentDetections) {
@@ -151,14 +158,14 @@ public class RedCloseDetection extends LinearOpMode {
                 // Strafe drivetrain based on AprilTag
                 drivetrainCore.setPowers(
                         drivetrainCore.translate(0, aprilTagAlignerPID.getPower()));
-            } // end align with AprilTag*/
-            /*if (eventManager.eventOccurred(timer.time(), 9)) {
+            } // end align with AprilTag
+            if (eventManager.eventOccurred(timer.time(), 9)) {
                 aprilTagCore.closeVisionPortal();
                 drivetrainCore.forwardByEncoder(300);
-                //armCore.setTargetPosition(-2400);
-            } // end move forward to backdrop, set arm to drop pos*/
+                armCore.setTargetPosition(-2400);
+            } // end move forward to backdrop, set arm to drop pos
 
-            /*if (eventManager.eventOccurred(timer.time(), 10)) {
+            if (eventManager.eventOccurred(timer.time(), 10)) {
                 clawCore.open();
             } // end open claw
             if (eventManager.eventOccurred(timer.time(), 11)) {
@@ -169,13 +176,13 @@ public class RedCloseDetection extends LinearOpMode {
                 } else {
                     drivetrainCore.strafeByEncoder(-200);
                 }
-                //armCore.setTargetPosition(-300);
+                armCore.setTargetPosition(-300);
             } // end move arm to safe pos, strafe to edge based on propLocation
             if (eventManager.eventOccurred(timer.time(), 12)) {
                 drivetrainCore.forwardByEncoder(200);
             } // end move into park
 
-            addTelemetry(telemetry);*/
+            addTelemetry(telemetry);
         }
     }
 
