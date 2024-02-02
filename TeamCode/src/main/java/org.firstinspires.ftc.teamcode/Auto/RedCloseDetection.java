@@ -95,47 +95,87 @@ public class RedCloseDetection extends LinearOpMode {
                 armCore.setTargetPosition(-2000);
                 tensorFlowCore.stopStreaming();
             } // end find prop, strafe to align with centre, move arm to safe
-            if (eventManager.eventOccurred(timer.time(), 1)) {
-                if (propLocation == 1) {
-                    drivetrainCore.forwardByEncoder(1000);
-                } else {
+            if (propLocation == 0) { // Left
+                if (eventManager.eventOccurred(timer.time(), 1)) {
                     drivetrainCore.forwardByEncoder(700);
-                }
-            } // end move towards position based on prop
-            if (eventManager.eventOccurred(timer.time(), 2)) {
-                if (propLocation == 0) {
+                } // end move towards position based on prop
+                if (eventManager.eventOccurred(timer.time(), 2)) {
                     drivetrainCore.rotateByEncoder(-300);
-                } else if (propLocation == 2) {
-                    drivetrainCore.rotateByEncoder(300);
-                }
-            } // end rotate based on prop
-            if (eventManager.eventOccurred(timer.time(), 3)) {
-                if (propLocation != 1) {
-                    drivetrainCore.forwardByEncoder(300);
-                }
-            } // end move purple forward to meet tape
-
-            if (eventManager.eventOccurred(timer.time(), 4)) {
-                if (propLocation == 1) {
-                    drivetrainCore.forwardByEncoder(-300);
-                } else {
+                } // end rotate based on prop
+                if (eventManager.eventOccurred(timer.time(), 3)) {
+                    drivetrainCore.forwardByEncoder(200);
+                } // end move purple forward to meet tape
+                if (eventManager.eventOccurred(timer.time(), 4)) {
                     drivetrainCore.forwardByEncoder(-200);
-                }
-            } // end move back to org pos
-            if (eventManager.eventOccurred(timer.time(), 5)) {
-                if (propLocation == 0) {
+                } // end move back to org pos
+                if (eventManager.eventOccurred(timer.time(), 5)) {
                     drivetrainCore.rotateByEncoder(700);
-                } else if (propLocation == 1) {
-                    drivetrainCore.rotateByEncoder(500);
-                } else {
-                    drivetrainCore.rotateByEncoder(300);
-                }
-            } // end rotate back to align with AprilTag
-            if (eventManager.eventOccurred(timer.time(), 6)) {
-                if (propLocation != 1) {
+                } // end rotate back to align with AprilTag
+                if (eventManager.eventOccurred(timer.time(), 6)) {
                     drivetrainCore.strafeByEncoder(300);
-                }
-            } // end strafe to center
+                } // end strafe to center
+
+                /* Break; see after this if/elif/else chain */
+
+                if (eventManager.eventOccurred(timer.time(), 11)) {
+                    drivetrainCore.strafeByEncoder(-400);
+                    armCore.setTargetPosition(-300);
+                } // end move arm to safe pos, strafe to edge based on propLocation
+                if (eventManager.eventOccurred(timer.time(), 12)) {
+                    drivetrainCore.forwardByEncoder(200);
+                } // end move into park
+            }
+            else if (propLocation == 1) { // Middle
+                if (eventManager.eventOccurred(timer.time(), 1)) {
+                    drivetrainCore.forwardByEncoder(1000);
+                } // end move towards position based on prop
+                if (eventManager.eventOccurred(timer.time(), 4)) {
+                    drivetrainCore.forwardByEncoder(-300);
+                } // end move back to org pos
+                if (eventManager.eventOccurred(timer.time(), 5)) {
+                    drivetrainCore.rotateByEncoder(500);
+                } // end rotate back to align with AprilTag
+
+                /* Break; see after this if/elif/else chain */
+
+                if (eventManager.eventOccurred(timer.time(), 11)) {
+                    drivetrainCore.strafeByEncoder(-300);
+                    armCore.setTargetPosition(-300);
+                } // end move arm to safe pos, strafe to edge based on propLocation
+                if (eventManager.eventOccurred(timer.time(), 12)) {
+                    drivetrainCore.forwardByEncoder(200);
+                } // end move into park
+            }
+            else { // Right
+                if (eventManager.eventOccurred(timer.time(), 1)) {
+                    drivetrainCore.forwardByEncoder(700);
+                } // end move towards position based on prop
+                if (eventManager.eventOccurred(timer.time(), 2)) {
+                    drivetrainCore.rotateByEncoder(300);
+                } // end rotate based on prop
+                if (eventManager.eventOccurred(timer.time(), 3)) {
+                    drivetrainCore.forwardByEncoder(200);
+                } // end move purple forward to meet tape
+                if (eventManager.eventOccurred(timer.time(), 4)) {
+                    drivetrainCore.forwardByEncoder(-200);
+                } // end move back to org pos
+                if (eventManager.eventOccurred(timer.time(), 5)) {
+                    drivetrainCore.rotateByEncoder(300);
+                } // end rotate back to align with AprilTag
+                if (eventManager.eventOccurred(timer.time(), 6)) {
+                    drivetrainCore.strafeByEncoder(300);
+                } // end strafe to center
+
+                /* Break; see after this if/elif/else chain */
+
+                if (eventManager.eventOccurred(timer.time(), 11)) {
+                    drivetrainCore.strafeByEncoder(-200);
+                    armCore.setTargetPosition(-300);
+                } // end move arm to safe pos, strafe to edge based on propLocation
+                if (eventManager.eventOccurred(timer.time(), 12)) {
+                    drivetrainCore.forwardByEncoder(200);
+                } // end move into park
+            }
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
                 drivetrainCore.forwardByEncoder(500);
@@ -164,32 +204,25 @@ public class RedCloseDetection extends LinearOpMode {
                 drivetrainCore.forwardByEncoder(300);
                 armCore.setTargetPosition(-2400);
             } // end move forward to backdrop, set arm to drop pos
-
             if (eventManager.eventOccurred(timer.time(), 10)) {
                 clawCore.open();
             } // end open claw
-            if (eventManager.eventOccurred(timer.time(), 11)) {
-                if (propLocation == 0) {
-                    drivetrainCore.strafeByEncoder(-400);
-                } else if (propLocation == 1) {
-                    drivetrainCore.strafeByEncoder(-300);
-                } else {
-                    drivetrainCore.strafeByEncoder(-200);
-                }
-                armCore.setTargetPosition(-300);
-            } // end move arm to safe pos, strafe to edge based on propLocation
-            if (eventManager.eventOccurred(timer.time(), 12)) {
-                drivetrainCore.forwardByEncoder(200);
-            } // end move into park
 
+            // TELEMETRY
             addTelemetry(telemetry);
         }
     }
 
     private void addTelemetry(Telemetry telemetry) {
         // Telemetry
+        addTelemetryInstance(telemetry);
+        // FTC Dashboard
+        addTelemetryInstance(dashboardTelemetry);
+    }
+
+    private void addTelemetryInstance(Telemetry telemetry) {
         telemetry.addData("timer", timer.time());
-        eventManager.telemetry(telemetry); //reuse ".telemetry(telemetry)"
+        eventManager.telemetry(telemetry); //reuse ".telemetry(dashboardTelemetry)"
         drivetrainCore.telemetry(telemetry);
         armCore.telemetry(telemetry);
         clawCore.telemetry(telemetry);
@@ -198,16 +231,5 @@ public class RedCloseDetection extends LinearOpMode {
             aprilTagCore.telemetry(telemetry);
         }
         telemetry.update();
-        // FTC Dashboard
-        dashboardTelemetry.addData("timer", timer.time());
-        eventManager.telemetry(dashboardTelemetry); //reuse ".telemetry(dashboardTelemetry)"
-        drivetrainCore.telemetry(dashboardTelemetry);
-        armCore.telemetry(dashboardTelemetry);
-        clawCore.telemetry(dashboardTelemetry);
-        tensorFlowCore.telemetry(dashboardTelemetry);
-        if (aprilTagCore != null) {
-            aprilTagCore.telemetry(dashboardTelemetry);
-        }
-        dashboardTelemetry.update();
     }
 }
