@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.TensorFlowCore;
+import org.firstinspires.ftc.teamcode.Core.VisionPortalCore;
 
 /**
  * This OpMode illustrates the basics of TensorFlow Object Detection (TFOD),
@@ -46,6 +47,7 @@ public class TensorFlowTest extends LinearOpMode {
     // FTC Dashboard
     FtcDashboard dashboard;
     Telemetry dashboardTelemetry;
+    public VisionPortalCore visionPortalCore;
     public TensorFlowCore tensorFlowCore;
 
     @Override
@@ -54,7 +56,9 @@ public class TensorFlowTest extends LinearOpMode {
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
 
-        tensorFlowCore = new TensorFlowCore(hardwareMap);
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
+        visionPortalCore.build();
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -72,9 +76,9 @@ public class TensorFlowTest extends LinearOpMode {
 
                 // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
-                    tensorFlowCore.stopStreaming();
+                    visionPortalCore.stopStreaming();
                 } else if (gamepad1.dpad_up) {
-                    tensorFlowCore.resumeStreaming();
+                    visionPortalCore.resumeStreaming();
                 }
 
                 // Share the CPU.
@@ -83,7 +87,7 @@ public class TensorFlowTest extends LinearOpMode {
         }
 
         // Save more CPU resources when camera is no longer needed.
-        tensorFlowCore.close();
+        visionPortalCore.close();
 
     }   // end runOpMode()
 

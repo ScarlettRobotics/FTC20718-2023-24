@@ -24,6 +24,8 @@ public class RedCloseDetection extends LinearOpMode {
     DrivetrainCore drivetrainCore;
     ArmCore armCore;
     ClawCore clawCore;
+    // Vision classes
+    VisionPortalCore visionPortalCore;
     TensorFlowCore tensorFlowCore;
     AprilTagCore aprilTagCore;
     // Other
@@ -58,7 +60,11 @@ public class RedCloseDetection extends LinearOpMode {
         drivetrainCore = new DrivetrainCore(hardwareMap);
         armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
-        tensorFlowCore = new TensorFlowCore(hardwareMap);
+        // Init vision classes
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
+        aprilTagCore = new AprilTagCore(hardwareMap, visionPortalCore.builder, 2);
+        visionPortalCore.build();
         // Init telemetry
         telemetry.addData("STATUS", "Initialized");
         telemetry.update();
@@ -93,7 +99,7 @@ public class RedCloseDetection extends LinearOpMode {
                 }
                 propLocation = 0; // TODO debug forced propLocation
                 armCore.setTargetPosition(-2000);
-                tensorFlowCore.stopStreaming();
+                visionPortalCore.stopStreaming();
             } // end find prop, strafe to align with centre, move arm to safe
             if (propLocation == 0) { // Left
                 if (eventManager.eventOccurred(timer.time(), 1)) {
@@ -181,7 +187,7 @@ public class RedCloseDetection extends LinearOpMode {
                 drivetrainCore.forwardByEncoder(500);
             } // end move forward to see AprilTag
             if (eventManager.eventOccurred(timer.time(), 8)) {
-                aprilTagCore = new AprilTagCore(hardwareMap, 2);
+                visionPortalCore.resumeStreaming();
                 aprilTagAlignerPID = new PIDControllerSimple("AprilTag aligner", 0, 0, 0, 0.3);
                 aprilTagAlignerPID.setTargetPosition(0); // goal of X = 0 with apriltag
             } // end align with AprilTag based on propLocation
@@ -200,7 +206,7 @@ public class RedCloseDetection extends LinearOpMode {
                         drivetrainCore.translate(0, aprilTagAlignerPID.getPower()));
             } // end align with AprilTag
             if (eventManager.eventOccurred(timer.time(), 9)) {
-                aprilTagCore.closeVisionPortal();
+                visionPortalCore.close();
                 drivetrainCore.forwardByEncoder(300);
                 armCore.setTargetPosition(-2400);
             } // end move forward to backdrop, set arm to drop pos

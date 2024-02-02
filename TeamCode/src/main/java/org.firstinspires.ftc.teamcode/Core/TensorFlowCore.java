@@ -47,8 +47,6 @@ import java.util.List;
  */
 public class TensorFlowCore {
 
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
     // TFOD_MODEL_ASSET points to a model file stored in FtcRobotController/src/main/assets.
     private static final String TFOD_MODEL_ASSET = "RedBlueLinedCubeModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
@@ -59,10 +57,7 @@ public class TensorFlowCore {
     /** The variable to store our instance of the TensorFlow Object Detection processor. */
     private final TfodProcessor tfod;
 
-    /** The variable to store our instance of the vision portal. */
-    private final VisionPortal visionPortal;
-
-    public TensorFlowCore(HardwareMap hardwareMap) {
+    public TensorFlowCore(HardwareMap hardwareMap, VisionPortal.Builder builder) {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
 
@@ -82,16 +77,6 @@ public class TensorFlowCore {
 
                 .build();
 
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
         // Choose a camera resolution. Not all cameras support all resolutions.
         //builder.setCameraResolution(new Size(640, 480));
 
@@ -109,9 +94,6 @@ public class TensorFlowCore {
         // Set and enable the processor.
         builder.addProcessor(tfod);
 
-        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-
         // Set confidence threshold for TFOD recognitions, at any time.
         //tfod.setMinResultConfidence(0.75f);
 
@@ -120,24 +102,6 @@ public class TensorFlowCore {
 
         // Set zoom amount to artificially magnify to detect easier
         //tfod.setZoom(1.25);
-    }
-
-    /** Prevents the Vision Portal from streaming, but does not stop it altogether.
-     * Done to save CPU resources. */
-    public void stopStreaming() {
-        visionPortal.stopStreaming();
-    }
-
-    /** Continues streaming the Vision Portal if it has been stopped.
-     * Used in conjunction with .stopStreaming() to save CPU resources. */
-    public void resumeStreaming() {
-        visionPortal.resumeStreaming();
-    }
-
-    /** Closes the Vision Portal to save on CPU processing.
-     * Use this when you don't need to identify props anymore. */
-    public void close() {
-        visionPortal.close();
     }
 
     /** If the model is identifying an object */

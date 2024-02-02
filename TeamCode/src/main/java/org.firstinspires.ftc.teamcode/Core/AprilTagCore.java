@@ -13,10 +13,8 @@ import java.util.List;
 /** Manages AprilTag detection. 
  * Based off of ConceptAprilTag.java from external samples. */
 public class AprilTagCore {
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
-    public AprilTagCore(HardwareMap hardwareMap, int decimation) {
+    public AprilTagCore(HardwareMap hardwareMap, VisionPortal.Builder builder, int decimation) {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
 
@@ -45,16 +43,6 @@ public class AprilTagCore {
         // Note: Decimation can be changed on-the-fly to adapt during a match.
         aprilTag.setDecimation(decimation);
 
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
         // Choose a camera resolution. Not all cameras support all resolutions.
         //builder.setCameraResolution(new Size(640, 480));
 
@@ -72,24 +60,9 @@ public class AprilTagCore {
         // Set and enable the processor.
         builder.addProcessor(aprilTag);
 
-        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-
         // Disable or re-enable the aprilTag processor at any time.
         //visionPortal.setProcessorEnabled(aprilTag, true);
 
-    }
-
-    public void resumeStreaming() {
-        visionPortal.resumeStreaming();
-    }
-
-    public void stopStreaming() {
-        visionPortal.stopStreaming();
-    }
-
-    public void closeVisionPortal() {
-        visionPortal.close();
     }
 
     public List<AprilTagDetection> getDetections() {

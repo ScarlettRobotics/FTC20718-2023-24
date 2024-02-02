@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Concepts;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Core.AprilTagCore;
+import org.firstinspires.ftc.teamcode.Core.VisionPortalCore;
 
 /**
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation,
@@ -30,11 +31,14 @@ import org.firstinspires.ftc.teamcode.Core.AprilTagCore;
  */
 @TeleOp(name = "Concept: AprilTag", group = "concept-vision")
 public class AprilTagTest extends LinearOpMode {
+    private VisionPortalCore visionPortalCore;
     private AprilTagCore aprilTagCore;
 
     @Override
     public void runOpMode() {
-        aprilTagCore = new AprilTagCore(hardwareMap, 2);
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        aprilTagCore = new AprilTagCore(hardwareMap, visionPortalCore.builder, 2);
+        visionPortalCore.build();
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -50,9 +54,9 @@ public class AprilTagTest extends LinearOpMode {
 
                 // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
-                    aprilTagCore.stopStreaming();
+                    visionPortalCore.stopStreaming();
                 } else if (gamepad1.dpad_up) {
-                    aprilTagCore.resumeStreaming();
+                    visionPortalCore.resumeStreaming();
                 }
 
                 // Share the CPU.
@@ -61,7 +65,7 @@ public class AprilTagTest extends LinearOpMode {
         }
 
         // Save more CPU resources when camera is no longer needed.
-        aprilTagCore.closeVisionPortal();
+        visionPortalCore.close();
 
     }   // end method runOpMode()
 

@@ -2,14 +2,15 @@ package org.firstinspires.ftc.teamcode.Concepts;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Core.WebcamCore;
+import org.firstinspires.ftc.teamcode.Core.VisionPortalCore;
 
 @TeleOp(name = "CameraStreamTest", group = "concepts-vision")
 public class CameraStreamTest extends OpMode {
-    WebcamCore webcamCore;
+    VisionPortalCore visionPortalCore;
     @Override
     public void init() {
-        webcamCore = new WebcamCore(hardwareMap);
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        visionPortalCore.build();
     }
 
     @Override
