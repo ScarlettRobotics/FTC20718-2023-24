@@ -40,21 +40,21 @@ public class RedCloseDetection extends LinearOpMode {
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
         eventManager = new EventManager();
         // Init timings
-        eventManager.addEvent(1); // find prop, strafe to align with centre, move arm to safe
-        eventManager.addEvent(2.5); // move towards position based on prop
-        eventManager.addEvent(4.5); // rotate based on prop
-        eventManager.addEvent(5.5); // move purple forward to meet tape
+        eventManager.addEvent(6); // find prop, strafe to align with centre, move arm to safe
+        eventManager.addEvent(7.5); // move towards position based on prop
+        eventManager.addEvent(9.5); // rotate based on prop
+        eventManager.addEvent(10.5); // move purple forward to meet tape
 
-        eventManager.addEvent(7); // move back to org pos
-        eventManager.addEvent(8.5); // rotate back to align with AprilTag
-        eventManager.addEvent(10); // move forward to see AprilTag
-        eventManager.addEvent(12); // align with AprilTag based on propLocation
-        eventManager.addEvent(13); // strafe to center
-        eventManager.addEvent(14); // move forward to backdrop, set arm to drop pos
+        eventManager.addEvent(12); // move back to org pos
+        eventManager.addEvent(13.5); // rotate back to align with AprilTag
+        eventManager.addEvent(15); // move forward to see AprilTag
+        eventManager.addEvent(17); // align with AprilTag based on propLocation
+        eventManager.addEvent(18); // strafe to center
+        eventManager.addEvent(19); // move forward to backdrop, set arm to drop pos
 
-        eventManager.addEvent(15.5); // open claw
-        eventManager.addEvent(16); // move arm to safe pos, strafe to edge based on propLocation
-        eventManager.addEvent(17.5); // move into park
+        eventManager.addEvent(20.5); // open claw
+        eventManager.addEvent(21); // move arm to safe pos, strafe to edge based on propLocation
+        eventManager.addEvent(22.5); // move into park
 
         // Init core classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
