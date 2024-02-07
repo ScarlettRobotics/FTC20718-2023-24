@@ -29,7 +29,7 @@ public class ArmCore {
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
-        armMotor.update(armMotor.getEncoder());
+        armMotor.update(armMotor.getEncoderPosition());
     }
 
     /** Moves the arm motor as a */

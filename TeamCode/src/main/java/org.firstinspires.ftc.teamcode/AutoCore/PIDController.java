@@ -27,7 +27,7 @@ public class PIDController extends PIDControllerSimple {
     }
 
     /** Returns the encoder value of the DcMotor. */
-    public int getEncoder() {
+    public int getEncoderPosition() {
         return motor.getCurrentPosition();
     }
 
@@ -44,14 +44,21 @@ public class PIDController extends PIDControllerSimple {
 
     /** Moves the controller towards goalPosition encoder location.
      * If the PIDController has already reached goalPosition, no code is executed. */
-    protected void update(int currentPosition) {
+    public void update(int currentPosition) {
         super.update(currentPosition); // PID calc
+        motor.setPower(getPower());
+    }
+
+    /** Moves the controller towards goalPosition encoder location.
+     * If the PIDController has already reached goalPosition, no code is executed. */
+    public void update() {
+        super.update(motor.getCurrentPosition()); // PID calc
         motor.setPower(getPower());
     }
 
     public void telemetry(Telemetry telemetry) {
         telemetry.addData(name + " targetPosition", getTargetPosition());
-        telemetry.addData(name + " currentPosition", getEncoder());
+        telemetry.addData(name + " currentPosition", motor.getCurrentPosition());
         telemetry.addData(name + " power", motor.getPower());
     }
 }

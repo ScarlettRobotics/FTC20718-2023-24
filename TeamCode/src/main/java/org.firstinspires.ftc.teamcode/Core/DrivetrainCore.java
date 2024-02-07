@@ -70,16 +70,16 @@ public class DrivetrainCore {
     public void updateAuto() {
         // Done because not every motor has an encoder linked up
         if (driveMotors.get(0).getDeltaTargetPosition() == driveMotors.get(1).getDeltaTargetPosition()) { // strafing/rotating
-            driveMotors.get(0).update(driveMotors.get(0).getEncoder());
+            driveMotors.get(0).update();
             driveMotors.get(1).overridePower(driveMotors.get(0).getPower());
 
-            driveMotors.get(2).update(driveMotors.get(2).getEncoder());
+            driveMotors.get(2).update();
             driveMotors.get(3).overridePower(driveMotors.get(2).getPower());
         } else { // forward
-            driveMotors.get(0).update(driveMotors.get(0).getEncoder());
+            driveMotors.get(0).update();
             driveMotors.get(1).overridePower(driveMotors.get(2).getPower());
 
-            driveMotors.get(2).update(driveMotors.get(2).getEncoder());
+            driveMotors.get(2).update();
             driveMotors.get(3).overridePower(driveMotors.get(0).getPower());
         }
     }

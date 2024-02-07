@@ -21,7 +21,7 @@ public class PIDControllerSimple {
     protected double pError; // error could be here but only is used in update()
     protected double integralSum; // derivative could be here but only is used in update()
     protected final double powerCap;
-    protected double power;
+    private double power;
     // Measures time passed in millis
     ElapsedTime timer;
 
