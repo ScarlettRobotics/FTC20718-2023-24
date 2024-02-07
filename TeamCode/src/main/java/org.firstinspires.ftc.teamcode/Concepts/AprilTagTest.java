@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.Concepts;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Core.AprilTagCore;
-import org.firstinspires.ftc.teamcode.Core.VisionPortalCore;
+import org.firstinspires.ftc.teamcode.AutoCore.AprilTagCore;
+import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
 
 /**
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation,

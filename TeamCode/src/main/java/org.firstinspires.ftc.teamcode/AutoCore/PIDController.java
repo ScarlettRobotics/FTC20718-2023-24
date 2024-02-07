@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.AutoCore;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -18,7 +18,7 @@ public class PIDController extends PIDControllerSimple {
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
      * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
+    public PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
         super(motorName, Kp, Ki, Kd, powerCap);
         // Initialize motor
         motor = hardwareMap.get(DcMotor.class, motorName);
@@ -38,7 +38,7 @@ public class PIDController extends PIDControllerSimple {
 
     /** Overrides the set power from update() to the inputted power.
      * Run this code after update(), or overridePower() will do nothing. */
-    protected void overridePower(double power) {
+    public void overridePower(double power) {
         motor.setPower(power);
     }
 

@@ -33,8 +33,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Core.TensorFlowCore;
-import org.firstinspires.ftc.teamcode.Core.VisionPortalCore;
+import org.firstinspires.ftc.teamcode.AutoCore.TensorFlowCore;
+import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
 
 /**
  * This OpMode illustrates the basics of TensorFlow Object Detection (TFOD),

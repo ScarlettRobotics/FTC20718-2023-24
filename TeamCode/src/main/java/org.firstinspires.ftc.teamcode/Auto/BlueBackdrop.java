@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.ArmCore;
 import org.firstinspires.ftc.teamcode.Core.ClawCore;
 import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
-import org.firstinspires.ftc.teamcode.Core.EventManager;
+import org.firstinspires.ftc.teamcode.AutoCore.EventManager;
 
 @Autonomous(name = "BlueBackdrop", group = "blue")
 public class BlueBackdrop extends LinearOpMode {

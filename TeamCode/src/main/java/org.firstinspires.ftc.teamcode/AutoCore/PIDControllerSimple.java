@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.AutoCore;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -70,7 +70,7 @@ public class PIDControllerSimple {
     }
 
     /** Reassigns targetPosition based on pTargetPosition, treating pTargetPosition as the starting point. */
-    protected void moveByEncoder(double encoder) {
+    public void moveByEncoder(double encoder) {
         pTargetPosition = targetPosition;
         targetPosition += encoder;
         // Reset PID variables
@@ -115,7 +115,7 @@ public class PIDControllerSimple {
     }
 
     /** Telemetry */
-    protected void telemetry(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addData(name + " targetPosition", getTargetPosition());
         telemetry.addData(name + " currentPosition", getCurrentPosition());
         telemetry.addData(name + " power", getPower());

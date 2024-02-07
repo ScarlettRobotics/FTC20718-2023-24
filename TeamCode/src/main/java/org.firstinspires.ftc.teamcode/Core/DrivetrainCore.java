@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 
 import java.util.ArrayList;
 
