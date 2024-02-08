@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
 
 /** Operates the arm of the robot.
  * Current, only setPower() and telemetry() are useful.
@@ -28,7 +29,7 @@ public class ArmCore {
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
-        armMotor.update(armMotor.getEncoder());
+        armMotor.update(armMotor.getEncoderPosition());
     }
 
     /** Moves the arm motor as a */

@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
 import org.firstinspires.ftc.teamcode.Core.IMUCore;
 
-/** Moves the arm to preset locations.
+/** Moves the drivetrain to preset locations.
  * Use FTC dashboard to see how PID variables need to be tweaked. */
 @TeleOp(name = "DrivetrainPIDTest", group = "concepts-pid")
 public class DrivetrainPIDTest extends OpMode {

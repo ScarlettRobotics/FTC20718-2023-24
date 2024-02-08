@@ -6,10 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Core.ArmCore;
-import org.firstinspires.ftc.teamcode.Core.ClawCore;
-import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
-import org.firstinspires.ftc.teamcode.Core.EventManager;
+import org.firstinspires.ftc.teamcode.AutoCore.EventManager;
 
 /** Class containing basics of an autonomous class.
  * Don't edit this class directly. Instead, make a copy, then edit the new class.

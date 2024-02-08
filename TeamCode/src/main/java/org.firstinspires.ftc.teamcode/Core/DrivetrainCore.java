@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ public class DrivetrainCore {
         // hardwareMap
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
-                    0.01, 0.0001, 0.0002, 0.5));
+                    0.01, 0.0001, 0.0005, 0.5));
         }
 
         // direction
@@ -68,16 +70,16 @@ public class DrivetrainCore {
     public void updateAuto() {
         // Done because not every motor has an encoder linked up
         if (driveMotors.get(0).getDeltaTargetPosition() == driveMotors.get(1).getDeltaTargetPosition()) { // strafing/rotating
-            driveMotors.get(0).update(driveMotors.get(0).getEncoder());
+            driveMotors.get(0).update();
             driveMotors.get(1).overridePower(driveMotors.get(0).getPower());
 
-            driveMotors.get(2).update(driveMotors.get(2).getEncoder());
+            driveMotors.get(2).update();
             driveMotors.get(3).overridePower(driveMotors.get(2).getPower());
         } else { // forward
-            driveMotors.get(0).update(driveMotors.get(0).getEncoder());
+            driveMotors.get(0).update();
             driveMotors.get(1).overridePower(driveMotors.get(2).getPower());
 
-            driveMotors.get(2).update(driveMotors.get(2).getEncoder());
+            driveMotors.get(2).update();
             driveMotors.get(3).overridePower(driveMotors.get(0).getPower());
         }
     }
@@ -89,7 +91,7 @@ public class DrivetrainCore {
 
     /** Receives four double[] values from -1 to 1 to set appropriate motor powers.
      * Will error if array length is less than 4. */
-    protected void setPowers(double[] powers) {
+    public void setPowers(double[] powers) {
         for (int i=0; i<4; i++) {
             // squared so movement is slower if needed
             driveMotors.get(i).overridePower(changePower(powers[i]));
@@ -112,7 +114,7 @@ public class DrivetrainCore {
      *                Positive makes robot move forward.
      * @param strafe How much the robot should move left/right.
      *               Positive makes robot move right. */
-    protected double[] translate(double forward, double strafe) {
+    public double[] translate(double forward, double strafe) {
         double[] output = new double[4];
         output[0] += forward;
         output[1] -= forward;

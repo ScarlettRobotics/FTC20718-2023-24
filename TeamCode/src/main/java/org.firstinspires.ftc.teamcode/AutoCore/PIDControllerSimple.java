@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.AutoCore;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -10,17 +10,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * If you are using this class, ensure the relevant part always starts in the same position for consistency.
  * See https://www.ctrlaltftc.com/the-pid-controller for info. */
 public class PIDControllerSimple {
-    private final String name;
+    protected final String name;
     // PID vars
-    private final double Kp;
-    private final double Ki;
-    private final double Kd;
-    private final double integralSumMax;
-    private double targetPosition, pTargetPosition;
-    private double currentPosition;
-    private double pError; // error could be here but only is used in update()
-    private double integralSum; // derivative could be here but only is used in update()
-    private final double powerCap;
+    protected final double Kp;
+    protected final double Ki;
+    protected final double Kd;
+    protected final double integralSumMax;
+    protected double targetPosition, pTargetPosition;
+    protected double currentPosition;
+    protected double pError; // error could be here but only is used in update()
+    protected double integralSum; // derivative could be here but only is used in update()
+    protected final double powerCap;
     private double power;
     // Measures time passed in millis
     ElapsedTime timer;
@@ -30,7 +30,7 @@ public class PIDControllerSimple {
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
      * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    PIDControllerSimple(String name, double Kp, double Ki, double Kd, double powerCap) {
+    public PIDControllerSimple(String name, double Kp, double Ki, double Kd, double powerCap) {
         this.name = name;
         // Initialize PID variables
         timer = new ElapsedTime();
@@ -48,20 +48,23 @@ public class PIDControllerSimple {
         return targetPosition - pTargetPosition;
     }
 
+    /** Returns the outputted power after .update() */
     public double getPower() {
         return power;
     }
 
+    /** Returns the currentPosition that was inputted in .update() */
     public double getCurrentPosition() {
         return currentPosition;
     }
 
+    /** Returns the number that PIDControllerSimple is trying to reach */
     public double getTargetPosition() {
         return targetPosition;
     }
 
     /** Sets a new target position for the PIDController to move towards. */
-    protected void setTargetPosition(double targetPosition) {
+    public void setTargetPosition(double targetPosition) {
         pTargetPosition = this.targetPosition;
         this.targetPosition = targetPosition;
         // Reset PID variables
@@ -70,7 +73,7 @@ public class PIDControllerSimple {
     }
 
     /** Reassigns targetPosition based on pTargetPosition, treating pTargetPosition as the starting point. */
-    protected void moveByEncoder(double encoder) {
+    public void moveByEncoder(double encoder) {
         pTargetPosition = targetPosition;
         targetPosition += encoder;
         // Reset PID variables
@@ -80,7 +83,7 @@ public class PIDControllerSimple {
 
     /** Changes power to move towards targetPosition.
      * If the PIDController has already reached targetPosition, no code is executed. */
-    protected void update(double currentPosition) {
+    public void update(double currentPosition) {
         this.currentPosition = currentPosition;
         // Exit if already at goalPosition
         if (targetPosition == currentPosition) {
@@ -115,7 +118,7 @@ public class PIDControllerSimple {
     }
 
     /** Telemetry */
-    protected void telemetry(Telemetry telemetry) {
+    public void telemetry(Telemetry telemetry) {
         telemetry.addData(name + " targetPosition", getTargetPosition());
         telemetry.addData(name + " currentPosition", getCurrentPosition());
         telemetry.addData(name + " power", getPower());

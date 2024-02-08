@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.AutoCore;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -47,8 +47,6 @@ import java.util.List;
  */
 public class TensorFlowCore {
 
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
     // TFOD_MODEL_ASSET points to a model file stored in FtcRobotController/src/main/assets.
     private static final String TFOD_MODEL_ASSET = "RedBlueLinedCubeModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
@@ -59,10 +57,10 @@ public class TensorFlowCore {
     /** The variable to store our instance of the TensorFlow Object Detection processor. */
     private final TfodProcessor tfod;
 
-    /** The variable to store our instance of the vision portal. */
-    private final VisionPortal visionPortal;
-
-    public TensorFlowCore(HardwareMap hardwareMap) {
+    /** Adds the TensorFlow build method to VisionPortalCore.
+     * Initialize this before running "visionPortalCoreName".build()
+     * @param builder Use your VisionPortalCore variable. Input "visionPortalCoreName".builder. */
+    public TensorFlowCore(HardwareMap hardwareMap, VisionPortal.Builder builder) {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
 
@@ -82,16 +80,6 @@ public class TensorFlowCore {
 
                 .build();
 
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
         // Choose a camera resolution. Not all cameras support all resolutions.
         //builder.setCameraResolution(new Size(640, 480));
 
@@ -109,9 +97,6 @@ public class TensorFlowCore {
         // Set and enable the processor.
         builder.addProcessor(tfod);
 
-        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-
         // Set confidence threshold for TFOD recognitions, at any time.
         //tfod.setMinResultConfidence(0.75f);
 
@@ -122,24 +107,6 @@ public class TensorFlowCore {
         //tfod.setZoom(1.25);
     }
 
-    /** Prevents the Vision Portal from streaming, but does not stop it altogether.
-     * Done to save CPU resources. */
-    public void stopStreaming() {
-        visionPortal.stopStreaming();
-    }
-
-    /** Continues streaming the Vision Portal if it has been stopped.
-     * Used in conjunction with .stopStreaming() to save CPU resources. */
-    public void resumeStreaming() {
-        visionPortal.resumeStreaming();
-    }
-
-    /** Closes the Vision Portal to save on CPU processing.
-     * Use this when you don't need to identify props anymore. */
-    public void close() {
-        visionPortal.close();
-    }
-
     /** If the model is identifying an object */
     public boolean recognizing() {
         return !tfod.getRecognitions().isEmpty();
@@ -148,7 +115,7 @@ public class TensorFlowCore {
     /** Return center x of first item if identifying an object.
      * Returns -1 otherwise. */
     public double getX() {
-        if (recognizing()) return -1;
+        if (!recognizing()) return -1;
         Recognition recognition = tfod.getRecognitions().get(0);
         return (recognition.getLeft() + recognition.getRight()) / 2;
     }
@@ -156,7 +123,7 @@ public class TensorFlowCore {
     /** Return center y of first item if identifying an object.
      * Returns -1 otherwise. */
     public double getY() {
-        if (recognizing()) return -1;
+        if (!recognizing()) return -1;
         Recognition recognition = tfod.getRecognitions().get(0);
         return (recognition.getTop()  + recognition.getBottom()) / 2;
     }

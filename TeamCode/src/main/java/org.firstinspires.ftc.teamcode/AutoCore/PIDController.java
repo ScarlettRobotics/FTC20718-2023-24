@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.AutoCore;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /** PIDController
  * Class used when you want to move a DcMotor to a specific encoder value. Uses control theory to achieve this.
@@ -17,7 +18,7 @@ public class PIDController extends PIDControllerSimple {
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
      * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
+    public PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
         super(motorName, Kp, Ki, Kd, powerCap);
         // Initialize motor
         motor = hardwareMap.get(DcMotor.class, motorName);
@@ -26,7 +27,7 @@ public class PIDController extends PIDControllerSimple {
     }
 
     /** Returns the encoder value of the DcMotor. */
-    public int getEncoder() {
+    public int getEncoderPosition() {
         return motor.getCurrentPosition();
     }
 
@@ -37,14 +38,27 @@ public class PIDController extends PIDControllerSimple {
 
     /** Overrides the set power from update() to the inputted power.
      * Run this code after update(), or overridePower() will do nothing. */
-    protected void overridePower(double power) {
+    public void overridePower(double power) {
         motor.setPower(power);
     }
 
     /** Moves the controller towards goalPosition encoder location.
      * If the PIDController has already reached goalPosition, no code is executed. */
-    protected void update(int currentPosition) {
+    public void update(int currentPosition) {
         super.update(currentPosition); // PID calc
         motor.setPower(getPower());
+    }
+
+    /** Moves the controller towards goalPosition encoder location.
+     * If the PIDController has already reached goalPosition, no code is executed. */
+    public void update() {
+        super.update(motor.getCurrentPosition()); // PID calc
+        motor.setPower(getPower());
+    }
+
+    public void telemetry(Telemetry telemetry) {
+        telemetry.addData(name + " targetPosition", getTargetPosition());
+        telemetry.addData(name + " currentPosition", motor.getCurrentPosition());
+        telemetry.addData(name + " power", motor.getPower());
     }
 }
