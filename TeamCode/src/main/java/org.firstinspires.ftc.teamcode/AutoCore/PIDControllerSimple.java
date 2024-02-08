@@ -48,14 +48,17 @@ public class PIDControllerSimple {
         return targetPosition - pTargetPosition;
     }
 
+    /** Returns the outputted power after .update() */
     public double getPower() {
         return power;
     }
 
+    /** Returns the currentPosition that was inputted in .update() */
     public double getCurrentPosition() {
         return currentPosition;
     }
 
+    /** Returns the number that PIDControllerSimple is trying to reach */
     public double getTargetPosition() {
         return targetPosition;
     }

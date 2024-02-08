@@ -14,6 +14,10 @@ import java.util.List;
  * Based off of ConceptAprilTag.java from external samples. */
 public class AprilTagCore {
     private AprilTagProcessor aprilTag;
+
+    /** Adds the TensorFlow build method to VisionPortalCore.
+     * Initialize this before running "visionPortalCoreName".build()
+     * @param builder Use your VisionPortalCore variable. Input "visionPortalCoreName".builder. */
     public AprilTagCore(HardwareMap hardwareMap, VisionPortal.Builder builder, int decimation) {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
@@ -65,10 +69,12 @@ public class AprilTagCore {
 
     }
 
+    /** Returns a list of all currently detected AprilTags.
+     * See .telemetry() to see what information can be found from an AprilTag. */
     public List<AprilTagDetection> getDetections() {
         return aprilTag.getDetections();
     }
-    
+
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("\nCURRENT CLASS:", "AprilTagCore.java");
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();

@@ -17,8 +17,8 @@ public class VisionPortalCore {
     // Create the vision portal by using a builder.
     public VisionPortal.Builder builder = new VisionPortal.Builder();
 
-    // FOR INFO ON WHAT THESE LINES OF CODE ARE DOING, SEE:
-    // https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/user_docs/camera_initialization_overview.md
+    /** Links a connected webcam/phone camera with the class.
+     * To use the camera for autonomous purposes, run .build() after all other auto classes have been intialized. */
     public VisionPortalCore(HardwareMap hardwareMap){
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {

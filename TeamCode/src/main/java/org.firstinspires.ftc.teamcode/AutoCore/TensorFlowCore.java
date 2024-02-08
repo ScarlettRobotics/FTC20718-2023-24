@@ -57,6 +57,9 @@ public class TensorFlowCore {
     /** The variable to store our instance of the TensorFlow Object Detection processor. */
     private final TfodProcessor tfod;
 
+    /** Adds the TensorFlow build method to VisionPortalCore.
+     * Initialize this before running "visionPortalCoreName".build()
+     * @param builder Use your VisionPortalCore variable. Input "visionPortalCoreName".builder. */
     public TensorFlowCore(HardwareMap hardwareMap, VisionPortal.Builder builder) {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
