@@ -87,7 +87,7 @@ public class GeneralPropDetection extends LinearOpMode {
             } // end find prop, strafe to align with centre, move arm to safe
             if (propLocation == 0) { // Left
                 if (eventManager.eventOccurred(timer.time(), 1)) {
-                    drivetrainCore.forwardByEncoder(600);
+                    drivetrainCore.forwardByEncoder(700);
                 } // end move towards position based on prop
                 if (eventManager.eventOccurred(timer.time(), 2)) {
                     drivetrainCore.rotateByEncoder(300);
@@ -109,7 +109,7 @@ public class GeneralPropDetection extends LinearOpMode {
             }
             else { // Right
                 if (eventManager.eventOccurred(timer.time(), 1)) {
-                    drivetrainCore.forwardByEncoder(550);
+                    drivetrainCore.forwardByEncoder(650);
                 } // end move towards position based on prop
                 if (eventManager.eventOccurred(timer.time(), 2)) {
                     drivetrainCore.rotateByEncoder(-300);
