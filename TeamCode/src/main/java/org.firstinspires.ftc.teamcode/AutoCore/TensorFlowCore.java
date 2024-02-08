@@ -112,7 +112,7 @@ public class TensorFlowCore {
     /** Return center x of first item if identifying an object.
      * Returns -1 otherwise. */
     public double getX() {
-        if (recognizing()) return -1;
+        if (!recognizing()) return -1;
         Recognition recognition = tfod.getRecognitions().get(0);
         return (recognition.getLeft() + recognition.getRight()) / 2;
     }
@@ -120,7 +120,7 @@ public class TensorFlowCore {
     /** Return center y of first item if identifying an object.
      * Returns -1 otherwise. */
     public double getY() {
-        if (recognizing()) return -1;
+        if (!recognizing()) return -1;
         Recognition recognition = tfod.getRecognitions().get(0);
         return (recognition.getTop()  + recognition.getBottom()) / 2;
     }
