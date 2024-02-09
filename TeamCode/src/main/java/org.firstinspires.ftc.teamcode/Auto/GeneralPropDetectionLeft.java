@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
 
 /** Used if on the close side of movement. Place where wheels touch right teeth.
  * Places yellow pixel based on prop position, then places purple pixel on backdrop based on prop position. */
-@Autonomous(name = "GeneralPropDetection", group = "general")
-public class GeneralPropDetection extends LinearOpMode {
+@Autonomous(name = "GeneralPropDetectionLeft", group = "general")
+public class GeneralPropDetectionLeft extends LinearOpMode {
     // FTC Dashboard
     private FtcDashboard dashboard;
     private Telemetry dashboardTelemetry;
@@ -27,7 +27,6 @@ public class GeneralPropDetection extends LinearOpMode {
     TensorFlowCore tensorFlowCore;
     // Other
     int propLocation; // 0-1-2 is left-middle-right
-    PIDControllerSimple aprilTagAlignerPID;
 
     private void initialize() {
         // Init dashboard
@@ -41,7 +40,6 @@ public class GeneralPropDetection extends LinearOpMode {
         eventManager.addEvent(7.5); // move towards position based on prop
         eventManager.addEvent(9.5); // rotate based on prop
         eventManager.addEvent(10.5); // move purple forward to meet tape
-
         eventManager.addEvent(12); // move back to org pos
 
         // Init core classes
@@ -93,7 +91,7 @@ public class GeneralPropDetection extends LinearOpMode {
                     drivetrainCore.rotateByEncoder(300);
                 } // end rotate based on prop
                 if (eventManager.eventOccurred(timer.time(), 3)) {
-                    drivetrainCore.forwardByEncoder(250);
+                    drivetrainCore.forwardByEncoder(150);
                 } // end move purple forward to meet tape
                 if (eventManager.eventOccurred(timer.time(), 4)) {
                     drivetrainCore.forwardByEncoder(-250);
