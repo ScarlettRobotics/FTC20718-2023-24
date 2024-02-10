@@ -15,6 +15,7 @@ public abstract class SystemsManager extends OpMode {
     protected IMUCore imuCore;
     // Core classes
     protected DrivetrainCore drivetrainCore;
+    private boolean useDrivetrainAligner;
     protected ArmCore armCore;
     protected ClawCore clawCore;
     protected DroneLauncherCore droneLauncherCore;
@@ -28,6 +29,7 @@ public abstract class SystemsManager extends OpMode {
     public void init() {
         // Initialize classes
         drivetrainCore = new DrivetrainCore(hardwareMap);
+        useDrivetrainAligner = true;
         armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
         droneLauncherCore = new DroneLauncherCore(hardwareMap);
@@ -69,6 +71,8 @@ public abstract class SystemsManager extends OpMode {
         boolean setMoving;
         switch (controllerNum) {
             case 1:
+                if (gamepad1.x) useDrivetrainAligner = true;
+                if (gamepad1.y) useDrivetrainAligner = false;
                 if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
@@ -89,6 +93,8 @@ public abstract class SystemsManager extends OpMode {
                 setMoving = false;
                 break;
             case 2:
+                if (gamepad2.x) useDrivetrainAligner = true;
+                if (gamepad2.y) useDrivetrainAligner = false;
                 if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
@@ -119,7 +125,8 @@ public abstract class SystemsManager extends OpMode {
         double[] translateArr = drivetrainCore.translate(forward, strafe); // left joystick
         double[] rotateArr = drivetrainCore.rotate(rotate);                // right joystick
         double[] powers = new double[4];                                   // final power
-        if (rotateArr[0] != 0) { // Driver is rotating robot; alignerPID doesn't influence final power
+        if (rotateArr[0] != 0 ||
+            !useDrivetrainAligner) { // Driver is rotating robot; alignerPID doesn't influence final power OR not using drivetrain aligner
             for (int i = 0; i < 4; i++) {
                 powers[i] = translateArr[i] + rotateArr[i];
             }
