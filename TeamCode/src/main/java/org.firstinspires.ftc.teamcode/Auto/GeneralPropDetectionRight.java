@@ -83,17 +83,17 @@ public class GeneralPropDetectionRight extends LinearOpMode {
                     propLocation = 0;
                 }
                 visionPortalCore.stopStreaming();
-                drivetrainCore.strafeByEncoder(-200);
+                drivetrainCore.strafeByEncoder(-250);
             } // end find prop, strafe to align with centre, move arm to safe
             if (propLocation == 0) { // Left
                 if (eventManager.eventOccurred(timer.time(), 1)) {
                     drivetrainCore.forwardByEncoder(700);
                 } // end move towards position based on prop
                 if (eventManager.eventOccurred(timer.time(), 2)) {
-                    drivetrainCore.rotateByEncoder(300);
+                    drivetrainCore.rotateByEncoder(100);
                 } // end rotate based on prop
                 if (eventManager.eventOccurred(timer.time(), 3)) {
-                    drivetrainCore.forwardByEncoder(250);
+                    drivetrainCore.forwardByEncoder(650);
                 } // end move purple forward to meet tape
                 if (eventManager.eventOccurred(timer.time(), 4)) {
                     drivetrainCore.forwardByEncoder(-250);
@@ -109,13 +109,13 @@ public class GeneralPropDetectionRight extends LinearOpMode {
             }
             else { // Right
                 if (eventManager.eventOccurred(timer.time(), 1)) {
-                    drivetrainCore.forwardByEncoder(650);
+                    drivetrainCore.forwardByEncoder(200);
                 } // end move towards position based on prop
                 if (eventManager.eventOccurred(timer.time(), 2)) {
-                    drivetrainCore.rotateByEncoder(-300);
+                    drivetrainCore.rotateByEncoder(-350);
                 } // end rotate based on prop
                 if (eventManager.eventOccurred(timer.time(), 3)) {
-                    drivetrainCore.forwardByEncoder(150);
+                    drivetrainCore.forwardByEncoder(400);
                 } // end move purple forward to meet tape
                 if (eventManager.eventOccurred(timer.time(), 4)) {
                     drivetrainCore.forwardByEncoder(-350);
