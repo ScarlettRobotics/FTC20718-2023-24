@@ -56,8 +56,8 @@ public class GeneralPropDetectionRight extends LinearOpMode {
         telemetry.update();
         dashboardTelemetry.addData("STATUS", "Initialized");
         dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
+        // Initialize claw to fit size reqs
+        clawCore.initialize();
     }
 
     private void updateAuto() {

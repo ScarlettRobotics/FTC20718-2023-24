@@ -30,6 +30,14 @@ public class ClawCore {
         leftClaw.setPosition(0.124);
     }
 
+    /** Moves the claw to its most compact location.
+     * ONLY USE THIS AT INITIALIZATION.
+     * Done so that the robot fits initialization sizing requirements */
+    public void initialize() {
+        rightClaw.setPosition(0.159);
+        leftClaw.setPosition(0.348);
+    }
+
     /** Debug method to move claw position by input amount
      * @param left Amount to move leftClaw by
      * @param right Amount to move rightClaw by */
