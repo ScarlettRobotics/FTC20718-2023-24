@@ -16,6 +16,7 @@ public class XDrive1p extends SystemsManager {
     public void loop() {
         telemetry.addData("STATUS: ", "Running");
         updateIMU();
+        updateDrivetrainAligner(gamepad1.y);
         updateDrivetrain(1);
         updateArm(gamepad1.left_trigger, gamepad1.right_trigger);
         updateClaw(gamepad1.a, gamepad1.b);

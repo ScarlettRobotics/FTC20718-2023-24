@@ -60,6 +60,15 @@ public abstract class SystemsManager extends OpMode {
         return stick;
     }
 
+    private boolean pToggle = false;
+    /** Turns the drivetrain aligner on/off depending on current state of .
+     * The drivetrain aligner seeks to ensure that the robot always faces the same direction when moving without rotating.
+     * @param toggle Toggles the drivetrain aligner based on its previous state. */
+    protected void updateDrivetrainAligner(boolean toggle) {
+        if (toggle && !pToggle) useDrivetrainAligner = !useDrivetrainAligner;
+        pToggle = toggle;
+    }
+
     /** Updates the robot's X-drive drivetrain.
      * @param controllerNum Determines the driver number that operates the machine system.
      *                      Receives 1 or 2; otherwise does nothing.
@@ -71,8 +80,6 @@ public abstract class SystemsManager extends OpMode {
         boolean setMoving;
         switch (controllerNum) {
             case 1:
-                if (gamepad1.x) useDrivetrainAligner = true;
-                if (gamepad1.y) useDrivetrainAligner = false;
                 if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
@@ -93,8 +100,6 @@ public abstract class SystemsManager extends OpMode {
                 setMoving = false;
                 break;
             case 2:
-                if (gamepad2.x) useDrivetrainAligner = true;
-                if (gamepad2.y) useDrivetrainAligner = false;
                 if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward/backward at set rate
                     strafe = 0;
                     rotate = 0;
