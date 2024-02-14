@@ -17,7 +17,7 @@ public class XDrive1p extends SystemsManager {
         telemetry.addData("STATUS: ", "Running");
         updateIMU();
         updateDrivetrain(1);
-        updateArm(1);
+        updateArm(gamepad1.left_trigger, gamepad1.right_trigger);
         updateClaw(gamepad1.a, gamepad1.b);
         checkForDroneLaunch(gamepad1.left_bumper);
         telemetry(telemetry);

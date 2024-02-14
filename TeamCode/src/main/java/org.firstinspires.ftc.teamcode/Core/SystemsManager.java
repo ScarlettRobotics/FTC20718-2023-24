@@ -150,21 +150,10 @@ public abstract class SystemsManager extends OpMode {
     /** Updates arm movement.
      * Right and left trigger moves the arm.
      * Uses setPower(). Only use if ArmCore's RUN_TO_POSITION doesn't work.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing. */
-    protected void updateArm(int controllerNum){
-        double power;
-        switch(controllerNum) {
-            case 1:
-                power = gamepad1.left_trigger - gamepad1.right_trigger;
-                break;
-            case 2:
-                power = gamepad2.left_trigger - gamepad2.right_trigger;
-                break;
-            default:
-                power = 0;
-        }
-        armCore.setPower(power);
+     * @param up How much the arm should move up
+     * @param down How much the arm should move down */
+    protected void updateArm(double up, double down){
+        armCore.setPower(up - down);
     }
 
     /** Updates the claw's movement.
