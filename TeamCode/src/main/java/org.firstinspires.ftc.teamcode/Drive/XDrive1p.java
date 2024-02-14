@@ -18,6 +18,7 @@ public class XDrive1p extends SystemsManager {
         updateIMU();
         updateDrivetrainAligner(gamepad1.y);
         updateDrivetrain(1);
+        updateDrivetrainAligner(gamepad1.y);
         updateArm(gamepad1.left_trigger, gamepad1.right_trigger);
         updateClaw(gamepad1.a, gamepad1.b);
         checkForDroneLaunch(gamepad1.left_bumper);
