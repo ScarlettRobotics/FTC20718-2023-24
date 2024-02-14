@@ -193,20 +193,8 @@ public abstract class SystemsManager extends OpMode {
 
     /** Checks for a button press to launch the drone.
      * If drone does not launch, rotate the part attached to the servo by 180 degrees.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing. */
-    protected void checkForDroneLaunch(int controllerNum) {
-        boolean launching;
-        switch (controllerNum) {
-            case 1:
-                launching = gamepad1.left_bumper;
-                break;
-            case 2:
-                launching = gamepad2.left_bumper;
-                break;
-            default:
-                launching = false;
-        }
+     * @param launching Launches the drone if true */
+    protected void checkForDroneLaunch(boolean launching) {
         if (launching) droneLauncherCore.launch();
     }
 
