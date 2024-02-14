@@ -70,60 +70,35 @@ public abstract class SystemsManager extends OpMode {
     }
 
     /** Updates the robot's X-drive drivetrain.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing.
+     * @param forward Joystick axis that controls movement forwards/backwards without rotation.
+     * @param strafe Joystick axis that controls strafing left/right without rotation.
+     * @param rotate Joystick axis that controls rotation without moving.
+     * @param slowForward Button that slowly moves the robot forwrads
+     * @param slowBackward Button that slowly moves the robot backwards
+     * @param slowLeft Button that slowly moves the robot left
+     * @param slowRight Button that slowly moves the robot right
      */
-    protected void updateDrivetrain(int controllerNum) {
-        // Inputs received from controller
-        double forward, strafe, rotate;
+    protected void updateDrivetrain(double forward, double strafe, double rotate,
+                                    boolean slowForward, boolean slowBackward,
+                                    boolean slowLeft, boolean slowRight) {
         // If dpad input received
         boolean setMoving;
-        switch (controllerNum) {
-            case 1:
-                if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
-                    strafe = 0;
-                    rotate = 0;
-                    forward = (gamepad1.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
-                    setMoving = true;
-                    break;
-                }
-                if (gamepad1.dpad_left || gamepad1.dpad_right) { // Move left/right at set rate
-                    strafe = (gamepad1.dpad_left) ? -0.5 : 0.5;
-                    rotate = 0;
-                    forward = 0;
-                    setMoving = true;
-                    break;
-                }
-                forward = noDrift(gamepad1.left_stick_y, 0.05);
-                strafe = noDrift(gamepad1.left_stick_x, 0.05);
-                rotate = noDrift(gamepad1.right_stick_x, 0.05);
-                setMoving = false;
-                break;
-            case 2:
-                if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward/backward at set rate
-                    strafe = 0;
-                    rotate = 0;
-                    forward = (gamepad2.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
-                    setMoving = true;
-                    break;
-                }
-                if (gamepad2.dpad_left || gamepad2.dpad_right) { // Move left/right at set rate
-                    strafe = (gamepad2.dpad_left) ? -0.5 : 0.5;
-                    rotate = 0;
-                    forward = 0;
-                    setMoving = true;
-                    break;
-                }
-                forward = noDrift(gamepad2.left_stick_y, 0.05);
-                strafe = noDrift(gamepad2.left_stick_x, 0.05);
-                rotate = noDrift(gamepad2.right_stick_x, 0.05);
-                setMoving = false;
-                break;
-            default:
-                forward = 0;
-                strafe = 0;
-                rotate = 0;
-                setMoving = false;
+        // Set movement
+        if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
+            strafe = 0;
+            rotate = 0;
+            forward = (gamepad1.dpad_up) ? -0.5 : 0.5; // backwards movement prioritized over forwards
+            setMoving = true;
+        } else if (gamepad1.dpad_left || gamepad1.dpad_right) { // Move left/right at set rate
+            strafe = (gamepad1.dpad_left) ? -0.5 : 0.5; // left movement prioritized over right
+            rotate = 0;
+            forward = 0;
+            setMoving = true;
+        } else { // Move robot based on joystick
+            forward = noDrift(gamepad1.left_stick_y, 0.05);
+            strafe = noDrift(gamepad1.left_stick_x, 0.05);
+            rotate = noDrift(gamepad1.right_stick_x, 0.05);
+            setMoving = false;
         }
         // Processing inputs
         drivetrainCore.updateAlignerPID(imuCore.getYaw());                 // see function
