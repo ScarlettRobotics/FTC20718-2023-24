@@ -199,10 +199,10 @@ public abstract class SystemsManager extends OpMode {
         boolean launching;
         switch (controllerNum) {
             case 1:
-                launching = gamepad1.left_stick_button;
+                launching = gamepad1.left_bumper;
                 break;
             case 2:
-                launching = gamepad2.left_stick_button;
+                launching = gamepad2.left_bumper;
                 break;
             default:
                 launching = false;
