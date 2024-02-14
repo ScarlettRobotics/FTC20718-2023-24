@@ -17,6 +17,7 @@ public class XDrive2p extends SystemsManager {
         telemetry.addData("STATUS: ", "Running");
         updateIMU();
         updateDrivetrain(1);
+        updateDrivetrainAligner(gamepad1.y);
         updateArm(gamepad2.left_trigger, gamepad2.right_trigger);
         updateClaw(gamepad2.a, gamepad2.b);
         checkForDroneLaunch(gamepad1.left_bumper);
