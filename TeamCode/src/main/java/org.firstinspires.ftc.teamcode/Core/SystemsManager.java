@@ -60,65 +60,45 @@ public abstract class SystemsManager extends OpMode {
         return stick;
     }
 
+    private boolean pToggle = false;
+    /** Turns the drivetrain aligner on/off depending on current state of .
+     * The drivetrain aligner seeks to ensure that the robot always faces the same direction when moving without rotating.
+     * @param toggle Toggles the drivetrain aligner based on its previous state. */
+    protected void updateDrivetrainAligner(boolean toggle) {
+        if (toggle && !pToggle) useDrivetrainAligner = !useDrivetrainAligner;
+        pToggle = toggle;
+    }
+
     /** Updates the robot's X-drive drivetrain.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing.
+     * @param forward Joystick axis that controls movement forwards/backwards without rotation.
+     * @param strafe Joystick axis that controls strafing left/right without rotation.
+     * @param rotate Joystick axis that controls rotation without moving.
+     * @param slowForward Button that slowly moves the robot forwrads
+     * @param slowBackward Button that slowly moves the robot backwards
+     * @param slowLeft Button that slowly moves the robot left
+     * @param slowRight Button that slowly moves the robot right
      */
-    protected void updateDrivetrain(int controllerNum) {
-        // Inputs received from controller
-        double forward, strafe, rotate;
+    protected void updateDrivetrain(double forward, double strafe, double rotate,
+                                    boolean slowForward, boolean slowBackward,
+                                    boolean slowLeft, boolean slowRight) {
         // If dpad input received
         boolean setMoving;
-        switch (controllerNum) {
-            case 1:
-                if (gamepad1.x) useDrivetrainAligner = true;
-                if (gamepad1.y) useDrivetrainAligner = false;
-                if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
-                    strafe = 0;
-                    rotate = 0;
-                    forward = (gamepad1.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
-                    setMoving = true;
-                    break;
-                }
-                if (gamepad1.dpad_left || gamepad1.dpad_right) { // Move left/right at set rate
-                    strafe = (gamepad1.dpad_left) ? -0.5 : 0.5;
-                    rotate = 0;
-                    forward = 0;
-                    setMoving = true;
-                    break;
-                }
-                forward = noDrift(gamepad1.left_stick_y, 0.05);
-                strafe = noDrift(gamepad1.left_stick_x, 0.05);
-                rotate = noDrift(gamepad1.right_stick_x, 0.05);
-                setMoving = false;
-                break;
-            case 2:
-                if (gamepad2.x) useDrivetrainAligner = true;
-                if (gamepad2.y) useDrivetrainAligner = false;
-                if (gamepad2.dpad_down || gamepad2.dpad_up) { // Move forward/backward at set rate
-                    strafe = 0;
-                    rotate = 0;
-                    forward = (gamepad2.dpad_up) ? -0.5 : 0.5; // Backwards movement prioritized over forwards
-                    setMoving = true;
-                    break;
-                }
-                if (gamepad2.dpad_left || gamepad2.dpad_right) { // Move left/right at set rate
-                    strafe = (gamepad2.dpad_left) ? -0.5 : 0.5;
-                    rotate = 0;
-                    forward = 0;
-                    setMoving = true;
-                    break;
-                }
-                forward = noDrift(gamepad2.left_stick_y, 0.05);
-                strafe = noDrift(gamepad2.left_stick_x, 0.05);
-                rotate = noDrift(gamepad2.right_stick_x, 0.05);
-                setMoving = false;
-                break;
-            default:
-                forward = 0;
-                strafe = 0;
-                rotate = 0;
-                setMoving = false;
+        // Set movement
+        if (gamepad1.dpad_down || gamepad1.dpad_up) { // Move forward/backward at set rate
+            strafe = 0;
+            rotate = 0;
+            forward = (gamepad1.dpad_up) ? -0.5 : 0.5; // backwards movement prioritized over forwards
+            setMoving = true;
+        } else if (gamepad1.dpad_left || gamepad1.dpad_right) { // Move left/right at set rate
+            strafe = (gamepad1.dpad_left) ? -0.5 : 0.5; // left movement prioritized over right
+            rotate = 0;
+            forward = 0;
+            setMoving = true;
+        } else { // Move robot based on joystick
+            forward = noDrift(gamepad1.left_stick_y, 0.05);
+            strafe = noDrift(gamepad1.left_stick_x, 0.05);
+            rotate = noDrift(gamepad1.right_stick_x, 0.05);
+            setMoving = false;
         }
         // Processing inputs
         drivetrainCore.updateAlignerPID(imuCore.getYaw());                 // see function
@@ -150,63 +130,26 @@ public abstract class SystemsManager extends OpMode {
     /** Updates arm movement.
      * Right and left trigger moves the arm.
      * Uses setPower(). Only use if ArmCore's RUN_TO_POSITION doesn't work.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing. */
-    protected void updateArm(int controllerNum){
-        double power;
-        switch(controllerNum) {
-            case 1:
-                power = gamepad1.left_trigger - gamepad1.right_trigger;
-                break;
-            case 2:
-                power = gamepad2.left_trigger - gamepad2.right_trigger;
-                break;
-            default:
-                power = 0;
-        }
-        armCore.setPower(power);
+     * @param up How much the arm should move up
+     * @param down How much the arm should move down */
+    protected void updateArm(double up, double down){
+        armCore.setPower(up - down);
     }
 
     /** Updates the claw's movement.
      * A/B opens/closes the claw respectively.
      * Opening will be prioritized over closing the claw if both buttons are pressed.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing. */
-    protected void updateClaw(int controllerNum) {
-        boolean open, close;
-        switch (controllerNum) {
-            case 1:
-                open = gamepad1.a;
-                close = gamepad1.b;
-                break;
-            case 2:
-                open = gamepad2.a;
-                close = gamepad2.b;
-                break;
-            default:
-                open = false;
-                close = false;
-        }
+     * @param open Button to check if claw should be opened.
+     * @param close Button to check if claw should be closed. */
+    protected void updateClaw(boolean open, boolean close) {
         if (open) clawCore.open();
         if (close) clawCore.close();
     }
 
     /** Checks for a button press to launch the drone.
      * If drone does not launch, rotate the part attached to the servo by 180 degrees.
-     * @param controllerNum Determines the driver number that operates the machine system.
-     *                      Receives 1 or 2; otherwise does nothing. */
-    protected void checkForDroneLaunch(int controllerNum) {
-        boolean launching;
-        switch (controllerNum) {
-            case 1:
-                launching = gamepad1.left_stick_button;
-                break;
-            case 2:
-                launching = gamepad2.left_stick_button;
-                break;
-            default:
-                launching = false;
-        }
+     * @param launching Launches the drone if true */
+    protected void checkForDroneLaunch(boolean launching) {
         if (launching) droneLauncherCore.launch();
     }
 
