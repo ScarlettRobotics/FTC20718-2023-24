@@ -1,20 +1,18 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.OpModeAuto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.AutoCore.EventManager;
-import org.firstinspires.ftc.teamcode.AutoCore.TensorFlowCore;
-import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
+import org.firstinspires.ftc.teamcode.AutoCore.*;
 import org.firstinspires.ftc.teamcode.Core.ClawCore;
 import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
 
 /** Used if on the close side of movement. Place where wheels touch right teeth.
  * Places yellow pixel based on prop position, then places purple pixel on backdrop based on prop position. */
-@Autonomous(name = "GeneralPropDetectionRight", group = "general")
-public class GeneralPropDetectionRight extends LinearOpMode {
+@Autonomous(name = "GeneralPropDetectionLeft", group = "general")
+public class GeneralPropDetectionLeft extends LinearOpMode {
     // FTC Dashboard
     private FtcDashboard dashboard;
     private Telemetry dashboardTelemetry;
@@ -83,17 +81,17 @@ public class GeneralPropDetectionRight extends LinearOpMode {
                     propLocation = 0;
                 }
                 visionPortalCore.stopStreaming();
-                drivetrainCore.strafeByEncoder(-250);
+                drivetrainCore.strafeByEncoder(-100);
             } // end find prop, strafe to align with centre, move arm to safe
             if (propLocation == 0) { // Left
                 if (eventManager.eventOccurred(timer.time(), 1)) {
                     drivetrainCore.forwardByEncoder(700);
                 } // end move towards position based on prop
                 if (eventManager.eventOccurred(timer.time(), 2)) {
-                    drivetrainCore.rotateByEncoder(100);
+                    drivetrainCore.rotateByEncoder(300);
                 } // end rotate based on prop
                 if (eventManager.eventOccurred(timer.time(), 3)) {
-                    drivetrainCore.forwardByEncoder(650);
+                    drivetrainCore.forwardByEncoder(150);
                 } // end move purple forward to meet tape
                 if (eventManager.eventOccurred(timer.time(), 4)) {
                     drivetrainCore.forwardByEncoder(-250);
@@ -109,13 +107,13 @@ public class GeneralPropDetectionRight extends LinearOpMode {
             }
             else { // Right
                 if (eventManager.eventOccurred(timer.time(), 1)) {
-                    drivetrainCore.forwardByEncoder(200);
+                    drivetrainCore.forwardByEncoder(650);
                 } // end move towards position based on prop
                 if (eventManager.eventOccurred(timer.time(), 2)) {
-                    drivetrainCore.rotateByEncoder(-350);
+                    drivetrainCore.rotateByEncoder(-300);
                 } // end rotate based on prop
                 if (eventManager.eventOccurred(timer.time(), 3)) {
-                    drivetrainCore.forwardByEncoder(400);
+                    drivetrainCore.forwardByEncoder(350);
                 } // end move purple forward to meet tape
                 if (eventManager.eventOccurred(timer.time(), 4)) {
                     drivetrainCore.forwardByEncoder(-350);
