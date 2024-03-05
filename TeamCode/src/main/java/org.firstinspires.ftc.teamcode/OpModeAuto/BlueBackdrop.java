@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.OpModeAuto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.Core.ClawCore;
 import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
 import org.firstinspires.ftc.teamcode.AutoCore.EventManager;
 
-@Autonomous(name = "RedBackdrop", group = "red")
-public class RedBackdrop extends LinearOpMode {
+@Autonomous(name = "BlueBackdrop", group = "blue")
+public class BlueBackdrop extends LinearOpMode {
     // FTC Dashboard
     private FtcDashboard dashboard;
     private Telemetry dashboardTelemetry;
@@ -68,16 +68,16 @@ public class RedBackdrop extends LinearOpMode {
             updateAuto();
 
             if (eventManager.eventOccurred(timer.time(), 0)) {
-                drivetrainCore.forwardByEncoder(750);
+                drivetrainCore.forwardByEncoder(1200);
             } // forward 1 square
 
             if (eventManager.eventOccurred(timer.time(), 1)) {
-                drivetrainCore.rotateByEncoder(-650);
+                drivetrainCore.rotateByEncoder(650);
             } // rotate 90 deg right
 
             if (eventManager.eventOccurred(timer.time(), 2)) {
-                drivetrainCore.forwardByEncoder(1350);
-                armCore.setTargetPosition(-2000);
+                drivetrainCore.forwardByEncoder(1150);
+                armCore.setTargetPosition(-2070);
             } // move arm to place position, move to backdrop
 
             if (eventManager.eventOccurred(timer.time(), 3)) {
@@ -89,21 +89,22 @@ public class RedBackdrop extends LinearOpMode {
             } // move back to allow both pixels to drop staggered
 
             if (eventManager.eventOccurred(timer.time(), 5)) {
-                drivetrainCore.forwardByEncoder(-150);
+                drivetrainCore.forwardByEncoder(-100);
             } // move back more to not collide with backdrop
 
             if (eventManager.eventOccurred(timer.time(), 6)) {
-                drivetrainCore.strafeByEncoder(750);
+                drivetrainCore.strafeByEncoder(-750);
                 armCore.setTargetPosition(-500);
             } // move arm to rest position, move left one
 
             if (eventManager.eventOccurred(timer.time(), 7)) {
-                drivetrainCore.forwardByEncoder(300);
+                drivetrainCore.forwardByEncoder(500);
             } // move forward into parking
 
             telemetry(telemetry);
         }
     }
+
     private void telemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());
