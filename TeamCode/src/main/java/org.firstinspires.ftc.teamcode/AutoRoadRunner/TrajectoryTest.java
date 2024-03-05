@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.RRdrive.SampleMecanumDrive;
 
 // Sample of how we can build a trajectory for a robot to follow
 
-public class TrajectoryCore extends LinearOpMode {
+public class TrajectoryTest extends LinearOpMode {
     @Override
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
