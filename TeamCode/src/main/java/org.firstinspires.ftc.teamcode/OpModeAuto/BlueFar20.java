@@ -58,7 +58,7 @@ public class BlueFar20 extends LinearOpMode {
         initialize();
 
         // The robot's starting position
-        Pose2d startPose = new Pose2d(9, 63, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(15, 63, Math.toRadians(-90));
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
@@ -66,7 +66,7 @@ public class BlueFar20 extends LinearOpMode {
         ArrayList<Trajectory> placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeLeft(1)
-                .splineToConstantHeading(new Vector2d(16, 52), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(17, 52), Math.toRadians(-120))
                 .splineToSplineHeading(new Pose2d(7, 40, Math.toRadians(-135)), Math.toRadians(-150))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
@@ -74,7 +74,7 @@ public class BlueFar20 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(12, 32), Math.toRadians(-90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeLeft(1)
+                .strafeRight(1)
                 .splineToConstantHeading(new Vector2d(12, 50), Math.toRadians(-90))
                 .splineToSplineHeading(new Pose2d(17, 40, Math.toRadians(-45)), Math.toRadians(-20))
                 .build()); // place on right tape
