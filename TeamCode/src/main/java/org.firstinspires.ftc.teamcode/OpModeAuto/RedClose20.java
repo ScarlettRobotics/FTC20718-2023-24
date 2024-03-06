@@ -62,34 +62,34 @@ public class RedClose20 extends LinearOpMode {
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
         // Trajectories
-        ArrayList<Trajectory> propTrajectory = new ArrayList<>(); // based on propLocation, place on tape
-        propTrajectory.add(drive.trajectoryBuilder(startPose)
+        ArrayList<Trajectory> placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
+        placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeRight(1)
                 .splineToConstantHeading(new Vector2d(16, -52), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(7, -40, Math.toRadians(135)), Math.toRadians(150))
                 .build()); // place on left tape
-        propTrajectory.add(drive.trajectoryBuilder(startPose)
+        placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeRight(1)
                 .splineToConstantHeading(new Vector2d(12, -32), Math.toRadians(90))
                 .build()); // place on middle tape
-        propTrajectory.add(drive.trajectoryBuilder(startPose)
+        placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeRight(1)
                 .splineToConstantHeading(new Vector2d(12, -45), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(0))
                 .build()); // place on right tape
 
-        ArrayList<Trajectory> propResetTrajectory = new ArrayList<>(); // reset in front of backdrop
-        propResetTrajectory.add(drive.trajectoryBuilder(propTrajectory.get(0).end())
+        ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
+        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
                 .strafeTo(new Vector2d(8, -42))
                 .splineToConstantHeading(new Vector2d(14, -45), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(45))
                 .build());
-        propResetTrajectory.add(drive.trajectoryBuilder(propTrajectory.get(1).end())
+        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .strafeTo(new Vector2d(12, -35))
                 .splineToConstantHeading(new Vector2d(24, -38), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(15))
                 .build());
-        propResetTrajectory.add(drive.trajectoryBuilder(propTrajectory.get(2).end())
+        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .splineToConstantHeading(new Vector2d(14, -43), Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(36, -40), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(90))
@@ -116,8 +116,8 @@ public class RedClose20 extends LinearOpMode {
 
         // Auto movement
         // set purple then move in front of backdrop
-        drive.followTrajectory(propTrajectory.get(propLocation));
-        drive.followTrajectory(propResetTrajectory.get(propLocation));
+        drive.followTrajectory(placePurpleTrajectories.get(propLocation));
+        drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
     }
 
     private void addTelemetry(Telemetry telemetry) {
