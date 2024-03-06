@@ -106,6 +106,12 @@ public class BlueClose20 extends LinearOpMode {
             } else { // to right of camera
                 propLocation = 0;
             }
+            tensorFlowCore.telemetry(telemetry);
+            telemetry.addData("propLocation", propLocation);
+            telemetry.update();
+            tensorFlowCore.telemetry(dashboardTelemetry);
+            dashboardTelemetry.addData("propLocation", propLocation);
+            dashboardTelemetry.update();
         }
 
         waitForStart();
