@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /** Uses RoadRunner to score 20 autonomous points (20 from purple).
  * This class only works on RedClose position */
-@Autonomous(name = "TODO", group = "TODO") //TODO
+@Autonomous(name = "RedClose20", group = "red-close") //TODO
 public class RedClose20 extends LinearOpMode {
     // FTC Dashboard
     private FtcDashboard dashboard;
