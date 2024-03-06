@@ -58,7 +58,7 @@ public class RedFar20 extends LinearOpMode {
         initialize();
 
         // The robot's starting position
-        Pose2d startPose = new Pose2d(-39.75, -63.125, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-39.9075, -63.3825, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
@@ -71,7 +71,7 @@ public class RedFar20 extends LinearOpMode {
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(-36, -32), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-34, -32), Math.toRadians(90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
@@ -86,7 +86,7 @@ public class RedFar20 extends LinearOpMode {
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .back(1)
-                .splineToConstantHeading(new Vector2d(-34, -60), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(-38, -60), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .lineTo(new Vector2d(-33, -42))

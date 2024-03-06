@@ -58,7 +58,7 @@ public class BlueFar20 extends LinearOpMode {
         initialize();
 
         // The robot's starting position
-        Pose2d startPose = new Pose2d(-32.25, 63.125, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(-32.0925, 63.3825, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
