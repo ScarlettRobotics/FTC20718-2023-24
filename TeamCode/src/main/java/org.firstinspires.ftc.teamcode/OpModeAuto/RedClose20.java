@@ -75,8 +75,8 @@ public class RedClose20 extends LinearOpMode {
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeRight(1)
-                .splineToConstantHeading(new Vector2d(12, -45), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(12, -50), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(20))
                 .build()); // place on right tape
 
         ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
