@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.AutoCore.AprilTagCore;
+import org.firstinspires.ftc.teamcode.AutoCore.TensorFlowCore;
+import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
 import org.firstinspires.ftc.teamcode.RRdrive.SampleMecanumDrive;
 
 /** Uses RoadRunner to score 20 autonomous points (20 from purple).
@@ -20,6 +23,10 @@ public class RedClose20 extends LinearOpMode {
     private Telemetry dashboardTelemetry;
     // Timing related
     private ElapsedTime timer;
+    // Vision
+    private VisionPortalCore visionPortalCore;
+    private TensorFlowCore tensorFlowCore;
+    private AprilTagCore aprilTagCore;
     // Core classes
     /* TODO NEEDED CORE CLASSES */
 
@@ -40,6 +47,11 @@ public class RedClose20 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        // vision init
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
+        visionPortalCore.build();
+        // drivetrain init
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // The robot's starting position
@@ -47,8 +59,8 @@ public class RedClose20 extends LinearOpMode {
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
-        // Trajectories TODO DELETE
-        Trajectory myTrajectory = drive.trajectoryBuilder(startPose)
+        // Trajectories
+        Trajectory rightTrajectory = drive.trajectoryBuilder(startPose)
                 .strafeRight(1)
                 .splineToConstantHeading(new Vector2d(12, -45), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(0))
@@ -57,12 +69,24 @@ public class RedClose20 extends LinearOpMode {
         // Initialization
         initialize(); // telemetry setup
 
-        waitForStart();
+        int propLocation;
+        while (opModeInInit()) { // detect prop while in initialization
+            if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
+                propLocation = 2;
+            } else if (tensorFlowCore.getX() > (double) 640/2) { // to right of camera
+                propLocation = 1;
+            } else { // to right of camera
+                propLocation = 0;
+            }
+        }
 
-        // Auto movement
+        waitForStart();
+        visionPortalCore.stopStreaming(); // close portal to save cpu/memory
+
         if(isStopRequested()) return;
 
-        drive.followTrajectory(myTrajectory);
+        // Auto movement
+        drive.followTrajectory(rightTrajectory);
     }
 
     private void addTelemetry(Telemetry telemetry) {
