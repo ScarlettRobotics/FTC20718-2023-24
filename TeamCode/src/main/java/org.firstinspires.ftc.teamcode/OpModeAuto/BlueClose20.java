@@ -58,42 +58,42 @@ public class BlueClose20 extends LinearOpMode {
         initialize();
 
         // The robot's starting position
-        Pose2d startPose = new Pose2d(9, -63, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(9, 63, Math.toRadians(-90));
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
         // Trajectories
         ArrayList<Trajectory> placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeRight(1)
-                .splineToConstantHeading(new Vector2d(16, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(7, -40, Math.toRadians(135)), Math.toRadians(150))
+                .strafeLeft(1)
+                .splineToConstantHeading(new Vector2d(16, 52), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(7, 40, Math.toRadians(-135)), Math.toRadians(-150))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeRight(1)
-                .splineToConstantHeading(new Vector2d(12, -32), Math.toRadians(90))
+                .strafeLeft(1)
+                .splineToConstantHeading(new Vector2d(12, 32), Math.toRadians(-90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeRight(1)
-                .splineToConstantHeading(new Vector2d(12, -45), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(0))
+                .strafeLeft(1)
+                .splineToConstantHeading(new Vector2d(12, 50), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(17, 40, Math.toRadians(-45)), Math.toRadians(-20))
                 .build()); // place on right tape
 
         ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
-                .strafeTo(new Vector2d(8, -42))
-                .splineToConstantHeading(new Vector2d(14, -45), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(45))
+                .strafeTo(new Vector2d(8, 42))
+                .splineToConstantHeading(new Vector2d(14, 45), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(-45))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
-                .strafeTo(new Vector2d(12, -35))
-                .splineToConstantHeading(new Vector2d(24, -38), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(15))
+                .strafeTo(new Vector2d(12, 35))
+                .splineToConstantHeading(new Vector2d(24, 38), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(-15))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
-                .splineToConstantHeading(new Vector2d(14, -43), Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(36, -40), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(14, 43), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(36, 40), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(90))
                 .build());
 
         // Detect prop while in initialization phase
