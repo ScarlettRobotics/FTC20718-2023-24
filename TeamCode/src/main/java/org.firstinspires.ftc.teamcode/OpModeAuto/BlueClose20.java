@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoCore.AprilTagCore;
 import org.firstinspires.ftc.teamcode.AutoCore.TensorFlowCore;
 import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
+import org.firstinspires.ftc.teamcode.Core.ClawCore;
 import org.firstinspires.ftc.teamcode.RRdrive.SampleMecanumDrive;
 
 import java.util.ArrayList;
@@ -29,31 +30,32 @@ public class BlueClose20 extends LinearOpMode {
     private TensorFlowCore tensorFlowCore;
     private AprilTagCore aprilTagCore;
     // Core classes
-    /* TODO NEEDED CORE CLASSES */
+    private SampleMecanumDrive drive;
+    private ClawCore clawCore;
 
     private void initialize() {
+        // Init core classes
+        drive = new SampleMecanumDrive(hardwareMap);
+        clawCore = new ClawCore(hardwareMap);
         // Init dashboard
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
-        // Init timing related
-        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+        // Init vision
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
+        visionPortalCore.build();
         // Init telemetry
         telemetry.addData("STATUS", "Initialized");
         telemetry.update();
         dashboardTelemetry.addData("STATUS", "Initialized");
         dashboardTelemetry.update();
         // Close claw to grip pixels
-        //clawCore.close(); TODO if using
+        clawCore.close();
     }
 
     @Override
     public void runOpMode() {
-        // vision init
-        visionPortalCore = new VisionPortalCore(hardwareMap);
-        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
-        visionPortalCore.build();
-        // drivetrain init
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        initialize();
 
         // The robot's starting position
         Pose2d startPose = new Pose2d(9, -63, Math.toRadians(90));
@@ -94,11 +96,9 @@ public class BlueClose20 extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(90))
                 .build());
 
-        // Initialization
-        initialize(); // telemetry setup
-
+        // Detect prop while in initialization phase
         int propLocation = 0;
-        while (opModeInInit()) { // detect prop while in initialization
+        while (opModeInInit()) {
             if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
                 propLocation = 2;
             } else if (tensorFlowCore.getX() > (double) 640/2) { // to right of camera
