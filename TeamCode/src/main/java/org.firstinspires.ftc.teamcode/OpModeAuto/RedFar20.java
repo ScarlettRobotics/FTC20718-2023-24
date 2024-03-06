@@ -17,9 +17,9 @@ import org.firstinspires.ftc.teamcode.RRdrive.SampleMecanumDrive;
 import java.util.ArrayList;
 
 /** Uses RoadRunner to score 20 autonomous points (20 from purple).
- * This class only works on RedClose position */
-@Autonomous(name = "RedClose20", group = "red-close")
-public class RedClose20 extends LinearOpMode {
+ * This class only works on RedFar position */
+@Autonomous(name = "RedFar20", group = "red-far")
+public class RedFar20 extends LinearOpMode {
     // FTC Dashboard
     private FtcDashboard dashboard;
     private Telemetry dashboardTelemetry;
