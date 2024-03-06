@@ -120,7 +120,7 @@ public class BlueFar20 extends LinearOpMode {
         if(isStopRequested()) return;
 
         // Auto movement
-        // set purple then move in front of backdrop
+        // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
         drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
     }
