@@ -76,17 +76,17 @@ public class RedFar20 extends LinearOpMode {
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-31, -40, Math.toRadians(45)), Math.toRadians(30))
+                .splineToSplineHeading(new Pose2d(-30, -40, Math.toRadians(45)), Math.toRadians(30))
                 .build()); // place on right tape
 
         ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
-                .strafeTo(new Vector2d(-39, -42))
+                .strafeTo(new Vector2d(-40, -41))
                 .splineTo(new Vector2d(-34, -60), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .back(1)
-                .splineToConstantHeading(new Vector2d(-38, -60), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(-40, -60), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .lineTo(new Vector2d(-33, -42))
