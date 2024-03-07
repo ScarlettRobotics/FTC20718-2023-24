@@ -67,14 +67,14 @@ public class RedClose20 extends LinearOpMode {
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(16, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(7, -40, Math.toRadians(135)), Math.toRadians(150))
+                .splineToSplineHeading(new Pose2d(3, -30, Math.toRadians(135)), Math.toRadians(150))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .forward(1)
-                .splineToConstantHeading(new Vector2d(12, -32), Math.toRadians(90))
+                .strafeTo(new Vector2d(10, -60))
+                .splineToConstantHeading(new Vector2d(12, -33), Math.toRadians(90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .forward(1)
+                .strafeTo(new Vector2d(10, -60))
                 .splineToConstantHeading(new Vector2d(12, -50), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(20))
                 .build()); // place on right tape
