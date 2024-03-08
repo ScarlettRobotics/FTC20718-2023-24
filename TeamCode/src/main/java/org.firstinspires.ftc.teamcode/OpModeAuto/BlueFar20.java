@@ -71,26 +71,25 @@ public class BlueFar20 extends LinearOpMode {
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(-37, 60))
-                .splineToConstantHeading(new Vector2d(-38, 33), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(-38, 31), Math.toRadians(-90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeTo(new Vector2d(-36, 60))
-                .splineToConstantHeading(new Vector2d(-36, 50), Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-41, 40, Math.toRadians(-135)), Math.toRadians(-160))
+                .strafeTo(new Vector2d(-36, 62))
+                .splineToConstantHeading(new Vector2d(-49, 40), Math.toRadians(-90))
                 .build()); // place on right tape
 
         ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
                 .strafeTo(new Vector2d(-39, 42))
-                .splineTo(new Vector2d(-34, 60), Math.toRadians(90))
+                .splineTo(new Vector2d(-39, 55), Math.toRadians(90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .back(1)
-                .splineToConstantHeading(new Vector2d(-40, 60), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-40, 55), Math.toRadians(90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
-                .strafeTo(new Vector2d(-39, 42))
-                .splineTo(new Vector2d(-39, 60), Math.toRadians(90))
+                .back(1)
+                .splineToConstantHeading(new Vector2d(-39, 55), Math.toRadians(90))
                 .build());
 
         // Detect prop while in initialization phase
