@@ -32,6 +32,10 @@ public class BlueFar20 extends LinearOpMode {
     // Core classes
     private SampleMecanumDrive drive;
     private ClawCore clawCore;
+    // Roadrunner variables
+    Pose2d startPose;
+    ArrayList<Trajectory> placePurpleTrajectories;
+    ArrayList<Trajectory> purpleToBackdropTrajectories;
 
     private void initialize() {
         // Init core classes
@@ -51,19 +55,14 @@ public class BlueFar20 extends LinearOpMode {
         dashboardTelemetry.update();
         // Close claw to grip pixels
         clawCore.close();
-    }
-
-    @Override
-    public void runOpMode() {
-        initialize();
 
         // The robot's starting position
-        Pose2d startPose = new Pose2d(-32.0925, 63.3825, Math.toRadians(-90));
+        startPose = new Pose2d(-32.0925, 63.3825, Math.toRadians(-90));
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
         // Trajectories
-        ArrayList<Trajectory> placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
+        placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-38, 52), Math.toRadians(-90))
@@ -78,7 +77,7 @@ public class BlueFar20 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(-49, 40), Math.toRadians(-90))
                 .build()); // place on right tape
 
-        ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
+        purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
                 .strafeTo(new Vector2d(-39, 42))
                 .splineTo(new Vector2d(-39, 55), Math.toRadians(90))
@@ -91,6 +90,11 @@ public class BlueFar20 extends LinearOpMode {
                 .back(1)
                 .splineToConstantHeading(new Vector2d(-39, 55), Math.toRadians(90))
                 .build());
+    }
+
+    @Override
+    public void runOpMode() {
+        initialize();
 
         // Detect prop while in initialization phase
         int propLocation = 0;

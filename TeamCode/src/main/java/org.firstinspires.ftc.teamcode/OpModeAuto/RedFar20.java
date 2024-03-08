@@ -32,6 +32,10 @@ public class RedFar20 extends LinearOpMode {
     // Core classes
     private SampleMecanumDrive drive;
     private ClawCore clawCore;
+    // Roadrunner variables
+    Pose2d startPose;
+    ArrayList<Trajectory> placePurpleTrajectories;
+    ArrayList<Trajectory> purpleToBackdropTrajectories;
 
     private void initialize() {
         // Init core classes
@@ -51,19 +55,14 @@ public class RedFar20 extends LinearOpMode {
         dashboardTelemetry.update();
         // Close claw to grip pixels
         clawCore.close();
-    }
-
-    @Override
-    public void runOpMode() {
-        initialize();
 
         // The robot's starting position
-        Pose2d startPose = new Pose2d(-39.9075, -63.3825, Math.toRadians(90));
+        startPose = new Pose2d(-39.9075, -63.3825, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
         // Trajectories
-        ArrayList<Trajectory> placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
+        placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
 
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
@@ -80,7 +79,7 @@ public class RedFar20 extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(-29, -40, Math.toRadians(45)), Math.toRadians(30))
                 .build()); // place on right tape
 
-        ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
+        purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
                 .strafeTo(new Vector2d(-40, -41))
                 .splineTo(new Vector2d(-40, -60), Math.toRadians(-90))
@@ -93,6 +92,11 @@ public class RedFar20 extends LinearOpMode {
                 .lineTo(new Vector2d(-33, -42))
                 .splineTo(new Vector2d(-38, -60), Math.toRadians(-90))
                 .build());
+    }
+
+    @Override
+    public void runOpMode() {
+        initialize();
 
         // Detect prop while in initialization phase
         int propLocation = 0;
