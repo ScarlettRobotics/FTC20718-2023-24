@@ -38,7 +38,7 @@ public class RedClose20 extends LinearOpMode {
     ArrayList<Trajectory> placePurpleTrajectories;
     ArrayList<Trajectory> purpleToBackdropTrajectories;
 
-    private void initialize() {
+    protected void initialize() {
         // Init core classes
         drive = new SampleMecanumDrive(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
@@ -141,7 +141,7 @@ public class RedClose20 extends LinearOpMode {
         drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
     }
 
-    private void addTelemetry(Telemetry telemetry) {
+    protected void addTelemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());
         /* TODO CORE TELEMETRY */
