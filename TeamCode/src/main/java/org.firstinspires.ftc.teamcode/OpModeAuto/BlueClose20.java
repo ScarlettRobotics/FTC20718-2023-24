@@ -76,14 +76,14 @@ public class BlueClose20 extends LinearOpMode {
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(16, 52), Math.toRadians(-90))
-                .splineTo(new Vector2d(-4, 36), Math.toRadians(-150))
+                .splineTo(new Vector2d(2, 36), Math.toRadians(-150))
                 .build()); // place on right tape
 
         ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
                 .strafeTo(new Vector2d(15, 44))
-                .splineToConstantHeading(new Vector2d(26, 44), Math.toRadians(-45))
-                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(-45))
+                .splineToConstantHeading(new Vector2d(32, 44), Math.toRadians(-45))
+                .splineToSplineHeading(new Pose2d(36, 30, Math.toRadians(0)), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .strafeTo(new Vector2d(10, 33))

@@ -64,6 +64,7 @@ public class RedFar20 extends LinearOpMode {
 
         // Trajectories
         ArrayList<Trajectory> placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
+
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-36, -50), Math.toRadians(90))
@@ -71,22 +72,22 @@ public class RedFar20 extends LinearOpMode {
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(-34, -32), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-34, -34), Math.toRadians(90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-30, -40, Math.toRadians(45)), Math.toRadians(30))
+                .splineToSplineHeading(new Pose2d(-29, -40, Math.toRadians(45)), Math.toRadians(30))
                 .build()); // place on right tape
 
         ArrayList<Trajectory> purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
                 .strafeTo(new Vector2d(-40, -41))
-                .splineTo(new Vector2d(-34, -60), Math.toRadians(-90))
+                .splineTo(new Vector2d(-40, -60), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .back(1)
-                .splineToConstantHeading(new Vector2d(-40, -60), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(-42, -60), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .lineTo(new Vector2d(-33, -42))
