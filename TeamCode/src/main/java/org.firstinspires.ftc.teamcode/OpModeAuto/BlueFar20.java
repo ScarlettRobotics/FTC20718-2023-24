@@ -33,6 +33,7 @@ public class BlueFar20 extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ClawCore clawCore;
     // Roadrunner variables
+    int propLocation;
     Pose2d startPose;
     ArrayList<Trajectory> placePurpleTrajectories;
     ArrayList<Trajectory> purpleToBackdropTrajectories;
@@ -90,14 +91,23 @@ public class BlueFar20 extends LinearOpMode {
                 .back(1)
                 .splineToConstantHeading(new Vector2d(-39, 55), Math.toRadians(90))
                 .build());
+
+        /* INIT ACTIONS */
+        // Close claw to grip pixels
+        clawCore.close();
     }
 
     @Override
     public void runOpMode() {
         initialize();
 
+        detectPropInInit();
+
+        placePurple();
+    }
+
+    protected void detectPropInInit() {
         // Detect prop while in initialization phase
-        int propLocation = 0;
         while (opModeInInit()) {
             if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
                 propLocation = 2;
@@ -116,9 +126,9 @@ public class BlueFar20 extends LinearOpMode {
 
         waitForStart();
         visionPortalCore.stopStreaming(); // close portal to save cpu/memory
+    }
 
-        if(isStopRequested()) return;
-
+    protected void placePurple() {
         // Auto movement
         // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));

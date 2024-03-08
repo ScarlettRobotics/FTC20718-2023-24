@@ -33,6 +33,7 @@ public class BlueClose20 extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ClawCore clawCore;
     // Roadrunner variables
+    int propLocation;
     Pose2d startPose;
     ArrayList<Trajectory> placePurpleTrajectories;
     ArrayList<Trajectory> purpleToBackdropTrajectories;
@@ -53,11 +54,15 @@ public class BlueClose20 extends LinearOpMode {
         telemetry.update();
         dashboardTelemetry.addData("STATUS", "Initialized");
         dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
+
+        /* TRAJECTORIES */
+        // Detected game prop location
+        propLocation = 0;
 
         // The robot's starting position
         startPose = new Pose2d(15.9075, 63.3825, Math.toRadians(-90));
+
+        drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
 
         // Trajectories
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
@@ -91,16 +96,23 @@ public class BlueClose20 extends LinearOpMode {
                 .strafeTo(new Vector2d(10, 42))
                 .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(-45))
                 .build());
+
+        /* INIT ACTIONS */
+        // Close claw to grip pixels
+        clawCore.close();
     }
 
     @Override
     public void runOpMode() {
         initialize();
 
-        drive.setPoseEstimate(startPose); // prevent PID from trying to self correct
+        detectPropInInit();
 
+        placePurple();
+    }
+
+    protected void detectPropInInit() {
         // Detect prop while in initialization phase
-        int propLocation = 0;
         while (opModeInInit()) {
             if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
                 propLocation = 2;
@@ -119,9 +131,9 @@ public class BlueClose20 extends LinearOpMode {
 
         waitForStart();
         visionPortalCore.stopStreaming(); // close portal to save cpu/memory
+    }
 
-        if(isStopRequested()) return;
-
+    protected void placePurple() {
         // Auto movement
         // set purple then move in front of backdrop
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));

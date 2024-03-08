@@ -33,6 +33,7 @@ public class RedFar20 extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ClawCore clawCore;
     // Roadrunner variables
+    int propLocation;
     Pose2d startPose;
     ArrayList<Trajectory> placePurpleTrajectories;
     ArrayList<Trajectory> purpleToBackdropTrajectories;
@@ -53,8 +54,10 @@ public class RedFar20 extends LinearOpMode {
         telemetry.update();
         dashboardTelemetry.addData("STATUS", "Initialized");
         dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
+
+        /* TRAJECTORIES */
+        // Detected game prop location
+        propLocation = 0;
 
         // The robot's starting position
         startPose = new Pose2d(-39.9075, -63.3825, Math.toRadians(90));
@@ -63,7 +66,6 @@ public class RedFar20 extends LinearOpMode {
 
         // Trajectories
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
-
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-36, -50), Math.toRadians(90))
@@ -92,14 +94,23 @@ public class RedFar20 extends LinearOpMode {
                 .lineTo(new Vector2d(-33, -42))
                 .splineTo(new Vector2d(-38, -60), Math.toRadians(-90))
                 .build());
+
+        /* INIT ACTIONS */
+        // Close claw to grip pixels
+        clawCore.close();
     }
 
     @Override
     public void runOpMode() {
         initialize();
 
+        detectPropInInit();
+
+        placePurple();
+    }
+
+    protected void detectPropInInit() {
         // Detect prop while in initialization phase
-        int propLocation = 0;
         while (opModeInInit()) {
             if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
                 propLocation = 2;
@@ -118,9 +129,9 @@ public class RedFar20 extends LinearOpMode {
 
         waitForStart();
         visionPortalCore.stopStreaming(); // close portal to save cpu/memory
+    }
 
-        if(isStopRequested()) return;
-
+    protected void placePurple() {
         // Auto movement
         // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
