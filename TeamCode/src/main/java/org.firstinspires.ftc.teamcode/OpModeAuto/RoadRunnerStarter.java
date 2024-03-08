@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoCore.AprilTagCore;
 import org.firstinspires.ftc.teamcode.AutoCore.TensorFlowCore;
 import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
+import org.firstinspires.ftc.teamcode.Core.ArmCore;
 import org.firstinspires.ftc.teamcode.Core.ClawCore;
 import org.firstinspires.ftc.teamcode.RRdrive.SampleMecanumDrive;
 
@@ -22,14 +23,16 @@ public abstract class RoadRunnerStarter extends LinearOpMode {
     // Vision
     protected VisionPortalCore visionPortalCore;
     protected TensorFlowCore tensorFlowCore;
-    private AprilTagCore aprilTagCore;
+    protected AprilTagCore aprilTagCore;
     // Core classes
     protected SampleMecanumDrive drive;
-    private ClawCore clawCore;
+    protected ArmCore armCore;
+    protected ClawCore clawCore;
 
     protected void initialize() {
         // Init core classes
         drive = new SampleMecanumDrive(hardwareMap);
+        armCore = new ArmCore(hardwareMap);
         clawCore = new ClawCore(hardwareMap);
         // Init dashboard
         dashboard = FtcDashboard.getInstance();
