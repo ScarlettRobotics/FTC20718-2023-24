@@ -19,19 +19,7 @@ import java.util.ArrayList;
 /** Uses RoadRunner to score 20 autonomous points (20 from purple).
  * This class only works on BlueClose position */
 @Autonomous(name = "BlueClose20", group = "blue-close")
-public class BlueClose20 extends LinearOpMode {
-    // FTC Dashboard
-    private FtcDashboard dashboard;
-    private Telemetry dashboardTelemetry;
-    // Timing related
-    private ElapsedTime timer;
-    // Vision
-    private VisionPortalCore visionPortalCore;
-    private TensorFlowCore tensorFlowCore;
-    private AprilTagCore aprilTagCore;
-    // Core classes
-    private SampleMecanumDrive drive;
-    private ClawCore clawCore;
+public class BlueClose20 extends RoadRunnerStarter {
     // Roadrunner variables
     int propLocation;
     Pose2d startPose;
@@ -39,21 +27,7 @@ public class BlueClose20 extends LinearOpMode {
     ArrayList<Trajectory> purpleToBackdropTrajectories;
 
     protected void initialize() {
-        // Init core classes
-        drive = new SampleMecanumDrive(hardwareMap);
-        clawCore = new ClawCore(hardwareMap);
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
-        // Init vision
-        visionPortalCore = new VisionPortalCore(hardwareMap);
-        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
-        visionPortalCore.build();
-        // Init telemetry
-        telemetry.addData("STATUS", "Initialized");
-        telemetry.update();
-        dashboardTelemetry.addData("STATUS", "Initialized");
-        dashboardTelemetry.update();
+        super.initialize();
 
         /* TRAJECTORIES */
         // Detected game prop location
@@ -96,10 +70,6 @@ public class BlueClose20 extends LinearOpMode {
                 .strafeTo(new Vector2d(10, 42))
                 .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(-45))
                 .build());
-
-        /* INIT ACTIONS */
-        // Close claw to grip pixels
-        clawCore.close();
     }
 
     @Override
@@ -138,17 +108,6 @@ public class BlueClose20 extends LinearOpMode {
         // set purple then move in front of backdrop
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
         drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
-    }
-
-    protected void addTelemetry(Telemetry telemetry) {
-        // Telemetry
-        telemetry.addData("timer", timer.time());
-        /* TODO CORE TELEMETRY */
-        telemetry.update();
-        // FTC Dashboard
-        dashboardTelemetry.addData("timer", timer.time());
-        /* TODO CORE TELEMETRY */
-        dashboardTelemetry.update();
     }
 
 }

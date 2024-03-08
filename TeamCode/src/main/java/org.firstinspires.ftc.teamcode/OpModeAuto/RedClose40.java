@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * This class only works on RedClose position */
 @Autonomous(name = "RedClose40", group = "red-close")
 public class RedClose40 extends RedClose20 {
-    
+
     protected void initialize() {
         super.initialize();
     }

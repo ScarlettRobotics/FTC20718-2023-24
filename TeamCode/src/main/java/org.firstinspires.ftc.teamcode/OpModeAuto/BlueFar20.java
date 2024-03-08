@@ -19,43 +19,15 @@ import java.util.ArrayList;
 /** Uses RoadRunner to score 20 autonomous points (20 from purple).
  * This class only works on BlueFar position */
 @Autonomous(name = "BlueFar20", group = "blue-far")
-public class BlueFar20 extends LinearOpMode {
-    // FTC Dashboard
-    private FtcDashboard dashboard;
-    private Telemetry dashboardTelemetry;
-    // Timing related
-    private ElapsedTime timer;
-    // Vision
-    private VisionPortalCore visionPortalCore;
-    private TensorFlowCore tensorFlowCore;
-    private AprilTagCore aprilTagCore;
-    // Core classes
-    private SampleMecanumDrive drive;
-    private ClawCore clawCore;
+public class BlueFar20 extends RoadRunnerStarter {
     // Roadrunner variables
     int propLocation;
     Pose2d startPose;
     ArrayList<Trajectory> placePurpleTrajectories;
     ArrayList<Trajectory> purpleToBackdropTrajectories;
 
-    private void initialize() {
-        // Init core classes
-        drive = new SampleMecanumDrive(hardwareMap);
-        clawCore = new ClawCore(hardwareMap);
-        // Init dashboard
-        dashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = dashboard.getTelemetry();
-        // Init vision
-        visionPortalCore = new VisionPortalCore(hardwareMap);
-        tensorFlowCore = new TensorFlowCore(hardwareMap, visionPortalCore.builder);
-        visionPortalCore.build();
-        // Init telemetry
-        telemetry.addData("STATUS", "Initialized");
-        telemetry.update();
-        dashboardTelemetry.addData("STATUS", "Initialized");
-        dashboardTelemetry.update();
-        // Close claw to grip pixels
-        clawCore.close();
+    protected void initialize() {
+        super.initialize();
 
         // The robot's starting position
         startPose = new Pose2d(-32.0925, 63.3825, Math.toRadians(-90));
@@ -91,10 +63,6 @@ public class BlueFar20 extends LinearOpMode {
                 .back(1)
                 .splineToConstantHeading(new Vector2d(-39, 55), Math.toRadians(90))
                 .build());
-
-        /* INIT ACTIONS */
-        // Close claw to grip pixels
-        clawCore.close();
     }
 
     @Override
@@ -133,17 +101,6 @@ public class BlueFar20 extends LinearOpMode {
         // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
         drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
-    }
-
-    private void addTelemetry(Telemetry telemetry) {
-        // Telemetry
-        telemetry.addData("timer", timer.time());
-        /* TODO CORE TELEMETRY */
-        telemetry.update();
-        // FTC Dashboard
-        dashboardTelemetry.addData("timer", timer.time());
-        /* TODO CORE TELEMETRY */
-        dashboardTelemetry.update();
     }
 
 }
