@@ -55,11 +55,13 @@ public abstract class RoadRunnerStarter extends LinearOpMode {
     protected void addTelemetry(Telemetry telemetry) {
         // Telemetry
         telemetry.addData("timer", timer.time());
-        /* TODO CORE TELEMETRY */
+        armCore.telemetry(telemetry);
+        clawCore.telemetry(telemetry);
         telemetry.update();
         // FTC Dashboard
         dashboardTelemetry.addData("timer", timer.time());
-        /* TODO CORE TELEMETRY */
+        armCore.telemetry(dashboardTelemetry);
+        clawCore.telemetry(dashboardTelemetry);
         dashboardTelemetry.update();
     }
 
