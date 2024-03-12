@@ -73,6 +73,7 @@ public class BlueClose40 extends BlueClose20 {
             sleep(10);
         }
         detectPositionFromAprilTag();
+        visionPortalCore.stopStreaming(); // save cpu/resources
 
         /* Move in front of AprilTag depending on propLocation */
         // Build trajectory to move to right position
