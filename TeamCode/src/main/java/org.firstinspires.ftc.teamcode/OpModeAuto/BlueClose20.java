@@ -91,7 +91,7 @@ public class BlueClose20 extends RoadRunnerStarter {
         }
 
         waitForStart();
-        visionPortalCore.stopStreaming(); // close portal to save cpu/memory
+        visionPortalCore.close(); // close portal to save cpu/memory
     }
 
     protected void placePurple() {
