@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class BlueClose40 extends BlueClose20 {
     // Saved positions of AprilTags on backdrop
     final ArrayList<Vector2d> backdropCoords = new ArrayList<>();
+    Trajectory placeOnBackdropTrajectory;
     Pose2d aprilTagPose;
 
     protected void initialize() {
@@ -59,6 +60,28 @@ public class BlueClose40 extends BlueClose20 {
                         detectedTagCoords.getY() + yDist),
                 heading);
         drive.setPoseEstimate(aprilTagPose);
+    }
+
+    protected void placeYellow() {
+        // Re-initialize VisionPortalCore solely for AprilTagDetections
+        visionPortalCore = new VisionPortalCore(hardwareMap);
+        aprilTagCore = new AprilTagCore(hardwareMap, visionPortalCore.builder, 2);
+        visionPortalCore.build();
+
+        // Wait until robot detects an AprilTag
+        while (aprilTagCore.getDetections().isEmpty()) {
+            sleep(10);
+        }
+        detectPositionFromAprilTag();
+
+        /* Move in front of AprilTag depending on propLocation */
+        // Build trajectory to move to right position
+        placeOnBackdropTrajectory = drive.trajectoryBuilder(aprilTagPose)
+                .build();
+        // Move arm to appropriate position before placing
+        //TODO
+        // Move to appropriate position
+        //TODO
     }
 
 }
