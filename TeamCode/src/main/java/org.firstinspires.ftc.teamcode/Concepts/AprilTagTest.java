@@ -1,10 +1,16 @@
 
 package org.firstinspires.ftc.teamcode.Concepts;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoCore.AprilTagCore;
 import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.ArrayList;
 
 /**
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation,
@@ -33,9 +39,16 @@ import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
 public class AprilTagTest extends LinearOpMode {
     private VisionPortalCore visionPortalCore;
     private AprilTagCore aprilTagCore;
+    private double range, xDist, yDist, heading;
+    private Pose2d aprilTagPose;
+    final ArrayList<Vector2d> backdropCoords = new ArrayList<>();
 
     @Override
     public void runOpMode() {
+        backdropCoords.add(new Vector2d(60.75, 42));
+        backdropCoords.add(new Vector2d(60.75, 36));
+        backdropCoords.add(new Vector2d(60.75, 30));
+
         visionPortalCore = new VisionPortalCore(hardwareMap);
         aprilTagCore = new AprilTagCore(hardwareMap, visionPortalCore.builder, 2);
         visionPortalCore.build();
@@ -49,8 +62,8 @@ public class AprilTagTest extends LinearOpMode {
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
-                aprilTagCore.telemetry(telemetry);
-                telemetry.update();
+                detectPositionFromAprilTag();
+                telemetry(telemetry);
 
                 // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
@@ -68,5 +81,44 @@ public class AprilTagTest extends LinearOpMode {
         visionPortalCore.close();
 
     }   // end method runOpMode()
+
+    /** When an AprilTag is detected, the robot can very precisely tell where it is by using ftcPose data.
+     * Make sure that the robot is 100% detecting an AprilTag or nothing will happen */
+    private void detectPositionFromAprilTag() {
+        if (aprilTagCore.getDetections().isEmpty()) return;
+        // Remove error from previous movement by setting current pose based on AprilTag detection
+        AprilTagDetection detectedTag = aprilTagCore.getDetections().get(0);
+        // Camera doesn't point parallel with ground so mathematical adjustments have to be made
+        range = detectedTag.ftcPose.range *
+                Math.cos(detectedTag.ftcPose.elevation - detectedTag.ftcPose.pitch + Math.toRadians(30));
+        // Robot X-coordinate relative to AprilTag (in field orientation)
+        xDist = range *
+                Math.sin(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
+        // Robot Y-coordinate relative to AprilTag (in field orientation)
+        yDist = -range *
+                Math.cos(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
+        // Robot heading relative to field; RoadRunner specific
+        heading = Math.toRadians(90) - detectedTag.ftcPose.yaw;
+
+        Vector2d detectedTagCoords = backdropCoords.get(detectedTag.id-1);
+        aprilTagPose = new Pose2d(
+                new Vector2d(detectedTagCoords.getX() + xDist,
+                        detectedTagCoords.getY() + yDist),
+                heading);
+    }
+
+    private void telemetry(Telemetry telemetry) {
+        telemetry.addData("range", range);
+        telemetry.addData("xDist", xDist);
+        telemetry.addData("yDist", yDist);
+        telemetry.addData("heading", heading);
+        telemetry.addData("Pose data", " %.2f %.2f %.0f",
+                aprilTagPose.getX(),
+                aprilTagPose.getY(),
+                aprilTagPose.getHeading());
+        
+        aprilTagCore.telemetry(telemetry);
+        telemetry.update();
+    }
 
 }   // end class
