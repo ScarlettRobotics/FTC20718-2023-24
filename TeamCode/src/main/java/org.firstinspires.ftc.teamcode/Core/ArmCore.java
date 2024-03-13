@@ -28,6 +28,15 @@ public class ArmCore {
         armMotor.setTargetPosition(encoder);
     }
 
+    /** Sets a new target angle for the motor.
+     * 0 degrees is when the arm is perfectly vertical.
+     * Positive angle movement is out from starting position.
+     * Use degrees. */
+    public void setTargetAngle(double targetAngle) {
+        int encoder = (int) ((targetAngle - startAngle) * 10); // TODO CHANGE THIS COEFFICIENT
+        armMotor.setTargetPosition(encoder);
+    }
+
     /** Changes the encoder position by the inputted amount. */
     public void moveByEncoder(int encoder) {
         armMotor.moveByEncoder(encoder);
