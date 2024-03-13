@@ -43,8 +43,8 @@ public class AprilTagTest extends LinearOpMode {
     private Pose2d aprilTagPose = new Pose2d();
     final ArrayList<Vector2d> backdropCoords = new ArrayList<>();
     // offset is 8.125" (x) by 1.5" (y)
-    final double centerOffsetMagnitude = 8.262; // Distance from camera to robot's center
-    final double centerOffsetHeading = 0; // Heading that centerOffsetMagnitude faces when the robot's heading is 0
+    final double centerOffsetMagnitude = 8.262; // Distance from camera to robot's center (pythagorean theorem)
+    final double centerOffsetHeading = 10.46; // Heading that centerOffsetMagnitude faces when the robot's heading is 0 (TOA)
 
     @Override
     public void runOpMode() {
@@ -97,10 +97,10 @@ public class AprilTagTest extends LinearOpMode {
 
         double theta = Math.toRadians(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
         // Robot X-coordinate relative to AprilTag (in field orientation)
-        xDist = -range *
+        xDist = range *
                 Math.cos(theta);
         // Robot Y-coordinate relative to AprilTag (in field orientation)
-        yDist = -range *
+        yDist = range *
                 Math.sin(theta);
         // Robot heading relative to field; RoadRunner specific
         heading = 90 - detectedTag.ftcPose.yaw;
@@ -108,10 +108,10 @@ public class AprilTagTest extends LinearOpMode {
         Vector2d detectedTagCoords = backdropCoords.get(detectedTag.id-1);
         aprilTagPose = new Pose2d(
                 new Vector2d(
-                        (detectedTagCoords.getX() + xDist) - // camera's x coordinate
-                            (Math.cos(heading + centerOffsetHeading) * centerOffsetMagnitude),
-                        (detectedTagCoords.getY() + yDist) + // camera's y coordinate
-                            (Math.sin(heading + centerOffsetHeading) * centerOffsetMagnitude)),
+                        (detectedTagCoords.getX() - xDist) - // camera's x coordinate
+                                (Math.cos(Math.toRadians(heading + centerOffsetHeading)) * centerOffsetMagnitude), // move coordinate to robot's center
+                        (detectedTagCoords.getY() - yDist) - // camera's y coordinate
+                                (Math.sin(Math.toRadians(heading + centerOffsetHeading)) * centerOffsetMagnitude)), // move coordinate to robot's center
                 heading);
     }
 
