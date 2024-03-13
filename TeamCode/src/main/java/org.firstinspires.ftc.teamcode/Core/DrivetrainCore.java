@@ -25,14 +25,14 @@ public class DrivetrainCore {
         // hardwareMap
         for (int i=0; i<4; i++) {
             driveMotors.add(new PIDController(hardwareMap, "driveMotor"+i,
-                    0.01, 0.0001, 0.0005, 0.5, 2));
+                    0.01, 0.0001, 0.0005, 0.5, 10));
         }
 
         // direction
         // When setting direction for all motors, make sure positive makes robot move counter-clockwise.
         /* direction code here */
         // alignerPID init
-        alignerPID = new PIDControllerSimple("alignerPID", 0.03, 0.01, 0.01, 0.5, 2);
+        alignerPID = new PIDControllerSimple("alignerPID", 0.03, 0.01, 0.01, 0.5, 10);
     }
 
     public double getAlignerPIDPower() {

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 public class ArmCore {
     private PIDControllerSimple pid;
     final private double Kcos = 0;
-    final private double startAngle = -3.923; // avg encoder position -61.8
+    final private double startAngle = -22;
     final private DcMotor armMotor;
 
     // average -708.94 encoder / 45 deg or -15.754 encoder/deg
@@ -22,7 +22,7 @@ public class ArmCore {
 
     public ArmCore(HardwareMap hardwareMap) {
         pid = new PIDControllerSimple("armMotor",
-                0.01, 0, 0.0005, 0.8, 2); //TODO ADJUST
+                0.01, 0, 0.0005, 0.8, 10); //TODO ADJUST
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
