@@ -40,8 +40,11 @@ public class AprilTagTest extends LinearOpMode {
     private VisionPortalCore visionPortalCore;
     private AprilTagCore aprilTagCore;
     private double range, xDist, yDist, heading;
-    private Pose2d aprilTagPose;
+    private Pose2d aprilTagPose = new Pose2d();
     final ArrayList<Vector2d> backdropCoords = new ArrayList<>();
+    // offset is 8.125" (x) by 1.5" (y)
+    final double centerOffsetMagnitude = 8.262; // Distance from camera to robot's center
+    final double centerOffsetHeading = 0; // Heading that centerOffsetMagnitude faces when the robot's heading is 0
 
     @Override
     public void runOpMode() {
@@ -90,20 +93,25 @@ public class AprilTagTest extends LinearOpMode {
         AprilTagDetection detectedTag = aprilTagCore.getDetections().get(0);
         // Camera doesn't point parallel with ground so mathematical adjustments have to be made
         range = detectedTag.ftcPose.range *
-                Math.cos(detectedTag.ftcPose.elevation - detectedTag.ftcPose.pitch + Math.toRadians(30));
+                Math.cos(Math.toRadians(23));
+
+        double theta = Math.toRadians(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
         // Robot X-coordinate relative to AprilTag (in field orientation)
-        xDist = range *
-                Math.sin(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
+        xDist = -range *
+                Math.cos(theta);
         // Robot Y-coordinate relative to AprilTag (in field orientation)
         yDist = -range *
-                Math.cos(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
+                Math.sin(theta);
         // Robot heading relative to field; RoadRunner specific
-        heading = Math.toRadians(90) - detectedTag.ftcPose.yaw;
+        heading = 90 - detectedTag.ftcPose.yaw;
 
         Vector2d detectedTagCoords = backdropCoords.get(detectedTag.id-1);
         aprilTagPose = new Pose2d(
-                new Vector2d(detectedTagCoords.getX() + xDist,
-                        detectedTagCoords.getY() + yDist),
+                new Vector2d(
+                        (detectedTagCoords.getX() + xDist) - // camera's x coordinate
+                            (Math.cos(heading + centerOffsetHeading) * centerOffsetMagnitude),
+                        (detectedTagCoords.getY() + yDist) + // camera's y coordinate
+                            (Math.sin(heading + centerOffsetHeading) * centerOffsetMagnitude)),
                 heading);
     }
 
