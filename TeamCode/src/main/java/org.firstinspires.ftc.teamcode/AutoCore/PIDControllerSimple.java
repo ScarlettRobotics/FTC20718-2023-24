@@ -21,6 +21,7 @@ public class PIDControllerSimple {
     protected double pError; // error could be here but only is used in update()
     protected double integralSum; // derivative could be here but only is used in update()
     protected final double powerCap;
+    protected final double maxAccel;
     private double power;
     // Measures time passed in millis
     ElapsedTime timer;
@@ -29,8 +30,10 @@ public class PIDControllerSimple {
      * @param Kp Proportional coefficient (P in PID). Input >0
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
-     * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    public PIDControllerSimple(String name, double Kp, double Ki, double Kd, double powerCap) {
+     * @param powerCap Maximum power that motor can run at. Input 0-1
+     * @param maxAccel How much the power can change by every second.
+     *                 Done to prevent wear on motors. Input >0 (can be >powerCap) */
+    public PIDControllerSimple(String name, double Kp, double Ki, double Kd, double powerCap, double maxAccel) {
         this.name = name;
         // Initialize PID variables
         timer = new ElapsedTime();
@@ -41,6 +44,7 @@ public class PIDControllerSimple {
         this.Kd = Kd;
         integralSumMax = (Ki == 0) ? 0.25 : 0.25/Ki;
         this.powerCap = powerCap;
+        this.maxAccel = maxAccel;
     }
 
     /** Returns the difference between the current targetPosition and previous targetPosition. */
@@ -103,9 +107,13 @@ public class PIDControllerSimple {
         // timer.seconds() is time passed since last run
         double derivative = (error - pError) / timer.seconds();
 
-        power = Kp * error +
+        double goalPower = Kp * error +
                 Ki * integralSum +
                 Kd * derivative;
+        // timer.seconds() is time passed since last run
+        double currentMaxAccel = maxAccel * timer.seconds();
+        // constrain power within max acceleration
+        power = Math.max(power-currentMaxAccel, Math.min(goalPower, power+currentMaxAccel));
 
         // set power based on powerCap
         if (power < -powerCap) power = -powerCap; // more powerful than -powerCap
