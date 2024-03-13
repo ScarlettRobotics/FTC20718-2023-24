@@ -92,18 +92,15 @@ public class AprilTagTest extends LinearOpMode {
         // Remove error from previous movement by setting current pose based on AprilTag detection
         AprilTagDetection detectedTag = aprilTagCore.getDetections().get(0);
         // Camera doesn't point parallel with ground so mathematical adjustments have to be made
-        range = detectedTag.ftcPose.range *
-                Math.cos(Math.toRadians(23));
+        range = detectedTag.ftcPose.range * Math.cos(Math.toRadians(23));
 
-        double theta = Math.toRadians(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing);
+        double theta = Math.toRadians(detectedTag.ftcPose.yaw + detectedTag.ftcPose.bearing); // see math notes
         // Robot X-coordinate relative to AprilTag (in field orientation)
-        xDist = range *
-                Math.cos(theta);
+        xDist = range * Math.cos(theta);
         // Robot Y-coordinate relative to AprilTag (in field orientation)
-        yDist = range *
-                Math.sin(theta);
+        yDist = range * Math.sin(theta);
         // Robot heading relative to field; RoadRunner specific
-        heading = 90 - detectedTag.ftcPose.yaw;
+        heading = -detectedTag.ftcPose.yaw;
 
         Vector2d detectedTagCoords = backdropCoords.get(detectedTag.id-1);
         aprilTagPose = new Pose2d(
