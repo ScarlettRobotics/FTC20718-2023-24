@@ -42,6 +42,7 @@ public class AprilTagTest extends LinearOpMode {
     private double range, xDist, yDist, heading;
     private Pose2d aprilTagPose = new Pose2d();
     final ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();
+    Vector2d detectedTagCoords = new Vector2d();
     // offset is 8.125" (x) by 1.5" (y)
     final double centerOffsetMagnitude = 8.262; // Distance from camera to robot's center (pythagorean theorem)
     final double centerOffsetHeading = 10.46; // Heading that centerOffsetMagnitude faces when the robot's heading is 0 (TOA)
@@ -113,7 +114,7 @@ public class AprilTagTest extends LinearOpMode {
         // Robot heading relative to field; RoadRunner specific
         heading = -detectedTag.ftcPose.yaw;
 
-        Vector2d detectedTagCoords = aprilTagCoords.get(detectedTag.id-1);
+        detectedTagCoords = aprilTagCoords.get(detectedTag.id-1);
         aprilTagPose = new Pose2d(
                 new Vector2d(
                         (detectedTagCoords.getX() - xDist) - // camera's x coordinate
@@ -128,10 +129,14 @@ public class AprilTagTest extends LinearOpMode {
         telemetry.addData("xDist", xDist);
         telemetry.addData("yDist", yDist);
         telemetry.addData("heading", heading);
-        telemetry.addData("Pose data", " %.2f %.2f %.0f",
+        telemetry.addData("\nPose data", " %.2f %.2f %.0f",
                 aprilTagPose.getX(),
                 aprilTagPose.getY(),
                 aprilTagPose.getHeading());
+        telemetry.addData("\nCamera's X coordinate", (detectedTagCoords.getX() - xDist));
+        telemetry.addData("X offset to robot's center", (Math.cos(Math.toRadians(heading + centerOffsetHeading)) * centerOffsetMagnitude));
+        telemetry.addData("Camera's Y coordinate", (detectedTagCoords.getY() - yDist));
+        telemetry.addData("Y offset to robot's center", (Math.sin(Math.toRadians(heading + centerOffsetHeading)) * centerOffsetMagnitude));
         
         aprilTagCore.telemetry(telemetry);
         telemetry.update();
