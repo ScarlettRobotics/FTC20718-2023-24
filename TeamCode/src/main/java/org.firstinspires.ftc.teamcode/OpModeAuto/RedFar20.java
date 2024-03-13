@@ -45,6 +45,13 @@ public class RedFar20 extends RoadRunnerStarter {
                 .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(-29, -40, Math.toRadians(45)), Math.toRadians(30))
                 .build()); // place on right tape
+        placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(5, -57), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(32, -34), Math.toRadians(0))
+
+                .build());
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())

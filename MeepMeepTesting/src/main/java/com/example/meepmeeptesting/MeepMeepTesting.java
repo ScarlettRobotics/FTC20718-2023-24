@@ -18,7 +18,7 @@ public class MeepMeepTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, -34, Math.toRadians(90)))
 
-                                .lineToSplineHeading(new Pose2d(-40, -47, Math.toRadians(0)))
+                                .lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
                                 .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
                                 .splineToConstantHeading(new Vector2d(5, -57), Math.toRadians(0))
                                 .splineToConstantHeading(new Vector2d(32, -34), Math.toRadians(0))
@@ -27,9 +27,11 @@ public class MeepMeepTesting {
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
                 .start();
+
     }
 }
