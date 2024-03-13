@@ -29,9 +29,10 @@ public class ArmPIDTest extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.dpad_left) armCore.setTargetAngle(45);
-        if (gamepad1.dpad_up) armCore.setTargetAngle(30);
-        if (gamepad1.dpad_right) armCore.setTargetAngle(0);
+        if (gamepad1.dpad_left) armCore.setTargetAngle(180);
+        if (gamepad1.dpad_up) armCore.setTargetAngle(135);
+        if (gamepad1.dpad_right) armCore.setTargetAngle(45);
+        if (gamepad1.dpad_down) armCore.setTargetAngle(0);
         armCore.updateAuto();
         // Telemetry
         armCore.telemetry(telemetry);

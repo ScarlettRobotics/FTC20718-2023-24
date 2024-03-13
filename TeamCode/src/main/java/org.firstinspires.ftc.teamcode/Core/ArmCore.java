@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 public class ArmCore {
     private PIDControllerSimple pid;
     final private double Kcos = 0;
-    final private double startAngle = -22;
+    final private double startAngle = -20;
     final private DcMotor armMotor;
 
     // average -708.94 encoder / 45 deg or -15.754 encoder/deg
