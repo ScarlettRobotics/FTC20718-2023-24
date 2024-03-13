@@ -41,16 +41,27 @@ public class AprilTagTest extends LinearOpMode {
     private AprilTagCore aprilTagCore;
     private double range, xDist, yDist, heading;
     private Pose2d aprilTagPose = new Pose2d();
-    final ArrayList<Vector2d> backdropCoords = new ArrayList<>();
+    final ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();
     // offset is 8.125" (x) by 1.5" (y)
     final double centerOffsetMagnitude = 8.262; // Distance from camera to robot's center (pythagorean theorem)
     final double centerOffsetHeading = 10.46; // Heading that centerOffsetMagnitude faces when the robot's heading is 0 (TOA)
 
     @Override
     public void runOpMode() {
-        backdropCoords.add(new Vector2d(60.75, 42));
-        backdropCoords.add(new Vector2d(60.75, 36));
-        backdropCoords.add(new Vector2d(60.75, 30));
+        // blue backdrop
+        aprilTagCoords.add(new Vector2d(60.75, 42));
+        aprilTagCoords.add(new Vector2d(60.75, 36));
+        aprilTagCoords.add(new Vector2d(60.75, 30));
+        // red backdrop
+        aprilTagCoords.add(new Vector2d(60.75, -30));
+        aprilTagCoords.add(new Vector2d(60.75, -36));
+        aprilTagCoords.add(new Vector2d(60.75, -42));
+        // red pixels
+        aprilTagCoords.add(new Vector2d(-72, -36));
+        aprilTagCoords.add(new Vector2d(-72, -41.5));
+        // blue pixels
+        aprilTagCoords.add(new Vector2d(-72, 36));
+        aprilTagCoords.add(new Vector2d(-72, 41.5));
 
         visionPortalCore = new VisionPortalCore(hardwareMap);
         aprilTagCore = new AprilTagCore(hardwareMap, visionPortalCore.builder, 2);
@@ -102,7 +113,7 @@ public class AprilTagTest extends LinearOpMode {
         // Robot heading relative to field; RoadRunner specific
         heading = -detectedTag.ftcPose.yaw;
 
-        Vector2d detectedTagCoords = backdropCoords.get(detectedTag.id-1);
+        Vector2d detectedTagCoords = aprilTagCoords.get(detectedTag.id-1);
         aprilTagPose = new Pose2d(
                 new Vector2d(
                         (detectedTagCoords.getX() - xDist) - // camera's x coordinate
