@@ -15,16 +15,27 @@ import java.util.ArrayList;
 @Autonomous(name = "BlueClose40", group = "blue-close")
 public class BlueClose40 extends BlueClose20 {
     // Saved positions of AprilTags on backdrop
-    final ArrayList<Vector2d> backdropCoords = new ArrayList<>();
+    final ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();
     Trajectory placeOnBackdropTrajectory;
     Pose2d aprilTagPose;
 
     protected void initialize() {
         super.initialize();
 
-        backdropCoords.add(new Vector2d(60.75, 42));
-        backdropCoords.add(new Vector2d(60.75, 36));
-        backdropCoords.add(new Vector2d(60.75, 30));
+        // blue backdrop
+        aprilTagCoords.add(new Vector2d(60.75, 42));
+        aprilTagCoords.add(new Vector2d(60.75, 36));
+        aprilTagCoords.add(new Vector2d(60.75, 30));
+        // red backdrop
+        aprilTagCoords.add(new Vector2d(60.75, -30));
+        aprilTagCoords.add(new Vector2d(60.75, -36));
+        aprilTagCoords.add(new Vector2d(60.75, -42));
+        // red pixels
+        aprilTagCoords.add(new Vector2d(-72, -36));
+        aprilTagCoords.add(new Vector2d(-72, -41.5));
+        // blue pixels
+        aprilTagCoords.add(new Vector2d(-72, 36));
+        aprilTagCoords.add(new Vector2d(-72, 41.5));
     }
 
     @Override
@@ -59,7 +70,7 @@ public class BlueClose40 extends BlueClose20 {
         // Robot heading relative to field; RoadRunner specific
         double heading = -detectedTag.ftcPose.yaw;
 
-        Vector2d detectedTagCoords = backdropCoords.get(detectedTag.id-1);
+        Vector2d detectedTagCoords = aprilTagCoords.get(detectedTag.id-1);
         aprilTagPose = new Pose2d(
                 new Vector2d(
                         (detectedTagCoords.getX() - xDist) - // camera's x coordinate
@@ -91,6 +102,9 @@ public class BlueClose40 extends BlueClose20 {
         //TODO
         // Move to appropriate position
         //TODO
+        // angle 162deg for yellow pixel placement
+        // angle 142deg with scuffed arm
+        // X coord ~43" when placing
     }
 
 }
