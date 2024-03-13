@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
@@ -14,18 +15,17 @@ public class ArmCore {
     private PIDControllerSimple pid;
     final private double Kcos = 0;
     final private int startAngle = 0; //TODO TUNE
-    final private PIDController armMotor;
+    private DcMotor armMotor;
 
     public ArmCore(HardwareMap hardwareMap) {
         pid = new PIDControllerSimple("armMotor",
-                0.01, 0, 0.0002, 0.8);
-        armMotor = new PIDController(hardwareMap, "armMotor",
                 0.01, 0, 0.0002, 0.8); //TODO ADJUST
+        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
     }
 
     /** Sets a new target position for the motor. */
     public void setTargetPosition(int encoder) {
-        armMotor.setTargetPosition(encoder);
+        pid.setTargetPosition(encoder);
     }
 
     /** Sets a new target angle for the motor.
@@ -34,28 +34,28 @@ public class ArmCore {
      * Use degrees. */
     public void setTargetAngle(double targetAngle) {
         int encoder = (int) ((targetAngle - startAngle) * 10); // TODO CHANGE THIS COEFFICIENT
-        armMotor.setTargetPosition(encoder);
+        pid.setTargetPosition(encoder);
     }
 
     /** Changes the encoder position by the inputted amount. */
     public void moveByEncoder(int encoder) {
-        armMotor.moveByEncoder(encoder);
+        pid.moveByEncoder(encoder);
     }
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
-        pid.update(armMotor.getEncoderPosition());
-        armMotor.update(armMotor.getEncoderPosition());
+        pid.update(armMotor.getCurrentPosition());
+        armMotor.setPower(pid.getPower());
     }
 
-    /** Moves the arm motor as a */
+    /** Moves the arm motor, ignoring autonomous in the process */
     protected void setPower(double power){
-        armMotor.overridePower(power);
+        armMotor.setPower(power);
     }
 
     /** Telemetry */
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "ArmCore.java");
-        armMotor.telemetry(telemetry);
+        pid.telemetry(telemetry);
     }
 }
