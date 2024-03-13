@@ -99,6 +99,11 @@ public class BlueClose40 extends BlueClose20 {
         placeOnBackdropTrajectory = drive.trajectoryBuilder(aprilTagPose)
                 .build();
         // Move arm to appropriate position before placing
+        armCore.setTargetAngle(142);
+        while (!armCore.atTarget(5)) {
+            armCore.updateAuto();
+            sleep(10);
+        }
         //TODO
         // Move to appropriate position
         //TODO

@@ -49,6 +49,14 @@ public class ArmCore {
         armMotor.setPower(power);
     }
 
+    /** Returns true if currentPosition is in a range centred on targetPosition.
+     * eg. if targetPosition is 10 and error is 5, currentPosition must be between 5 and 15. */
+    public boolean atTarget(int error) {
+        if (pid.getTargetPosition()+error > armMotor.getCurrentPosition()) return true;
+        if (pid.getTargetPosition()-error < armMotor.getCurrentPosition()) return true;
+        return false;
+    }
+
     private double encoderToAngle(int encoder) {
         return encoder / ANGLE_TO_ENCODER;
     }
