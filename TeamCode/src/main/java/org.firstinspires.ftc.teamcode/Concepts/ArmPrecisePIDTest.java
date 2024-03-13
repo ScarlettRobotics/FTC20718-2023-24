@@ -31,10 +31,10 @@ public class ArmPrecisePIDTest extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.dpad_right && !pDpadRight) armCore.moveByEncoder(10);
-        if (gamepad1.dpad_left && !pDpadLeft) armCore.moveByEncoder(-10);
-        if (gamepad1.dpad_up && !pDpadUp) armCore.moveByEncoder(50);
-        if (gamepad1.dpad_down && !pDpadDown) armCore.moveByEncoder(-50);
+        //if (gamepad1.dpad_right && !pDpadRight) armCore.moveByEncoder(10);
+        //if (gamepad1.dpad_left && !pDpadLeft) armCore.moveByEncoder(-10);
+        //if (gamepad1.dpad_up && !pDpadUp) armCore.moveByEncoder(50);
+        //if (gamepad1.dpad_down && !pDpadDown) armCore.moveByEncoder(-50);
         armCore.updateAuto();
         // Update prev vars
         pDpadRight = gamepad1.dpad_right;

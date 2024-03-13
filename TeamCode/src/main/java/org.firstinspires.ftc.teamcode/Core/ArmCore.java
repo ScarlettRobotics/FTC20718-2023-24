@@ -13,22 +13,19 @@ import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 public class ArmCore {
     private PIDControllerSimple pid;
     final private double Kcos = 0;
-    final private int startAngle = 0; //TODO TUNE
+    final private double startAngle = -3.923; // avg encoder position -61.8
     final private DcMotor armMotor;
 
     // average -708.94 encoder / 45 deg or -15.754 encoder/deg
     final private double ANGLE_TO_ENCODER = -15.754;
 
+
     public ArmCore(HardwareMap hardwareMap) {
         pid = new PIDControllerSimple("armMotor",
-                0.01, 0, 0, 0.8); //TODO ADJUST
+                0.01, 0, 0.0005, 0.8, 2); //TODO ADJUST
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
-    /** Sets a new target position for the motor. TODO WILL BE MADE REDUNDANT */
-    public void setTargetPosition(int encoder) {
-        pid.setTargetPosition(encoder);
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /** Sets a new target angle for the motor.
@@ -36,13 +33,8 @@ public class ArmCore {
      * Positive angle movement is out from starting position.
      * Use degrees. */
     public void setTargetAngle(double targetAngle) {
-        int encoder = (int) ((targetAngle - startAngle) * ANGLE_TO_ENCODER); // TODO CHANGE THIS COEFFICIENT
+        int encoder = (int) ((targetAngle - startAngle) * ANGLE_TO_ENCODER);
         pid.setTargetPosition(encoder);
-    }
-
-    /** Changes the encoder position by the inputted amount. TODO WILL BE MADE REDUNDANT */
-    public void moveByEncoder(int encoder) {
-        pid.moveByEncoder(encoder);
     }
 
     /** Updates the PIDController to move towards the provided goal position. */
