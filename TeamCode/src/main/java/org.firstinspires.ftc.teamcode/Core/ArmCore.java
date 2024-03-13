@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 
 /** Operates the arm of the robot.
  * Current, only setPower() and telemetry() are useful.
@@ -10,11 +11,16 @@ import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
  * Methods that don't work: getTargetPosition(), goToEncoder(), moveByEncoder()
  * */
 public class ArmCore {
-    private final PIDController armMotor;
+    private PIDControllerSimple pid;
+    final private double Kcos = 0;
+    final private int startAngle = 0; //TODO TUNE
+    final private PIDController armMotor;
 
     public ArmCore(HardwareMap hardwareMap) {
+        pid = new PIDControllerSimple("armMotor",
+                0.01, 0, 0.0002, 0.8);
         armMotor = new PIDController(hardwareMap, "armMotor",
-                0.01, 0.0003, 0.0002, 0.8);
+                0.01, 0, 0.0002, 0.8); //TODO ADJUST
     }
 
     /** Sets a new target position for the motor. */
@@ -29,6 +35,7 @@ public class ArmCore {
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
+        pid.update(armMotor.getEncoderPosition());
         armMotor.update(armMotor.getEncoderPosition());
     }
 
