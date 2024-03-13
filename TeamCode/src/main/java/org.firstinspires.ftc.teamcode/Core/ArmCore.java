@@ -16,12 +16,14 @@ public class ArmCore {
     final private int startAngle = 0; //TODO TUNE
     final private DcMotor armMotor;
 
-    final private double ENCODER_TO_ANGLE = 1;
+    // average -708.94 encoder / 45 deg or -15.754 encoder/deg
+    final private double ANGLE_TO_ENCODER = -15.754;
 
     public ArmCore(HardwareMap hardwareMap) {
         pid = new PIDControllerSimple("armMotor",
-                0.01, 0, 0.0002, 0.8); //TODO ADJUST
+                0.01, 0, 0, 0.8); //TODO ADJUST
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /** Sets a new target position for the motor. TODO WILL BE MADE REDUNDANT */
@@ -34,7 +36,7 @@ public class ArmCore {
      * Positive angle movement is out from starting position.
      * Use degrees. */
     public void setTargetAngle(double targetAngle) {
-        int encoder = (int) ((targetAngle - startAngle) / ENCODER_TO_ANGLE); // TODO CHANGE THIS COEFFICIENT
+        int encoder = (int) ((targetAngle - startAngle) * ANGLE_TO_ENCODER); // TODO CHANGE THIS COEFFICIENT
         pid.setTargetPosition(encoder);
     }
 
@@ -56,12 +58,13 @@ public class ArmCore {
     }
 
     private double encoderToAngle(int encoder) {
-        return encoder * ENCODER_TO_ANGLE;
+        return encoder / ANGLE_TO_ENCODER;
     }
 
     /** Telemetry */
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "ArmCore.java");
         pid.telemetry(telemetry);
+        telemetry.addData("arm position", armMotor.getCurrentPosition());
     }
 }
