@@ -38,12 +38,11 @@ public class RedClose20 extends RoadRunnerStarter {
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(10, -60))
-                .splineToConstantHeading(new Vector2d(12, -33), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(12, -30), Math.toRadians(90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(10, -60))
-                .splineToConstantHeading(new Vector2d(12, -50), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(17, -40, Math.toRadians(45)), Math.toRadians(20))
+                .splineToConstantHeading(new Vector2d(23, -40), Math.toRadians(90))
                 .build()); // place on right tape
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
