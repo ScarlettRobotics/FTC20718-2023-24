@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModeAuto;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
+import  com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -32,19 +32,24 @@ public class RedFar20 extends RoadRunnerStarter {
         // Trajectories
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
+
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-36, -50), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-41, -40, Math.toRadians(135)), Math.toRadians(160))
+                .splineToSplineHeading(new Pose2d(-41, -35, Math.toRadians(135)), Math.toRadians(160))
                 .build()); // place on left tape
+
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
+
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(-34, -34), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-34, -29), Math.toRadians(90))
                 .build()); // place on middle tape
+
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .forward(1)
-                .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-29, -40, Math.toRadians(45)), Math.toRadians(30))
-                .build()); // place on right tape
+
+                        .forward(1)
+                        .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
+                        .splineToSplineHeading(new Pose2d(-23.5, -37, Math.toRadians(45)), Math.toRadians(30))
+                        .build()); // place on right tape
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
