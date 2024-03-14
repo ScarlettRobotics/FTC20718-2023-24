@@ -34,11 +34,11 @@ BlueFar20 extends RoadRunnerStarter {
                 .splineToSplineHeading(new Pose2d(-33, 30, Math.toRadians(-45)), Math.toRadians(-30))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeTo(new Vector2d(-37, 60))
+                .strafeTo(new Vector2d(-37, 55.5))
                 .splineToConstantHeading(new Vector2d(-38, 31), Math.toRadians(-90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .strafeTo(new Vector2d(-36, 62))
+                .strafeTo(new Vector2d(-36, 54))
                 .splineToConstantHeading(new Vector2d(-49, 40), Math.toRadians(-90))
                 .build()); // place on right tape
 
