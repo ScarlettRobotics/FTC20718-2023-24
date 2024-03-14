@@ -33,16 +33,15 @@ public class BlueClose20 extends RoadRunnerStarter {
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(12, 50), Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(17, 35, Math.toRadians(-45)), Math.toRadians(-20))
+                .splineToConstantHeading(new Vector2d(22, 36), Math.toRadians(-90))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(10, 31), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(10, 28), Math.toRadians(-90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(16, 52), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(8, 52), Math.toRadians(-90))
                 .splineTo(new Vector2d(2, 36), Math.toRadians(-150))
                 .build()); // place on right tape
 
