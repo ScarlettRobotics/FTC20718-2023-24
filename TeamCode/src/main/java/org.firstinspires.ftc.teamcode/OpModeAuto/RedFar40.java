@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.OpModeAuto;
 
-import  com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.util.ArrayList;
 
-/** Uses RoadRunner to score 20 autonomous points (20 from purple).
+/** Uses RoadRunner to score 40 autonomous points (20 from purple).
  * This class only works on RedFar position */
-@Autonomous(name = "RedFar20", group = "red-far")
-public class RedFar20 extends RoadRunnerStarter {
+@Autonomous(name = "RedFar40", group = "red-far")
+public class RedFar40 extends RoadRunnerStarter {
     // Roadrunner variables
     int propLocation;
     Pose2d startPose;
@@ -32,38 +32,68 @@ public class RedFar20 extends RoadRunnerStarter {
         // Trajectories
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-36, -50), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-41, -35, Math.toRadians(135)), Math.toRadians(160))
+                .splineToSplineHeading(new Pose2d(-41, -40, Math.toRadians(135)), Math.toRadians(160))
+
                 .build()); // place on left tape
-
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(-34, -29), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-34, -34), Math.toRadians(90))
+
                 .build()); // place on middle tape
-
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
+                .forward(1)
+                .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-29, -40, Math.toRadians(45)), Math.toRadians(30))
 
-                        .forward(1)
-                        .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
-                        .splineToSplineHeading(new Pose2d(-23.5, -37, Math.toRadians(45)), Math.toRadians(30))
-                        .build()); // place on right tape
+                .build()); // place on right tape
 
-        purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
+//-----------------------------------------------------------------------------------------------------------
+
+        purpleToBackdropTrajectories = new ArrayList<>();
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
-                .strafeTo(new Vector2d(-40, -41))
-                .splineTo(new Vector2d(-40, -60), Math.toRadians(-90))
+                .lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
+
+                .build());
+
+        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
+                .lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
+
+                .build());
+
+        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
+                .lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
+
+                .build());
+
+        /*purpleToBackdropTrajectories = new ArrayList<>(); // Moves to the Backdrop
+        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
+                .lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(5, -57), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(25, -45), Math.toRadians(0))
+
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .back(1)
                 .splineToConstantHeading(new Vector2d(-42, -60), Math.toRadians(-90))
+
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .lineTo(new Vector2d(-33, -42))
                 .splineTo(new Vector2d(-38, -60), Math.toRadians(-90))
-                .build());
+
+                .build()); */
+
+
+
     }
 
     @Override
@@ -73,6 +103,9 @@ public class RedFar20 extends RoadRunnerStarter {
         detectPropInInit();
 
         placePurple();
+
+        //sleep(1);
+
     }
 
     protected void detectPropInInit() {
@@ -102,6 +135,7 @@ public class RedFar20 extends RoadRunnerStarter {
         // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
         drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
+
     }
 
 }
