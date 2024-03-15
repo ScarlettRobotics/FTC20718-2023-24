@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /** Uses RoadRunner to score 40 autonomous points (20 from purple, 20 from yellow).
  * This class only works on RedClose position */
-@Autonomous(name = "RedClose40", group = "red-close")
+@Autonomous(name = "RedClose45", group = "red-close")
 public class RedClose45 extends RedClose20 {
     // Saved positions of AprilTags on backdrop
     final protected ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();

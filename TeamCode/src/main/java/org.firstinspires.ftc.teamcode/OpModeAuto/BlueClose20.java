@@ -53,12 +53,12 @@ public class BlueClose20 extends RoadRunnerStarter {
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .strafeTo(new Vector2d(10, 33))
                 .splineToConstantHeading(new Vector2d(24, 38), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(48, 36, Math.toRadians(0)), Math.toRadians(-15))
+                .splineToSplineHeading(new Pose2d(48, 32, Math.toRadians(0)), Math.toRadians(-15))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .strafeTo(new Vector2d(-2, 32))
                 .splineToConstantHeading(new Vector2d(24, 40), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(48, 32, Math.toRadians(0)), Math.toRadians(-30))
+                .splineToSplineHeading(new Pose2d(48, 24, Math.toRadians(0)), Math.toRadians(-30))
                 .build());
     }
 
