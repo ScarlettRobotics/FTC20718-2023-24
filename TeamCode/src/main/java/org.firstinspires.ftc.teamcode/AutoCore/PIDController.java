@@ -17,9 +17,11 @@ public class PIDController extends PIDControllerSimple {
      * @param Kp Proportional coefficient (P in PID). Input >0
      * @param Ki Integral coefficient (I in PID). Input 0-1
      * @param Kd Derivative coefficient (D in PID). Input 0-1
-     * @param powerCap Maximum power that motor can run at. Input 0-1 */
-    public PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap) {
-        super(motorName, Kp, Ki, Kd, powerCap);
+     * @param powerCap Maximum power that motor can run at. Input 0-1
+     *      * @param maxAccel How much the power can change by every second.
+     *      *                 Done to prevent wear on motors. Input >0 (can be >powerCap) */
+    public PIDController(HardwareMap hardwareMap, String motorName, double Kp, double Ki, double Kd, double powerCap, double maxAccel) {
+        super(motorName, Kp, Ki, Kd, powerCap, maxAccel);
         // Initialize motor
         motor = hardwareMap.get(DcMotor.class, motorName);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // encoder doesn't normally reset to zero

@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
+import org.firstinspires.ftc.teamcode.AutoCore.PIDControllerSimple;
 
 /** Operates the arm of the robot.
  * Current, only setPower() and telemetry() are useful.
@@ -10,36 +11,60 @@ import org.firstinspires.ftc.teamcode.AutoCore.PIDController;
  * Methods that don't work: getTargetPosition(), goToEncoder(), moveByEncoder()
  * */
 public class ArmCore {
-    private final PIDController armMotor;
+    private PIDControllerSimple pid;
+    final private double Kcos = 0;
+    final private double startAngle = -20;
+    final private DcMotor armMotor;
+
+    // average -708.94 encoder / 45 deg or -15.754 encoder/deg
+    final private double ANGLE_TO_ENCODER = -15.754;
+
 
     public ArmCore(HardwareMap hardwareMap) {
-        armMotor = new PIDController(hardwareMap, "armMotor",
-                0.01, 0.0003, 0.0002, 0.8);
+        pid = new PIDControllerSimple("armMotor",
+                0.01, 0, 0.0005, 0.8, 10);
+        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    /** Sets a new target position for the motor. */
-    public void setTargetPosition(int encoder) {
-        armMotor.setTargetPosition(encoder);
-    }
-
-    /** Changes the encoder position by the inputted amount. */
-    public void moveByEncoder(int encoder) {
-        armMotor.moveByEncoder(encoder);
+    /** Sets a new target angle for the motor.
+     * 0 degrees is when the arm is first parallel with the ground.
+     * Positive angle movement is out from starting position.
+     * Use degrees. */
+    public void setTargetAngle(double targetAngle) {
+        int encoder = (int) ((targetAngle - startAngle) * ANGLE_TO_ENCODER);
+        pid.setTargetPosition(encoder);
     }
 
     /** Updates the PIDController to move towards the provided goal position. */
     public void updateAuto() {
-        armMotor.update(armMotor.getEncoderPosition());
+        pid.update(armMotor.getCurrentPosition());
+        double gravityCompensation = Kcos * Math.cos(encoderToAngle((int) pid.getTargetPosition()));
+        armMotor.setPower(pid.getPower());
     }
 
-    /** Moves the arm motor as a */
+    /** Moves the arm motor, ignoring autonomous in the process */
     protected void setPower(double power){
-        armMotor.overridePower(power);
+        armMotor.setPower(power);
+    }
+
+    /** Returns true if currentPosition is in a range centred on targetPosition.
+     * eg. if targetPosition is 10 and error is 5, currentPosition must be between 5 and 15. */
+    public boolean atTarget(int error) {
+        if (pid.getTargetPosition()+error < armMotor.getCurrentPosition()) return false;
+        if (pid.getTargetPosition()-error > armMotor.getCurrentPosition()) return false;
+        return true;
+    }
+
+    private double encoderToAngle(int encoder) {
+        return encoder / ANGLE_TO_ENCODER;
     }
 
     /** Telemetry */
     public void telemetry(Telemetry telemetry) {
         telemetry.addData("CURRENT CLASS", "ArmCore.java");
-        armMotor.telemetry(telemetry);
+        pid.telemetry(telemetry);
+        telemetry.addData("arm position", armMotor.getCurrentPosition());
     }
 }
