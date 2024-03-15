@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /** Uses RoadRunner to score 45 autonomous points (20 from purple, yellow, and 5 points from parking).
  * This class only works on RedFar position */
 @Autonomous(name = "RedFar45", group = "red-far")
-public class RedFar45 extends RoadRunnerStarter {
+public class RedFar45 extends RedFar20 {
     // Roadrunner variables
     int propLocation;
     Pose2d startPose;
@@ -151,33 +151,20 @@ public class RedFar45 extends RoadRunnerStarter {
 
     }
 
-    protected void detectPropInInit() {
-        // Detect prop while in initialization phase
-        while (opModeInInit()) {
-            if (!tensorFlowCore.recognizing()) { // not recognizing any cubes
-                propLocation = 2;
-            } else if (tensorFlowCore.getX() > (double) 640/2) { // to right of camera
-                propLocation = 1;
-            } else { // to right of camera
-                propLocation = 0;
-            }
-            tensorFlowCore.telemetry(telemetry);
-            telemetry.addData("propLocation", propLocation);
-            telemetry.update();
-            tensorFlowCore.telemetry(dashboardTelemetry);
-            dashboardTelemetry.addData("propLocation", propLocation);
-            dashboardTelemetry.update();
-        }
-
-        waitForStart();
-        visionPortalCore.stopStreaming(); // close portal to save cpu/memory
-    }
-
     protected void placePurple() {
         // Auto movement
         // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
         drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
+
+    }
+
+    protected void placeYellow() {
+
+        armCore.setTargetAngle(142);
+        while (!armCore.atTarget(5)) {
+            armCore.updateAuto();
+            sleep(10);
 
     }
 
