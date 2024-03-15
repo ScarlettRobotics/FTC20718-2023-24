@@ -34,7 +34,7 @@ public class RedClose20 extends RoadRunnerStarter {
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(16, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(5, -30, Math.toRadians(135)), Math.toRadians(150))
+                .splineToSplineHeading(new Pose2d(4, -30, Math.toRadians(135)), Math.toRadians(150))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(10, -60))
@@ -42,12 +42,12 @@ public class RedClose20 extends RoadRunnerStarter {
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(10, -60))
-                .splineToConstantHeading(new Vector2d(23, -40), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(23, -35), Math.toRadians(90))
                 .build()); // place on right tape
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
-                .strafeTo(new Vector2d(8, -33))
+                .strafeTo(new Vector2d(7, -33))
                 .splineToConstantHeading(new Vector2d(14, -35), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(0))
                 .build());
@@ -57,9 +57,9 @@ public class RedClose20 extends RoadRunnerStarter {
                 .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(45))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
-                .back(2)
-                .splineToConstantHeading(new Vector2d(30, -46), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(90))
+                .strafeTo(new Vector2d(23, -37))
+                .splineToConstantHeading(new Vector2d(30, -41), Math.toRadians(20))
+                .splineToSplineHeading(new Pose2d(36, -36, Math.toRadians(0)), Math.toRadians(45))
                 .build());
     }
 
