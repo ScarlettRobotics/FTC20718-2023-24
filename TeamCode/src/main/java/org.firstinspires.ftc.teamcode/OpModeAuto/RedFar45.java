@@ -15,7 +15,9 @@ public class RedFar45 extends RedFar20 {
     int propLocation;
     Pose2d startPose;
     ArrayList<Trajectory> placePurpleTrajectories;
-    ArrayList<Trajectory> purpleToBackdropTrajectories;
+
+    ArrayList<Trajectory> purpleToResetTrajectories;
+    ArrayList<Trajectory> resetToBackdropTrajectories;
     ArrayList<Trajectory> backdropToParkTrajectories;
 
     protected void initialize() {
@@ -54,64 +56,57 @@ public class RedFar45 extends RedFar20 {
 
 //-----------------------------------------------------------------------------------------------------------
 
-        purpleToBackdropTrajectories = new ArrayList<>();
+        purpleToResetTrajectories = new ArrayList<>();
 
-        //First Reverse
-        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end(), true)
+        //Go to reset - left
+        purpleToResetTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
 
-                .forward(1)
-                .splineToConstantHeading(new Vector2d(-36, -50), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-41, -35, Math.toRadians(135)), Math.toRadians(160))
-                .build());
-
-        //Go to Backdrop
-        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
-
-                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
-                .splineTo(new Vector2d(42, -34), Math.toRadians(0))
+                .strafeTo(new Vector2d(-39, -37))
+                .splineToSplineHeading(new Pose2d(-36, -60, Math.toRadians(0)), Math.toRadians(-90))
                 .build());
 
         //---------------------------------------------------------------------------------------------------
 
-        //First Reverse
-        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end(), true)
+        //Go to reset - middle
+        purpleToResetTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
 
-                .forward(1)
-                .splineToConstantHeading(new Vector2d(-34, -29), Math.toRadians(90))
-                .build());
-
-        //Go to Backdrop
-        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
-
-                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
-                .splineTo(new Vector2d(42, -34), Math.toRadians(0))
+                .strafeTo(new Vector2d(-39, -37))
+                .splineToSplineHeading(new Pose2d(-36, -60, Math.toRadians(0)), Math.toRadians(-90))
                 .build());
 
         //---------------------------------------------------------------------------------------------------
 
-        //First Reverse
-        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end(), true)
+        //First reset - right
+        purpleToResetTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
 
-                .forward(1)
-                .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-23.5, -37, Math.toRadians(45)), Math.toRadians(30))
+                .strafeTo(new Vector2d(-34, -39 ))
+                .splineToSplineHeading(new Pose2d(-36, -60, Math.toRadians(0)), Math.toRadians(-90))
+
                 .build());
 
-        //Go to Backdrop
-        purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
+//-----------------------------------------------------------------------------------------------------------
+        resetToBackdropTrajectories = new ArrayList<>();
 
-                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
+        resetToBackdropTrajectories.add(drive.trajectoryBuilder(purpleToResetTrajectories.get(0).end())
+
                 .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
                 .splineTo(new Vector2d(42, -34), Math.toRadians(0))
+
+                .build());
+        resetToBackdropTrajectories.add(drive.trajectoryBuilder(purpleToResetTrajectories.get(1).end())
+
+                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
+                .splineTo(new Vector2d(42, -34), Math.toRadians(0))
+
+                .build());
+        resetToBackdropTrajectories.add(drive.trajectoryBuilder(purpleToResetTrajectories.get(2).end())
+
+                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
+                .splineTo(new Vector2d(42, -34), Math.toRadians(0))
+
                 .build());
 
-                /*.lineToSplineHeading(new Pose2d(-40, -50, Math.toRadians(0)))
-                .splineToConstantHeading(new Vector2d(0, -57), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(10, -54, Math.toRadians(30)), Math.toRadians(30))
 
-                .build());*/
 
         /** Arm Code*/
 
@@ -161,10 +156,10 @@ public class RedFar45 extends RedFar20 {
 
     protected void placeYellow() {
 
-        armCore.setTargetAngle(142);
+        /*armCore.setTargetAngle(142);
         while (!armCore.atTarget(5)) {
             armCore.updateAuto();
-            sleep(10);
+            sleep(10);*/
 
     }
 
