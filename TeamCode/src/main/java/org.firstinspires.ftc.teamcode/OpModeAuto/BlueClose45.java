@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /** Uses RoadRunner to score 40 autonomous points (20 from purple, 20 from yellow).
  * This class only works on BlueClose position */
-@Autonomous(name = "BlueClose40", group = "blue-close")
+@Autonomous(name = "BlueClose45", group = "blue-close")
 public class BlueClose45 extends BlueClose20 {
     // Saved positions of AprilTags on backdrop
     final protected ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();
@@ -34,7 +34,6 @@ public class BlueClose45 extends BlueClose20 {
         aprilTagCoords.add(new Vector2d(-72, 36));
         aprilTagCoords.add(new Vector2d(-72, 41.5));
 
-        // TODO
         backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(0).end())
                 .back(1)
                 .build()); // from left to park

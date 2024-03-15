@@ -34,8 +34,8 @@ public abstract class SystemsManager extends OpMode {
         clawCore = new ClawCore(hardwareMap);
         droneLauncherCore = new DroneLauncherCore(hardwareMap);
         imuCore = new IMUCore(hardwareMap);
-        // Initialize claw to fit size reqs
-        clawCore.initialize();
+        // Grip onto pixels
+        clawCore.close();
         // Initialize FTC Dashboard variables
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
