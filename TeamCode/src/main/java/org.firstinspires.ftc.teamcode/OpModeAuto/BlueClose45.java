@@ -50,6 +50,8 @@ public class BlueClose45 extends BlueClose20 {
         detectPropInInit();
 
         placePurple();
+
+        placeYellow();
     }
 
     protected void placeYellow() {
