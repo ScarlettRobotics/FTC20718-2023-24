@@ -33,23 +33,22 @@ public class BlueClose20 extends RoadRunnerStarter {
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(22, 36), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(24, 34), Math.toRadians(-90))
                 .build()); // place on left tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(10, 28), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(10, 29), Math.toRadians(-90))
                 .build()); // place on middle tape
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
-                .forward(1)
-                .splineToConstantHeading(new Vector2d(8, 52), Math.toRadians(-90))
-                .splineTo(new Vector2d(2, 36), Math.toRadians(-150))
+                .forward(10)
+                .splineTo(new Vector2d(2, 30), Math.toRadians(-150))
                 .build()); // place on right tape
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
-                .strafeTo(new Vector2d(15, 44))
-                .splineToConstantHeading(new Vector2d(32, 44), Math.toRadians(-45))
-                .splineToSplineHeading(new Pose2d(36, 30, Math.toRadians(0)), Math.toRadians(-90))
+                .strafeTo(new Vector2d(24, 36))
+                .splineToConstantHeading(new Vector2d(30, 42), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(-90))
                 .build());
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .strafeTo(new Vector2d(10, 33))
