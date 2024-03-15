@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /** Uses RoadRunner to score 40 autonomous points (20 from purple).
  * This class only works on RedFar position */
 @Autonomous(name = "RedFar40", group = "red-far")
-public class RedFar40 extends RoadRunnerStarter {
+public class RedFar45 extends RoadRunnerStarter {
     // Roadrunner variables
     int propLocation;
     Pose2d startPose;

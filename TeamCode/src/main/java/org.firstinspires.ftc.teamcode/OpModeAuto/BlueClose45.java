@@ -4,16 +4,13 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.teamcode.AutoCore.AprilTagCore;
-import org.firstinspires.ftc.teamcode.AutoCore.VisionPortalCore;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
 
 /** Uses RoadRunner to score 40 autonomous points (20 from purple, 20 from yellow).
  * This class only works on BlueClose position */
 @Autonomous(name = "BlueClose40", group = "blue-close")
-public class BlueClose40 extends BlueClose20 {
+public class BlueClose45 extends BlueClose20 {
     // Saved positions of AprilTags on backdrop
     final protected ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();
     final protected ArrayList<Trajectory> backdropToParkTrajectories = new ArrayList<>();
