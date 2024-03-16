@@ -148,9 +148,11 @@ public abstract class SystemsManager extends OpMode {
 
     /** Checks for a button press to launch the drone.
      * If drone does not launch, rotate the part attached to the servo by 180 degrees.
-     * @param launching Launches the drone if true */
-    protected void checkForDroneLaunch(boolean launching) {
+     * @param launching Launches the drone if true
+     * @param movingBack Moves back to a safe position if true*/
+    protected void updateDroneLauncher(boolean launching, boolean movingBack) {
         if (launching) droneLauncherCore.launch();
+        if (movingBack) droneLauncherCore.moveBack();
     }
 
     /** Telemetry */

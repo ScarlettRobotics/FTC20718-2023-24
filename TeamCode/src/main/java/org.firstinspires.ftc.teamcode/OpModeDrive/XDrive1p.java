@@ -22,7 +22,7 @@ public class XDrive1p extends SystemsManager {
                 gamepad1.dpad_left, gamepad1.dpad_right);
         updateArm(gamepad1.left_trigger, gamepad1.right_trigger);
         updateClaw(gamepad1.a, gamepad1.b);
-        checkForDroneLaunch(gamepad1.left_bumper);
+        updateDroneLauncher(gamepad1.left_bumper, gamepad1.right_bumper);
         telemetry(telemetry);
     }
 }
