@@ -67,17 +67,18 @@ public class RedClose45 extends RedClose20 {
         }
 
         clawCore.open();
-        sleep(1000);
+        // Drive backwards to place yellow
+        Trajectory moveBackTrajectory = drive.trajectoryBuilder(purpleToBackdropTrajectories.get(propLocation).end())
+                .back(8)
+                .build();
+        drive.followTrajectory(moveBackTrajectory);
+
         // Move arm to safe position
-        /*armCore.setTargetAngle(45);
+        armCore.setTargetAngle(45);
         while (!armCore.atTarget(30)) {
             armCore.updateAuto();
             sleep(10);
-        }*/
-        Trajectory moveBackTrajectory = drive.trajectoryBuilder(purpleToBackdropTrajectories.get(propLocation).end())
-                .back(6)
-                .build();
-        drive.followTrajectory(moveBackTrajectory);
+        }
 
         // Move to parking
         //drive.followTrajectory(backdropToParkTrajectories.get(propLocation));
