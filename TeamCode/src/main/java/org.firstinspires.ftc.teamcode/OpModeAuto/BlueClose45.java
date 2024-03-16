@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class BlueClose45 extends BlueClose20 {
     // Saved positions of AprilTags on backdrop
     final protected ArrayList<Vector2d> aprilTagCoords = new ArrayList<>();
-    final protected ArrayList<Trajectory> backdropToParkTrajectories = new ArrayList<>();
     protected Pose2d aprilTagPose;
 
     protected void initialize() {
@@ -33,17 +32,6 @@ public class BlueClose45 extends BlueClose20 {
         // blue pixels
         aprilTagCoords.add(new Vector2d(-72, 36));
         aprilTagCoords.add(new Vector2d(-72, 41.5));
-
-        // TODO
-        backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(0).end())
-                .back(1)
-                .build()); // from left to park
-        backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(1).end())
-                .back(1)
-                .build()); // from center to park
-        backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(2).end())
-                .back(1)
-                .build()); // from right to park
     }
 
     @Override
