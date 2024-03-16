@@ -146,11 +146,12 @@ public class RedFar45 extends RedFar20 {
 
     }
 
+    @Override
     protected void placePurple() {
         // Auto movement
         // set purple then move out of way for team auto
         drive.followTrajectory(placePurpleTrajectories.get(propLocation));
-        drive.followTrajectory(purpleToBackdropTrajectories.get(propLocation));
+        drive.followTrajectory(purpleToResetTrajectories.get(propLocation));
 
     }
 
