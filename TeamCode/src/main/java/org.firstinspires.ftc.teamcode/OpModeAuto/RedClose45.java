@@ -36,10 +36,13 @@ public class RedClose45 extends RedClose20 {
 
         // TODO
         backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(0).end())
+                .back(1)
                 .build()); // from left to park
         backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(1).end())
+                .back(1)
                 .build()); // from center to park
         backdropToParkTrajectories.add(drive.trajectoryBuilder(purpleToBackdropTrajectories.get(2).end())
+                .back(1)
                 .build()); // from right to park
     }
 
