@@ -28,22 +28,26 @@ BlueFar20 extends RoadRunnerStarter {
 
         // Trajectories
         placePurpleTrajectories = new ArrayList<>(); // based on propLocation, place on tape
+
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-38, 52), Math.toRadians(-90))
                 .splineToSplineHeading(new Pose2d(-33, 30, Math.toRadians(-45)), Math.toRadians(-30))
                 .build()); // place on left tape
+
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(-37, 55.5))
-                .splineToConstantHeading(new Vector2d(-38, 28), Math.toRadians(-90))
-                .build()); // place on middle tape
+                .splineToConstantHeading(new Vector2d(-38, 27.5), Math.toRadians(-90))
+                .build()); // place on middle tape; y - 28
+
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(-36, 54))
-                .splineToConstantHeading(new Vector2d(-47, 37), Math.toRadians(-90))
-                .build()); // place on right tape
+                .splineToConstantHeading(new Vector2d(-52.5, 31.7), Math.toRadians(-90))
+                .build()); // place on right tape; x - (-47), y - (37)
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(0).end())
+
                 .strafeTo(new Vector2d(-39, 42))
                 .splineTo(new Vector2d(-39, 55), Math.toRadians(90))
                 .build());
