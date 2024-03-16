@@ -67,6 +67,7 @@ public class RedClose45 extends RedClose20 {
         }
 
         clawCore.open();
+        sleep(200);
         // Drive backwards to place yellow
         Trajectory moveBackTrajectory = drive.trajectoryBuilder(purpleToBackdropTrajectories.get(propLocation).end())
                 .back(8)
