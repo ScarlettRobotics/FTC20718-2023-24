@@ -64,6 +64,7 @@ public class RedClose45 extends RedClose20 {
         }
 
         clawCore.open();
+        sleep(1000);
         // Move arm to safe position
         armCore.setTargetAngle(45);
         while (!armCore.atTarget(30)) {
