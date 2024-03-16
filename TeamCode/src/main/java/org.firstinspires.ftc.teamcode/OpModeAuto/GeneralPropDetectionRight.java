@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModeAuto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Core.DrivetrainCore;
 
 /** Used if on the close side of movement. Place where wheels touch right teeth.
  * Places yellow pixel based on prop position, then places purple pixel on backdrop based on prop position. */
+@Disabled
 @Autonomous(name = "GeneralPropDetectionRight", group = "general")
 public class GeneralPropDetectionRight extends LinearOpMode {
     // FTC Dashboard
