@@ -35,7 +35,7 @@ public class RedFar20 extends RoadRunnerStarter {
 
                 .forward(1)
                 .splineToConstantHeading(new Vector2d(-36, -50), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-41, -33, Math.toRadians(135)), Math.toRadians(160))
+                .splineToSplineHeading(new Pose2d(-39, -31, Math.toRadians(135)), Math.toRadians(160))
                 .build()); // place on left tape
 
         //hello
@@ -43,14 +43,14 @@ public class RedFar20 extends RoadRunnerStarter {
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
 
                 .forward(1)
-                .splineToConstantHeading(new Vector2d(-34, -29), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-32, -28), Math.toRadians(90))
                 .build()); // place on middle tape
 
         placePurpleTrajectories.add(drive.trajectoryBuilder(startPose)
 
                         .forward(1)
                         .splineToConstantHeading(new Vector2d(-40, -52), Math.toRadians(90))
-                        .splineToSplineHeading(new Pose2d(-22, -35, Math.toRadians(45)), Math.toRadians(30))
+                        .splineToSplineHeading(new Pose2d(-21, -35, Math.toRadians(45)), Math.toRadians(30))
                         .build()); // place on right tape
 
         purpleToBackdropTrajectories = new ArrayList<>(); // reset in front of backdrop
