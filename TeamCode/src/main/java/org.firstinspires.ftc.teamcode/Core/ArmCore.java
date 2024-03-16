@@ -22,7 +22,7 @@ public class ArmCore {
 
     public ArmCore(HardwareMap hardwareMap) {
         pid = new PIDControllerSimple("armMotor",
-                0.01, 0, 0.0005, 0.8, 10); //TODO ADJUST
+                0.01, 0, 0.0005, 0.8, 10);
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
