@@ -71,9 +71,9 @@ public class BlueClose45 extends BlueClose20 {
 
         // Move to parking
         Trajectory backdropToParkTrajectory = drive.trajectoryBuilder(moveBackTrajectory.end())
-                .lineToSplineHeading(new Pose2d(-38, -55, Math.toRadians(-180)))
-                .splineToSplineHeading(new Pose2d(-42, -57, Math.toRadians(-180)), Math.toRadians(0))
-                .lineToSplineHeading(new Pose2d(-56, -57, Math.toRadians(-180)))
+                .lineToSplineHeading(new Pose2d(38, 55, Math.toRadians(-180)))
+                .splineToSplineHeading(new Pose2d(42, 55, Math.toRadians(-180)), Math.toRadians(0))
+                .lineToSplineHeading(new Pose2d(56, 60, Math.toRadians(-180)))
                 .build();
 
         drive.followTrajectory(backdropToParkTrajectory);
