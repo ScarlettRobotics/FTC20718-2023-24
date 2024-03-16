@@ -60,7 +60,7 @@ public class BlueClose45 extends BlueClose20 {
     protected void placeYellow() {
         /* Move in front of AprilTag depending on propLocation */
         // Move arm to appropriate position before dropping
-        armCore.setTargetAngle(150);
+        armCore.setTargetAngle(155);
         while (!armCore.atTarget(30)) {
             armCore.updateAuto();
             sleep(10);
