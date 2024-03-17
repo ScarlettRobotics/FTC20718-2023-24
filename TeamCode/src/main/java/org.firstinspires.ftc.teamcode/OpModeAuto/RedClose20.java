@@ -56,11 +56,11 @@ public class RedClose20 extends RoadRunnerStarter {
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(1).end())
                 .strafeTo(new Vector2d(12, -33))
                 .splineToConstantHeading(new Vector2d(24, -42), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(43, -38, Math.toRadians(0)), Math.toRadians(45))
+                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(0)), Math.toRadians(45))
                 .build()); // middle purple placement to middle backdrop
         purpleToBackdropTrajectories.add(drive.trajectoryBuilder(placePurpleTrajectories.get(2).end())
                 .strafeTo(new Vector2d(24, -38))
-                .splineToSplineHeading(new Pose2d(43, -46, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(48, -46, Math.toRadians(0)), Math.toRadians(0))
                 .build()); // right purple placement to right backdrop
     }
 
